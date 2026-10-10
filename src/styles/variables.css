@@ -1,0 +1,79 @@
+/*
+ * DESIGN TOKENS
+ * -------------
+ * Every colour, font, spacing value and animation speed used on the website
+ * is defined here once. Change a value here and it updates everywhere.
+ */
+
+:root {
+  /* --- PPI Hsinchu colours (permanent organisational branding) --- */
+  --color-red: #ce1126;
+  --color-crimson: #8b1423;
+  --color-cream: #f5f2ea;
+  --color-cream-deep: #ece8df;
+  --color-charcoal: #242522;
+  --color-white: #ffffff;
+  --color-gray: #696a65;
+  --color-line: #d9d7ce;
+
+  /*
+   * --- Cabinet colours ---
+   * Do not edit these here. They are fallbacks only.
+   * The real values come from src/config/cabinet.js.
+   */
+  --cabinet-primary: #6b46c1;
+  --cabinet-deep: #2d1a5c;
+  --cabinet-soft: #ddd2f4;
+  --cabinet-accent: #e8b04a;
+
+  /* --- Gradients --- */
+  --gradient-red: linear-gradient(135deg, var(--color-red), var(--color-crimson));
+  --gradient-dark: linear-gradient(135deg, var(--color-charcoal) 30%, #4a141c 100%);
+  --gradient-cabinet: linear-gradient(
+    135deg,
+    var(--color-crimson),
+    var(--cabinet-deep)
+  );
+  /* Background behind committee portraits: red at the top, purple at the bottom. */
+  --gradient-portrait: linear-gradient(
+    165deg,
+    var(--color-red) 0%,
+    var(--color-crimson) 55%,
+    var(--cabinet-primary) 125%
+  );
+  --gradient-cream: linear-gradient(180deg, var(--color-cream), var(--color-cream-deep));
+
+  /* --- Fonts (loaded in index.html) --- */
+  --font-heading: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Alumni Sans', 'Arial Narrow', Impact, sans-serif;
+
+  /* --- Layout --- */
+  --page-max-width: 1240px;
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-padding: clamp(4.5rem, 9vw, 8rem);
+  --navbar-height: 72px;
+
+  /* --- Corner rounding --- */
+  --radius-small: 10px;
+  --radius-medium: 18px;
+  --radius-large: 28px;
+  --radius-pill: 999px;
+
+  /* --- Shadows --- */
+  --shadow-soft: 0 1px 2px rgb(36 37 34 / 0.04), 0 8px 24px rgb(36 37 34 / 0.06);
+  --shadow-raised: 0 2px 4px rgb(36 37 34 / 0.06), 0 18px 40px rgb(36 37 34 / 0.14);
+
+  /*
+   * --- Animation ---
+   * Make these numbers smaller for snappier animations, larger for slower.
+   * Animations switch off automatically for visitors who have asked their
+   * device to reduce motion (see the bottom of global.css).
+   */
+  --duration-fast: 200ms;
+  --duration-medium: 350ms;
+  --duration-slow: 500ms;
+  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* How far elements travel upward when they fade in on scroll. */
+  --reveal-distance: 18px;
+}

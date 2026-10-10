@@ -1,0 +1,110 @@
+.video-feature {
+  padding-block: var(--section-padding);
+  /* Charcoal fading into dark crimson. */
+  background: linear-gradient(160deg, var(--color-charcoal) 35%, #3d1319 100%);
+  color: var(--color-white);
+}
+
+.video-feature__heading {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: end;
+  gap: 1.5rem 4rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.video-feature__title {
+  margin-top: 1rem;
+  font-size: clamp(2.2rem, 5.2vw, 4rem);
+  font-weight: 800;
+}
+
+.video-feature__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-large);
+  background: #000;
+  box-shadow: 0 30px 60px rgb(0 0 0 / 0.35);
+}
+
+.video-feature__frame img,
+.video-feature__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+.video-feature__frame img {
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.video-feature__frame:hover img {
+  transform: scale(1.03);
+}
+
+/* The play button covers the whole frame, with a dark-to-crimson overlay. */
+.video-feature__play,
+.video-feature__coming-soon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(36 37 34 / 0.25),
+    rgb(139 20 35 / 0.55)
+  );
+  color: var(--color-white);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.video-feature__play:focus-visible {
+  outline-offset: -6px;
+}
+
+.video-feature__play-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 9vw, 96px);
+  aspect-ratio: 1;
+  /* Nudges the triangle so it looks centred inside the circle. */
+  padding-left: 4px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-red);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.3);
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.video-feature__play:hover .video-feature__play-icon {
+  transform: scale(1.06);
+}
+
+.video-feature__coming-soon .video-feature__play-icon {
+  background: rgb(255 255 255 / 0.2);
+  color: var(--color-white);
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 800px) {
+  .video-feature__heading {
+    grid-template-columns: 1fr;
+  }
+
+  .video-feature__frame {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-medium);
+  }
+}

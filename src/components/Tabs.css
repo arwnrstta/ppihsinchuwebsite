@@ -1,0 +1,87 @@
+.tabs {
+  --tabs-color: var(--color-red);
+  min-width: 0;
+}
+
+/* Purple version, used for cabinet-related areas such as the committee. */
+.tabs--cabinet {
+  --tabs-color: var(--cabinet-primary);
+}
+
+/* The row scrolls sideways when the tabs do not fit on the screen. */
+.tabs__list {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 4px;
+  margin: -4px;
+  scrollbar-width: none;
+}
+
+.tabs__list::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs__tab {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0.55rem 1.15rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.tabs__tab:hover {
+  border-color: var(--tabs-color);
+  color: var(--tabs-color);
+}
+
+.tabs__tab.is-active {
+  background: var(--tabs-color);
+  border-color: var(--tabs-color);
+  color: var(--color-white);
+}
+
+.on-dark .tabs__tab {
+  border-color: rgb(255 255 255 / 0.28);
+  color: var(--color-white);
+}
+
+.on-dark .tabs__tab:hover {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.on-dark .tabs__tab.is-active {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-charcoal);
+}
+
+/* The dropdown is hidden on large screens... */
+.tabs__select-wrapper {
+  display: none;
+}
+
+.tabs__select {
+  width: 100%;
+  border-color: var(--tabs-color);
+}
+
+/* ...and replaces the buttons on small screens when mobileSelect is on. */
+@media (max-width: 720px) {
+  .tabs--mobile-select .tabs__list {
+    display: none;
+  }
+
+  .tabs--mobile-select .tabs__select-wrapper {
+    display: block;
+  }
+}

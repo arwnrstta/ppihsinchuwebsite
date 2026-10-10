@@ -1,0 +1,119 @@
+.contact-form {
+  display: grid;
+  gap: 1.5rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border-radius: var(--radius-large);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+  min-width: 0;
+}
+
+.contact-form__title {
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+}
+
+/* Two columns of fields. "Wide" fields span both columns. */
+.contact-form__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 1rem;
+}
+
+.form-field {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+}
+
+.form-field--wide {
+  grid-column: 1 / -1;
+}
+
+.form-field__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-field__optional {
+  font-weight: 400;
+  color: var(--color-gray);
+}
+
+.form-field__input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.7rem 0.95rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background-color: var(--color-cream);
+  font-weight: 400;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth);
+}
+
+textarea.form-field__input {
+  resize: vertical;
+}
+
+.form-field__input:hover {
+  border-color: var(--color-gray);
+}
+
+.form-field__input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-red) 30%, transparent);
+  outline-offset: 0;
+  border-color: var(--color-red);
+  background-color: var(--color-white);
+}
+
+.form-field__input[aria-invalid='true'] {
+  border-color: var(--color-red);
+}
+
+.form-field__error {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #b00e20;
+}
+
+.contact-form__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.contact-form__delivery-note {
+  flex: 1 1 220px;
+  font-size: 0.88rem;
+  color: var(--color-gray);
+}
+
+.contact-form__message {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-small);
+  background: var(--color-cream);
+  border-left: 3px solid var(--color-gray);
+  font-size: 0.95rem;
+}
+
+.contact-form__message--success {
+  border-left-color: #1e7a46;
+}
+
+.contact-form__message--error {
+  border-left-color: var(--color-red);
+}
+
+@media (max-width: 560px) {
+  .contact-form__fields {
+    grid-template-columns: 1fr;
+  }
+}

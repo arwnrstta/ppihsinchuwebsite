@@ -1,0 +1,182 @@
+.leadership {
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border-radius: var(--radius-large);
+  /* Charcoal fading into the cabinet's deep purple. */
+  background: linear-gradient(135deg, var(--color-charcoal) 25%, var(--cabinet-deep) 100%);
+  color: var(--color-white);
+}
+
+/* ----- [<]  2026/2027  [>] ----- */
+
+.leadership__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 2.5rem);
+}
+
+.leadership__year {
+  min-width: 6.2ch;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 10vw, 6.5rem);
+  line-height: 0.9;
+  text-align: center;
+  /* Keeps every digit the same width so the arrows do not shift. */
+  font-variant-numeric: tabular-nums;
+}
+
+.leadership__arrow {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid rgb(255 255 255 / 0.4);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-white);
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth);
+}
+
+.leadership__arrow:hover:not(:disabled) {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-charcoal);
+}
+
+.leadership__arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ----- Photo + details ----- */
+
+.leadership__slide {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  margin-block: clamp(1.75rem, 4vw, 3rem);
+}
+
+.leadership__photo {
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-medium);
+  background: rgb(255 255 255 / 0.06);
+}
+
+.leadership__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.leadership__photo-placeholder {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.75rem;
+  height: 100%;
+  border: 1.5px dashed rgb(255 255 255 / 0.25);
+  border-radius: var(--radius-medium);
+  color: rgb(255 255 255 / 0.6);
+  font-size: 0.9rem;
+}
+
+.leadership__details {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+}
+
+.leadership__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 1.6rem;
+}
+
+.leadership__cabinet {
+  font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+}
+
+.leadership__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+}
+
+.leadership__facts dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cabinet-soft);
+}
+
+.leadership__facts dd {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.leadership__highlight {
+  max-width: 48ch;
+  color: rgb(255 255 255 / 0.78);
+}
+
+/* ----- Row of year buttons ----- */
+
+.leadership__timeline {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 1.25rem 4px 4px;
+  border-top: 1px solid rgb(255 255 255 / 0.15);
+  scrollbar-width: none;
+}
+
+.leadership__timeline-button {
+  min-height: 40px;
+  padding: 0.4rem 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: rgb(255 255 255 / 0.65);
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.leadership__timeline-button:hover {
+  color: var(--color-white);
+}
+
+.leadership__timeline-button.is-active {
+  background: var(--cabinet-soft);
+  color: var(--cabinet-deep);
+}
+
+@media (max-width: 760px) {
+  .leadership__slide {
+    grid-template-columns: 1fr;
+  }
+
+  .leadership__timeline {
+    justify-content: flex-start;
+  }
+
+  .leadership__arrow {
+    width: 44px;
+    height: 44px;
+  }
+}

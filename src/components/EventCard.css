@@ -1,0 +1,135 @@
+/* ----- Poster (real image or placeholder) ----- */
+
+.event-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-medium);
+}
+
+/* Shown when an event has no poster image yet. */
+.event-poster--placeholder {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 1.25rem;
+  background: var(--gradient-red);
+  color: var(--color-white);
+}
+
+/* Faint ring decoration. */
+.event-poster--placeholder::before {
+  content: '';
+  position: absolute;
+  right: -35%;
+  bottom: -20%;
+  width: 110%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 0 36px rgb(255 255 255 / 0.06);
+}
+
+.event-poster__brand,
+.event-poster__note {
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.event-poster__title {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+/* ----- Card ----- */
+
+.event-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.event-card__poster {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-medium);
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    box-shadow var(--duration-medium) var(--ease-smooth);
+}
+
+.event-card__poster .event-poster {
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.event-card:hover .event-card__poster {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-raised);
+}
+
+.event-card:hover .event-poster {
+  transform: scale(1.04);
+}
+
+.event-card__status {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.event-card__body {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+}
+
+.event-card__date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.event-card__title {
+  font-size: 1.3rem;
+}
+
+.event-card__button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+}
+
+/* Stretches the button's clickable area over the whole card. */
+.event-card__button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-medium);
+}
+
+.event-card:hover .event-card__button {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.event-card__summary {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+}

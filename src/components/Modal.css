@@ -1,0 +1,92 @@
+.modal {
+  /* Reset the browser's default dialog box so we can style it ourselves. */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+.modal::backdrop {
+  background: rgb(20 20 18 / 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.modal[open] {
+  animation: modal-in var(--duration-medium) var(--ease-smooth);
+}
+
+.modal[open]::backdrop {
+  animation: modal-backdrop-in var(--duration-medium) var(--ease-smooth);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes modal-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.modal__content {
+  position: relative;
+}
+
+.modal__close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.modal__close:hover {
+  transform: rotate(90deg);
+}
+
+/* ----- White card, used for event details ----- */
+
+.modal--panel {
+  width: min(960px, calc(100vw - 2rem));
+}
+
+.modal--panel .modal__content {
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  border-radius: var(--radius-large);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+}
+
+/* ----- Dark full-screen view, used for the gallery lightbox ----- */
+
+.modal--lightbox {
+  width: 100vw;
+  height: 100dvh;
+}
+
+.modal--lightbox::backdrop {
+  background: rgb(15 15 14 / 0.94);
+}
+
+.modal--lightbox .modal__content {
+  width: 100%;
+  height: 100%;
+  color: var(--color-white);
+}

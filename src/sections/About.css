@@ -1,0 +1,308 @@
+/* Styles for the About section and its simpler tabs.
+   The committee and leadership tabs have their own stylesheets. */
+
+.about__tabs {
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.about__subheading {
+  font-size: clamp(1.8rem, 3.6vw, 2.75rem);
+  font-weight: 800;
+}
+
+/* Heading row shared by the Committee and Leadership tabs. */
+.about__panel-header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: end;
+  gap: 1rem 3rem;
+}
+
+.about__panel-header .eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.about__panel-intro {
+  color: var(--color-gray);
+  font-size: 1.05rem;
+}
+
+.leadership-tab {
+  display: grid;
+  /* minmax(0, 1fr) stops wide content from stretching the page sideways. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* ---------- Who We Are ---------- */
+
+.who-we-are {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.who-we-are__text {
+  display: grid;
+  justify-items: start;
+  gap: 1.25rem;
+}
+
+.who-we-are__paragraph {
+  font-size: 1.08rem;
+  color: var(--color-gray);
+  max-width: 56ch;
+}
+
+.who-we-are__values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.who-we-are__values li {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.92rem;
+  color: var(--color-gray);
+}
+
+.who-we-are__values strong {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-charcoal);
+}
+
+.who-we-are__value-number {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-red);
+}
+
+/* The photo sits in front of two offset colour blocks for depth. */
+.who-we-are__photo {
+  position: relative;
+  margin: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.who-we-are__photo::before,
+.who-we-are__photo::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+}
+
+/* Red block, behind the top-right corner. */
+.who-we-are__photo::before {
+  top: -1.25rem;
+  right: -1.25rem;
+  width: 62%;
+  height: 62%;
+  border-radius: var(--radius-large);
+  background: var(--gradient-red);
+}
+
+/* Small purple block, behind the bottom-left corner. */
+.who-we-are__photo::after {
+  left: -1rem;
+  bottom: -1rem;
+  width: 28%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-medium);
+  background: var(--cabinet-primary);
+  opacity: 0.85;
+}
+
+.who-we-are__photo img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3.4;
+  object-fit: cover;
+  border-radius: var(--radius-large);
+}
+
+/* ---------- Vision, Mission & Philosophy ---------- */
+
+.vision {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) 1.6fr;
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* The dark crimson-to-purple cabinet card on the left. */
+.vision__cabinet {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: var(--radius-large);
+  background: var(--gradient-cabinet);
+  color: var(--color-white);
+}
+
+.vision__cabinet-name {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+.vision__cabinet-logo {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+}
+
+.vision__cabinet-logo img {
+  width: 100%;
+  height: auto;
+}
+
+.vision__cabinet-note {
+  opacity: 0.85;
+}
+
+.vision__mission-list {
+  display: grid;
+  gap: 0.75rem;
+  counter-reset: mission;
+}
+
+.vision__mission-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  counter-increment: mission;
+}
+
+/* Small numbered circle in front of each mission point. */
+.vision__mission-list li::before {
+  content: counter(mission);
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: var(--color-red);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.vision__philosophy-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.vision__philosophy-points > div {
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius-small);
+  background: color-mix(in srgb, var(--cabinet-soft) 45%, white);
+}
+
+.vision__philosophy-points dt {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--cabinet-deep);
+}
+
+.vision__philosophy-points dd {
+  font-size: 0.95rem;
+  color: var(--color-charcoal);
+}
+
+/* ---------- AD/ART ---------- */
+
+.ad-art {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border-radius: var(--radius-large);
+  background: var(--gradient-cream);
+  border: 1px solid var(--color-line);
+}
+
+/* A paper-like tile with the document icon. */
+.ad-art__document {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  width: clamp(140px, 18vw, 210px);
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  color: var(--color-red);
+  box-shadow: var(--shadow-raised);
+  transform: rotate(-3deg);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+}
+
+.ad-art__text {
+  display: grid;
+  gap: 1rem;
+  color: var(--color-gray);
+  max-width: 60ch;
+}
+
+.ad-art__text h3 {
+  color: var(--color-charcoal);
+}
+
+.ad-art__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.ad-art__updated {
+  font-size: 0.88rem;
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 860px) {
+  .who-we-are,
+  .vision,
+  .about__panel-header {
+    grid-template-columns: 1fr;
+  }
+
+  .who-we-are__photo {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .who-we-are__values {
+    grid-template-columns: 1fr;
+  }
+
+  .ad-art {
+    grid-template-columns: 1fr;
+  }
+
+  .ad-art__document {
+    width: 120px;
+  }
+}

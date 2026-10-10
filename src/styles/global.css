@@ -1,0 +1,417 @@
+/*
+ * GLOBAL STYLES
+ * -------------
+ * Base styles shared by the whole website: page reset, typography, buttons,
+ * layout helpers and the scroll "reveal" animation.
+ * Styles for one specific component live next to that component instead.
+ */
+
+/* ---------- Reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Stops the sticky navbar from covering a section's heading after a jump. */
+  scroll-padding-top: var(--navbar-height);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ---------- Accessibility ---------- */
+
+/* A clear outline for keyboard users on every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--cabinet-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Focus ring colour for dark backgrounds. */
+.on-dark :focus-visible {
+  outline-color: var(--color-white);
+}
+
+/* Visible only to screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  background: var(--color-charcoal);
+  color: var(--color-white);
+  border-radius: var(--radius-small);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Small uppercase label, e.g. "01 / ABOUT US". */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-red);
+}
+
+.eyebrow--cabinet {
+  color: var(--cabinet-primary);
+}
+
+.on-dark .eyebrow {
+  color: var(--color-white);
+  opacity: 0.75;
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  color: var(--color-gray);
+  max-width: 58ch;
+}
+
+.on-dark .lead {
+  color: rgb(255 255 255 / 0.78);
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--page-max-width) + var(--page-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.section {
+  padding-block: var(--section-padding);
+}
+
+.section--white {
+  background: var(--color-white);
+}
+
+.section--cream-deep {
+  background: var(--color-cream-deep);
+}
+
+.section--dark {
+  background: var(--color-charcoal);
+  color: var(--color-white);
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.button svg {
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.button:hover svg {
+  transform: translateX(3px);
+}
+
+.button--primary {
+  background: var(--gradient-red);
+  color: var(--color-white);
+  box-shadow: 0 8px 20px rgb(206 17 38 / 0.22);
+}
+
+.button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgb(206 17 38 / 0.3);
+}
+
+.button--outline {
+  border-color: var(--color-charcoal);
+  background: transparent;
+}
+
+.button--outline:hover {
+  background: var(--color-charcoal);
+  color: var(--color-white);
+}
+
+.on-dark .button--outline {
+  border-color: rgb(255 255 255 / 0.5);
+  color: var(--color-white);
+}
+
+.on-dark .button--outline:hover {
+  background: var(--color-white);
+  border-color: var(--color-white);
+  color: var(--color-charcoal);
+}
+
+.button--light {
+  background: var(--color-white);
+  color: var(--color-charcoal);
+}
+
+.button--light:hover {
+  transform: translateY(-2px);
+}
+
+/* Used for buttons that cannot be used yet, e.g. "Coming soon". */
+.button[aria-disabled='true'],
+.button:disabled {
+  background: var(--color-cream-deep);
+  border-color: var(--color-line);
+  color: var(--color-gray);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button[aria-disabled='true'] svg,
+.button:disabled svg {
+  transform: none;
+}
+
+/* A plain text link with an arrow. */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--duration-fast) var(--ease-smooth);
+}
+
+.text-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Small labels ---------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-deep);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.chip--red {
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
+.chip--cabinet {
+  background: var(--cabinet-soft);
+  color: var(--cabinet-deep);
+}
+
+.chip--outline {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+/* ---------- Form controls shared by filters and forms ---------- */
+
+.select {
+  min-height: 46px;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-white);
+  /* A small down arrow drawn on the right side of the select box. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23242522' stroke-width='2'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  font-weight: 600;
+  appearance: none;
+}
+
+/* ---------- Scroll reveal animation ---------- */
+
+/*
+ * Elements wrapped in the <Reveal> component start slightly lower and
+ * invisible, then fade up once they scroll into view.
+ * --reveal-delay is set by the component to stagger groups of cards.
+ */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition:
+    opacity var(--duration-slow) var(--ease-smooth) var(--reveal-delay, 0ms),
+    transform var(--duration-slow) var(--ease-smooth) var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fade used when tab content or carousel slides change. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.fade-up {
+  animation: fade-up var(--duration-medium) var(--ease-smooth) both;
+}
+
+/* ---------- Collapsible content (accordions, resource cards) ---------- */
+
+/*
+ * Animating a grid row from 0fr to 1fr gives a smooth open/close without
+ * needing to know the height of the content.
+ */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-medium) var(--ease-smooth);
+}
+
+.collapse.is-open {
+  grid-template-rows: 1fr;
+}
+
+.collapse__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ---------- Reduced motion ---------- */
+
+/*
+ * Visitors who turn on "reduce motion" on their device get the same content
+ * with animations and smooth scrolling switched off.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

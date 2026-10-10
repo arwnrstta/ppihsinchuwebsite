@@ -1,0 +1,244 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--navbar-height);
+  /* Pulls the hero up underneath the navbar so they share one background. */
+  margin-bottom: calc(var(--navbar-height) * -1);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--duration-medium) var(--ease-smooth),
+    border-color var(--duration-medium) var(--ease-smooth);
+}
+
+/* After scrolling: a soft, slightly see-through cream background. */
+.navbar--solid {
+  background: rgb(245 242 234 / 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--color-line);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+/* PPI Hsinchu logo followed by the current cabinet's logo. */
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.navbar__logo {
+  width: 52px;
+  height: auto;
+}
+
+.navbar__cabinet-logo {
+  width: 140px;
+  height: auto;
+}
+
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.navbar__item {
+  position: relative;
+}
+
+.navbar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-gray);
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+/* The red underline that grows on hover and stays for the active section. */
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.3rem;
+  height: 2px;
+  background: var(--color-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.navbar__link:hover,
+.navbar__link.is-active {
+  color: var(--color-charcoal);
+}
+
+.navbar__link:hover::after,
+.navbar__link.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Small arrow beside links that have a dropdown. It flips when open. */
+.navbar__chevron {
+  display: grid;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.navbar__item:hover .navbar__chevron,
+.navbar__item:focus-within .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+/*
+ * DROPDOWN
+ * Hidden by default. It appears when the mouse is over the menu item, or
+ * when a keyboard user tabs onto the link (":focus-within").
+ */
+.navbar__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 230px;
+  padding: 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    visibility var(--duration-fast);
+}
+
+.navbar__item:hover .navbar__dropdown,
+.navbar__item:focus-within .navbar__dropdown {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+.navbar__dropdown-link {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-small);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.navbar__dropdown-link:hover,
+.navbar__dropdown-link:focus-visible {
+  background: var(--color-cream);
+  color: var(--color-red);
+}
+
+.navbar__cta {
+  min-height: 42px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+.navbar__toggle {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* ----- Small screens: links move into a drop-down panel ----- */
+
+@media (max-width: 940px) {
+  .navbar__toggle {
+    display: grid;
+  }
+
+  .navbar__menu {
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem var(--page-gutter) 1.5rem;
+    background: var(--color-cream);
+    border-bottom: 1px solid var(--color-line);
+    box-shadow: var(--shadow-raised);
+    /* Hidden until opened. "visibility" also removes it from keyboard focus. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--duration-fast) var(--ease-smooth),
+      transform var(--duration-fast) var(--ease-smooth),
+      visibility var(--duration-fast);
+  }
+
+  .navbar__menu.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .navbar__links {
+    flex-direction: column;
+  }
+
+  .navbar__link {
+    padding: 0.85rem 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .navbar__link::after {
+    display: none;
+  }
+
+  /* The mobile panel shows the main links only. */
+  .navbar__dropdown,
+  .navbar__chevron {
+    display: none;
+  }
+
+  .navbar__link.is-active {
+    color: var(--color-red);
+  }
+}
+
+@media (max-width: 420px) {
+  .navbar__logo {
+    width: 44px;
+  }
+
+  .navbar__cabinet-logo {
+    width: 116px;
+  }
+}

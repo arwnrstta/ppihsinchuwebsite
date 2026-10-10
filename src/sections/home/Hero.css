@@ -1,0 +1,163 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(var(--navbar-height) + clamp(1.5rem, 4vw, 3rem));
+  /* Warm cream at the top, fading into a soft pink-lavender behind the gate. */
+  background: linear-gradient(
+    180deg,
+    var(--color-cream) 25%,
+    color-mix(in srgb, var(--cabinet-soft) 55%, #f7dcdf) 100%
+  );
+}
+
+.hero__inner {
+  position: relative;
+  /* Lets the headline size itself from this box's width (the "cqw" unit). */
+  container-type: inline-size;
+}
+
+.hero__subtitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1rem, 2.2cqw, 1.75rem);
+  text-align: center;
+  color: var(--color-crimson);
+  animation: fade-up var(--duration-slow) var(--ease-smooth) both;
+}
+
+/*
+ * The giant headline. 20cqw means "20% of the container's width", so the
+ * headline grows and shrinks with the screen. Raise the number to make
+ * it bigger (26cqw fills the full width).
+ */
+.hero__title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20cqw;
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Red-to-crimson gradient inside the letters. */
+  background: linear-gradient(180deg, var(--color-red) 20%, var(--color-crimson) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fade-up var(--duration-slow) var(--ease-smooth) both;
+}
+
+/* Chinese name: first half on the left edge, second half on the right edge. */
+.hero__chinese {
+  position: relative;
+  /* Sits in front of the gate image. */
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1.7cqw, 1.3rem);
+  letter-spacing: 0.08em;
+  color: var(--color-crimson);
+}
+
+/*
+ * The gate image and the button on top of it.
+ * The negative margin pulls the image up so its roof overlaps the headline.
+ * Make the number larger for more overlap, smaller for less.
+ */
+.hero__stage {
+  position: relative;
+  z-index: 1;
+  max-width: 1800px;
+  margin-inline: auto;
+  margin-top: -12vw;
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+  animation: fade-up var(--duration-slow) var(--ease-smooth) 80ms both;
+}
+
+/* The single button, centred exactly in the middle of the image. */
+.hero__button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 58px;
+  padding: 1rem 2.1rem;
+  font-size: 1.05rem;
+  white-space: nowrap;
+  box-shadow: 0 14px 34px rgb(36 37 34 / 0.38);
+}
+
+/* Keeps the button centred while it lifts slightly on hover. */
+.hero__button:hover {
+  transform: translate(-50%, calc(-50% - 3px));
+}
+
+/* ----- Scrolling word band ----- */
+
+.marquee {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  padding-block: 1.1rem;
+  background: var(--gradient-dark);
+  color: var(--color-white);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-slide 48s linear infinite;
+}
+
+.marquee__word {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* The dot between words. */
+.marquee__word::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-inline: 1.75rem;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+@keyframes marquee-slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ----- Phones: the image is shown wider than the screen so it stays big ----- */
+
+@media (max-width: 700px) {
+  .hero__stage {
+    margin-top: -5vw;
+  }
+
+  .hero__image {
+    width: 160%;
+    max-width: none;
+    margin-left: -30%;
+  }
+
+  .hero__button {
+    min-height: 52px;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.98rem;
+  }
+}

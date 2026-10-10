@@ -1,0 +1,123 @@
+/*
+ * The card is a stack of four layers, from back to front:
+ *   1. __shape     the red-to-purple background with one large rounded corner
+ *   2. __portrait  the cutout photo, taller than the shape so it overlaps the top
+ *   3. __fade      a dark gradient along the bottom
+ *   4. __text      name and position
+ */
+
+.committee-card {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-medium);
+  transition: transform var(--duration-medium) var(--ease-smooth);
+  /* Cards fade in one after another when a division is selected. */
+  animation: fade-up var(--duration-slow) var(--ease-smooth) both;
+  animation-delay: calc(var(--card-index, 0) * 60ms);
+}
+
+.committee-card__shape {
+  position: absolute;
+  inset: 13% 0 0 0;
+  overflow: hidden;
+  /* Big curve on the top-left corner, small curves elsewhere. */
+  border-radius: 42% var(--radius-medium) var(--radius-medium) var(--radius-medium) /
+    34% var(--radius-medium) var(--radius-medium) var(--radius-medium);
+  background: var(--gradient-portrait);
+  transition:
+    filter var(--duration-medium) var(--ease-smooth),
+    box-shadow var(--duration-medium) var(--ease-smooth);
+}
+
+/* Faint outlined word running up the card behind the portrait. */
+.committee-card__watermark {
+  position: absolute;
+  left: 10%;
+  bottom: 30%;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  line-height: 1;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 0.32);
+}
+
+.committee-card__portrait {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 92%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  /* Scaling grows upward from the bottom edge, so the photo never drops below the card. */
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.committee-card__portrait--placeholder {
+  height: 90%;
+  fill: var(--color-charcoal);
+  opacity: 0.8;
+}
+
+.committee-card__fade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 48%;
+  border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--color-crimson) 88%, transparent) 55%,
+    color-mix(in srgb, var(--color-crimson) 55%, var(--cabinet-deep)) 100%
+  );
+  pointer-events: none;
+}
+
+.committee-card__text {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.1rem 1.2rem;
+  color: var(--color-white);
+}
+
+.committee-card__name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.committee-card__name.is-placeholder {
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.committee-card__position {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/*
+ * Hover effects, only on devices that really have a mouse.
+ * On touch screens the card keeps its normal look.
+ */
+@media (hover: hover) {
+  .committee-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .committee-card:hover .committee-card__shape {
+    filter: saturate(1.15) brightness(1.06);
+    box-shadow: 0 18px 34px rgb(139 20 35 / 0.28);
+  }
+
+  .committee-card:hover .committee-card__portrait {
+    transform: translateX(-50%) scale(1.05);
+  }
+}

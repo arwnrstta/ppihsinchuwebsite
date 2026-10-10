@@ -1,0 +1,82 @@
+.resources__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Search box: icon + text field inside one pill-shaped border. */
+.resources__search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1 1 260px;
+  max-width: 360px;
+  min-height: 46px;
+  padding-inline: 1rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-gray);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+
+/* The ring replaces the browser outline, which is removed from the input below. */
+.resources__search:focus-within {
+  border-color: var(--color-red);
+  box-shadow: 0 0 0 3px rgb(206 17 38 / 0.2);
+}
+
+.resources__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--color-charcoal);
+  outline: none;
+}
+
+.resources__notice {
+  margin-bottom: 1.5rem;
+  white-space: normal;
+  color: var(--color-crimson);
+}
+
+.resources__intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  max-width: 60ch;
+}
+
+.resources__clear {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-red);
+}
+
+/* Two columns of cards. Each card keeps its own height when opened. */
+.resources__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem;
+}
+
+@media (max-width: 720px) {
+  .resources__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resources__search {
+    max-width: none;
+  }
+
+  .resources__toolbar .tabs {
+    width: 100%;
+  }
+}

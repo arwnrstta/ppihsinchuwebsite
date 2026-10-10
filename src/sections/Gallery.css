@@ -1,0 +1,54 @@
+.gallery {
+  /* Charcoal with a faint purple light in one corner. */
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      color-mix(in srgb, var(--cabinet-deep) 70%, transparent),
+      transparent 45%
+    ),
+    var(--color-charcoal);
+}
+
+.gallery__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.gallery__album {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: 1.75rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: var(--radius-medium);
+  background: rgb(255 255 255 / 0.04);
+}
+
+.gallery__album-title {
+  font-size: 1.5rem;
+}
+
+.gallery__album-description {
+  color: rgb(255 255 255 / 0.7);
+}
+
+.gallery__empty {
+  padding: 3rem 1rem;
+  border: 1.5px dashed rgb(255 255 255 / 0.2);
+  border-radius: var(--radius-medium);
+  text-align: center;
+  color: rgb(255 255 255 / 0.7);
+}
+
+@media (max-width: 720px) {
+  .gallery__toolbar .tabs {
+    width: 100%;
+  }
+}

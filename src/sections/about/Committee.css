@@ -1,0 +1,98 @@
+.committee {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  /* Without this, the scrolling rows inside could stretch the page sideways. */
+  min-width: 0;
+}
+
+.committee > * {
+  min-width: 0;
+}
+
+/* A very soft red-to-purple wash behind the portraits. */
+.committee__panel {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border-radius: var(--radius-large);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      color-mix(in srgb, var(--cabinet-soft) 55%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(circle at 0% 100%, rgb(206 17 38 / 0.07), transparent 50%),
+    var(--color-cream);
+}
+
+.committee__division {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
+  justify-items: center;
+}
+
+.committee__division-name {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+.committee__division-description {
+  max-width: 52ch;
+  color: var(--color-gray);
+}
+
+.committee__division-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/*
+ * Portrait grid. Cards wrap onto new rows and each row is centred, so a
+ * division with 2 members looks as balanced as one with 7.
+ */
+.committee__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem 1.5rem;
+}
+
+.committee__grid .committee-card {
+  flex: 0 1 240px;
+}
+
+/* A division with exactly 5 members fits on one row with slightly narrower cards. */
+.committee__grid:has(> :nth-child(5):last-child) .committee-card {
+  flex-basis: 198px;
+}
+
+/* Mobile: one row of cards that the visitor swipes sideways. */
+@media (max-width: 640px) {
+  .committee__panel {
+    padding-inline: 0;
+  }
+
+  .committee__division {
+    padding-inline: 1.25rem;
+  }
+
+  .committee__grid,
+  .committee__grid:has(> :nth-child(5):last-child) {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 1.25rem 1rem;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+  }
+
+  .committee__grid .committee-card,
+  .committee__grid:has(> :nth-child(5):last-child) .committee-card {
+    flex: 0 0 min(68vw, 250px);
+    scroll-snap-align: start;
+  }
+}
