@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { assetPath } from '../utils/assetPath.js'
 import Icon from './Icon.jsx'
 import Modal from './Modal.jsx'
@@ -21,6 +22,7 @@ import './Lightbox.css'
  *   onClose       - closes the viewer
  */
 export default function Lightbox({ photos, index, onChangeIndex, onClose }) {
+  const { t } = useTranslation()
   const photo = photos[index]
   const hasSeveralPhotos = photos.length > 1
 
@@ -38,14 +40,14 @@ export default function Lightbox({ photos, index, onChangeIndex, onClose }) {
   }, [previousIndex, nextIndex, onChangeIndex])
 
   return (
-    <Modal onClose={onClose} label="Photo viewer" variant="lightbox">
+    <Modal onClose={onClose} label={t('gallery.lightbox.label')} variant="lightbox">
       <div className="lightbox">
         {hasSeveralPhotos && (
           <button
             type="button"
             className="lightbox__arrow"
             onClick={() => onChangeIndex(previousIndex)}
-            aria-label="Previous photo"
+            aria-label={t('gallery.lightbox.previous')}
           >
             <Icon name="arrowLeft" size={24} />
           </button>
@@ -71,7 +73,7 @@ export default function Lightbox({ photos, index, onChangeIndex, onClose }) {
             type="button"
             className="lightbox__arrow"
             onClick={() => onChangeIndex(nextIndex)}
-            aria-label="Next photo"
+            aria-label={t('gallery.lightbox.next')}
           >
             <Icon name="arrowRight" size={24} />
           </button>

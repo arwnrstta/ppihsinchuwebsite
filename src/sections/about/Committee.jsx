@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import CommitteeCard from '../../components/CommitteeCard.jsx'
 import CommitteeSelector from '../../components/CommitteeSelector.jsx'
 import PlaceholderBadge from '../../components/PlaceholderBadge.jsx'
 import { cabinet } from '../../config/cabinet.js'
 import { divisions } from '../../data/committee.js'
+import { useLocalize } from '../../utils/localize.js'
 import './Committee.css'
 
 /*
@@ -18,11 +20,20 @@ import './Committee.css'
  *      activeDivisionId.
  *   3. Only the members of that division are drawn, one CommitteeCard each.
  *
+ * DIVISION NAMES IN DIFFERENT LANGUAGES
+ *   Indonesian:        the official name only      "Divisi Kemahasiswaan"
+ *   English / Chinese: the translated name as the  "Student Affairs"
+ *                      main title, with the        "Divisi Kemahasiswaan"
+ *                      official name underneath
+ *
  * To change names, positions or portraits, edit src/data/committee.js.
  */
 export default function Committee() {
+  const { t, i18n } = useTranslation()
+  const localizeText = useLocalize()
   const [activeDivisionId, setActiveDivisionId] = useState(divisions[0].id)
-  const activeDivision = divisions.find((division) => division.id === activeDivisionId)
+  const activeDivision =
+    divisions.find((division) => division.id === activeDivisionId) ?? divisions[0]
 
   const totalMembers = divisions.reduce(
     (total, division) => total + division.members.length,
@@ -32,6 +43,9 @@ export default function Committee() {
     (member) => !member.name || !member.photo,
   )
 
+  // Empty in Indonesian, and for a division that has no translation yet.
+  const translatedName = activeDivision.translatedName?.[i18n.language] ?? ''
+
   return (
     <div className="committee">
       <header className="about__panel-header">
@@ -39,17 +53,16 @@ export default function Committee() {
           <p className="eyebrow eyebrow--cabinet">
             {cabinet.name} · {cabinet.period}
           </p>
-          <h3 className="about__subheading">Made possible by people who care.</h3>
+          <h3 className="about__subheading">{t('about.committee.heading')}</h3>
         </div>
         <p className="about__panel-intro">
-          Meet the {totalMembers} student volunteers who keep our community
-          connected. Choose a division to see its team.
+          {t('about.committee.intro', { count: totalMembers })}
         </p>
       </header>
 
       <CommitteeSelector
         divisions={divisions}
-        activeDivisionId={activeDivisionId}
+        activeDivisionId={activeDivision.id}
         onChange={setActiveDivisionId}
       />
 
@@ -62,17 +75,27 @@ export default function Committee() {
         className="committee__panel"
       >
         <div className="committee__division fade-up">
-          <h4 className="committee__division-name">{activeDivision.name}</h4>
+          {translatedName ? (
+            <>
+              <h4 className="committee__division-name">{translatedName}</h4>
+              <p className="committee__division-official" lang="id">
+                {activeDivision.name}
+              </p>
+            </>
+          ) : (
+            <h4 className="committee__division-name" lang="id">
+              {activeDivision.name}
+            </h4>
+          )}
           <p className="committee__division-description">
-            {activeDivision.description}
+            {localizeText(activeDivision.description)}
           </p>
           <p className="committee__division-meta">
             <span className="chip chip--cabinet">
-              {activeDivision.members.length}{' '}
-              {activeDivision.members.length === 1 ? 'member' : 'members'}
+              {t('about.committee.members', { count: activeDivision.members.length })}
             </span>
             {hasPlaceholders && (
-              <PlaceholderBadge>Names and portraits coming soon</PlaceholderBadge>
+              <PlaceholderBadge>{t('about.committee.placeholders')}</PlaceholderBadge>
             )}
           </p>
         </div>
@@ -83,6 +106,7 @@ export default function Committee() {
               // Members may share a position, so the list position is part of the key.
               key={`${member.position}-${index}`}
               member={member}
+              // The faint word behind each portrait stays in Indonesian.
               watermark={activeDivision.shortName}
               index={index}
             />

@@ -1,0 +1,264 @@
+{
+  "common": {
+    "skipToContent": "Skip to main content",
+    "opensNewTab": "(opens in a new tab)",
+    "comingSoon": "Coming soon",
+    "close": "Close",
+    "sample": "Sample",
+    "draftCopy": "Draft copy"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "events": "Events",
+    "resources": "Resources",
+    "gallery": "Gallery",
+    "connect": "Connect With Us",
+    "mainLabel": "Main",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "sectionsOf": "{{section}} sections",
+    "dropdown": {
+      "welcome": "Welcome",
+      "highlight": "Community highlight",
+      "startHere": "Start here",
+      "upcomingEvent": "Upcoming event",
+      "eventArchive": "Event archive",
+      "allPhotos": "All photos"
+    }
+  },
+  "hero": {
+    "button": "Explore the community",
+    "imageAlt": "A historic gate tower in Hsinchu with a red tiled roof",
+    "marquee": ["Community", "Culture", "Connection", "Hsinchu", "Indonesia"]
+  },
+  "video": {
+    "eyebrow": "Community highlight",
+    "title": "Life in Hsinchu, in motion.",
+    "description": "A glimpse of the gatherings, celebrations, and everyday moments that make this community feel like home.",
+    "coverAlt": "A community gathering outdoors",
+    "play": "Play video",
+    "comingSoon": "Highlight reel coming soon"
+  },
+  "previews": {
+    "eyebrow": "Start here",
+    "title": "Everything PPI Hsinchu, in one place.",
+    "about": {
+      "label": "About",
+      "title": "A place to belong, wherever you’re from.",
+      "text": "Who we are, what we stand for, and how we are organised."
+    },
+    "events": {
+      "label": "Upcoming events",
+      "fallbackTitle": "Good things happen together.",
+      "fallbackText": "New events will be announced here."
+    },
+    "community": {
+      "label": "Our community",
+      "title": "Meet {{cabinet}}.",
+      "text": "{{members}} student volunteers across {{teams}} teams keep this community connected."
+    },
+    "gallery": {
+      "label": "Photo gallery",
+      "title": "The moments in between.",
+      "text": "{{count}} photos of the faces, places, and memories that make this community ours."
+    }
+  },
+  "about": {
+    "label": "About us",
+    "title": "One community, many stories.",
+    "description": "Get to know PPI Hsinchu: who we are, what guides us, and the people who make it happen.",
+    "tabsLabel": "About PPI Hsinchu",
+    "tabs": {
+      "who-we-are": "Who We Are",
+      "campuses": "Our Campuses",
+      "vision-mission": "Vision, Mission & Philosophy",
+      "ad-art": "AD/ART",
+      "committee": "Our Committee",
+      "leadership": "Leadership Through the Years"
+    },
+    "campuses": {
+      "eyebrow": "Universities We Represent",
+      "heading": "8 Universities, 1 Community.",
+      "intro": "We represent {{count}} universities in and around Hsinchu. Hover over a pin to see the school, or click it to visit its website.",
+      "mapLabel": "Map of the universities where PPI Hsinchu members study",
+      "clickToVisit": "Click to visit website",
+      "visitWebsite": "Visit website",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "resetView": "Show all universities"
+    },
+    "vision": {
+      "currentCabinet": "Current cabinet",
+      "note": "The ideas that guide this year’s work, from our long-term vision to the meaning behind the cabinet’s name.",
+      "visionTitle": "Vision",
+      "missionTitle": "Mission",
+      "philosophyTitle": "Cabinet Philosophy"
+    },
+    "adArt": {
+      "view": "View AD/ART (PDF)",
+      "comingSoon": "AD/ART PDF · Coming soon",
+      "lastUpdated": "Last updated: {{date}}"
+    },
+    "committee": {
+      "heading": "Made possible by people who care.",
+      "intro": "Meet the {{count}} student volunteers who keep our community connected. Choose a division to see its team.",
+      "selectorLabel": "Committee divisions",
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "placeholders": "Some names and portraits coming soon",
+      "nameTba": "Name to be announced",
+      "portraitAlt": "Portrait of {{name}}"
+    },
+    "leadership": {
+      "eyebrow": "Our history",
+      "heading": "Every cabinet leaves its mark.",
+      "intro": "PPI Hsinchu is passed from one generation of students to the next. Step through the years to meet the cabinets that shaped it.",
+      "chooseYear": "Choose a year",
+      "previousYear": "Previous year",
+      "nextYear": "Next year",
+      "photoTba": "Photo to be added",
+      "photoAlt": "{{cabinet}}, {{year}}",
+      "photoAltFallback": "PPI Hsinchu leadership",
+      "currentCabinet": "Current cabinet",
+      "toVerify": "Record to be verified",
+      "cabinetTba": "Cabinet name to be added",
+      "president": "President (Koordinator)",
+      "term": "Term",
+      "tba": "To be added",
+      "slogan": "Slogan",
+      "viewMembers": "View cabinet members",
+      "membersOf": "Members of {{cabinet}}",
+      "membersTba": "Member list to be added."
+    }
+  },
+  "positions": {
+    "Ketua": "Coordinator",
+    "Koordinator": "Coordinator",
+    "Wakil Ketua": "Vice President",
+    "Wakil Koordinator": "Vice Coordinator",
+    "Sekretaris": "Secretary",
+    "Bendahara": "Treasurer",
+    "Wakil Koordinator 1": "First Vice Coordinator",
+    "Wakil Koordinator 2": "Second Vice Coordinator",
+    "Sekretaris 1": "First Secretary",
+    "Sekretaris 2": "Second Secretary",
+    "Bendahara 1": "First Treasurer",
+    "Bendahara 2": "Second Treasurer",
+    "Ketua Divisi": "Head of Division",
+    "Anggota": "Member",
+    "Penasihat": "Adviser"
+  },
+  "events": {
+    "label": "What’s happening",
+    "title": "Good things happen together.",
+    "description": "From shared meals to new traditions, there’s always a reason to come together.",
+    "upcoming": "Upcoming",
+    "nextEvent": "Next event",
+    "sample": "Sample event",
+    "dateTba": "Date to be announced",
+    "venueTba": "Venue to be announced",
+    "viewDetails": "View details",
+    "register": "Register",
+    "registerNow": "Register now",
+    "registrationOpensSoon": "Registration opens soon",
+    "viewDocumentation": "View documentation",
+    "documentationSoon": "Documentation coming soon",
+    "noUpcoming": "No upcoming events right now. New dates will be announced here.",
+    "archiveTitle": "Event archive",
+    "filterStatusLabel": "Filter events by status",
+    "filterYearLabel": "Filter events by year",
+    "filters": {
+      "past": "Past events",
+      "upcoming": "Upcoming",
+      "all": "All events"
+    },
+    "allYears": "All years",
+    "noResults": "No events match these filters yet.",
+    "posterAlt": "Poster for {{title}}",
+    "posterSoon": "Poster coming soon",
+    "detail": {
+      "label": "Event details: {{title}}",
+      "past": "Past event",
+      "date": "Date",
+      "time": "Time",
+      "venue": "Venue",
+      "fee": "Fee",
+      "organizer": "Organizer",
+      "registrationSoon": "Registration details coming soon.",
+      "viewPhotos": "View photos"
+    }
+  },
+  "resources": {
+    "guidebook": {
+      "label": "Guidebook",
+      "read": "Read the guidebook"
+    },
+    "label": "Student resources",
+    "title": "The little things that make a big difference.",
+    "description": "Settling in is easier when someone has been there before. Practical guides for Indonesian students in Hsinchu.",
+    "search": "Search all resources",
+    "categoriesLabel": "Resource categories",
+    "notice": "Draft content. Always confirm details with the official source.",
+    "results_one": "{{count}} result for “{{query}}”",
+    "results_other": "{{count}} results for “{{query}}”",
+    "clearSearch": "Clear search",
+    "needsVerification": "Needs verification",
+    "visitWebsite": "Visit website"
+  },
+  "gallery": {
+    "label": "Photo gallery",
+    "title": "The moments in between.",
+    "description": "A collection of the faces, places, and little memories that make this community ours.",
+    "allPhotos": "All photos",
+    "filterLabel": "Filter photos by album",
+    "placeholderPhotos": "Placeholder stock photos",
+    "viewEvent": "View event: {{title}}",
+    "empty": "Photos will be added here soon.",
+    "openPhoto": "Open photo: {{description}}",
+    "lightbox": {
+      "label": "Photo viewer",
+      "previous": "Previous photo",
+      "next": "Next photo"
+    }
+  },
+  "contact": {
+    "label": "Connect with us",
+    "title": "Come as you are. Stay for the community.",
+    "description": "Whether you’ve just arrived or you’ve called Hsinchu home for years, there’s a place for you here. Students, organisations, and sponsors are all welcome to say hello.",
+    "follow": "Follow along",
+    "social": {
+      "followUs": "Follow us",
+      "comingSoon": "Coming soon"
+    },
+    "form": {
+      "typeLabel": "Type of inquiry",
+      "optional": "(optional)",
+      "choose": "Please choose",
+      "send": "Send message",
+      "sending": "Sending…",
+      "deliveryEndpoint": "Your message is sent securely to the PPI Hsinchu team.",
+      "deliveryEmail": "This opens your email app with your message ready to send.",
+      "deliveryNone": "Online messaging is not connected yet. Contact details will be added here soon.",
+      "success": "Thank you. Your message has been sent and we will reply by email.",
+      "emailOpened": "Your email app should now be open with your message. Press Send there to deliver it. If nothing opened, email us directly at",
+      "error": "Sorry, your message could not be sent. Please try again later.",
+      "errorWithEmail": "Sorry, your message could not be sent. Please try again later or email us at {{email}}.",
+      "emailSubject": "{{type}} via PPI Hsinchu website",
+      "errors": {
+        "required": "Please fill in: {{field}}.",
+        "email": "Please enter a valid email address."
+      }
+    }
+  },
+  "footer": {
+    "message": "From Hsinchu, with home in our hearts.",
+    "navLabel": "Footer",
+    "explore": "Explore",
+    "currentCabinet": "Current cabinet",
+    "backToTop": "Back to top"
+  }
+}

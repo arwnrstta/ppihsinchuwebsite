@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import Icon from './Icon.jsx'
 import './Modal.css'
 
@@ -21,6 +22,7 @@ import './Modal.css'
  *   variant   - 'panel' (default, a white card) or 'lightbox' (dark, full screen)
  */
 export default function Modal({ onClose, label, variant = 'panel', children }) {
+  const { t } = useTranslation()
   const dialogRef = useRef(null)
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Modal({ onClose, label, variant = 'panel', children }) {
           type="button"
           className="modal__close"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t('common.close')}
         >
           <Icon name="close" />
         </button>

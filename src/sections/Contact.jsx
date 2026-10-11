@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import ContactForm from '../components/ContactForm.jsx'
 import Icon from '../components/Icon.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -12,21 +13,20 @@ import './Contact.css'
  *
  * Social links and the contact email: src/config/site.js
  * Form fields:                        src/data/contactForms.js
+ * Headings and messages:              src/locales/, under "contact"
  */
 export default function Contact() {
+  const { t } = useTranslation()
+
   return (
     <section id="connect" className="section contact" aria-labelledby="connect-title">
       <div className="container contact__layout">
         <Reveal className="contact__intro">
-          <p className="eyebrow">05 / Connect with us</p>
+          <p className="eyebrow">05 / {t('contact.label')}</p>
           <h2 id="connect-title" className="contact__title">
-            Come as you are. Stay for the community.
+            {t('contact.title')}
           </h2>
-          <p className="lead">
-            Whether you’ve just arrived or you’ve called Hsinchu home for
-            years, there’s a place for you here. Students, organisations, and
-            sponsors are all welcome to say hello.
-          </p>
+          <p className="lead">{t('contact.description')}</p>
 
           {contact.email && (
             <a href={`mailto:${contact.email}`} className="contact__email">
@@ -35,7 +35,7 @@ export default function Contact() {
             </a>
           )}
 
-          <h3 className="contact__social-heading">Follow along</h3>
+          <h3 className="contact__social-heading">{t('contact.follow')}</h3>
           <SocialLinks variant="cards" />
         </Reveal>
 

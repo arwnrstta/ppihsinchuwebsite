@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cabinet } from '../config/cabinet.js'
 import { navigation, site } from '../config/site.js'
 import { aboutTabs } from '../data/about.js'
@@ -6,20 +7,24 @@ import { albums } from '../data/gallery.js'
 import { resourceCategories } from '../data/resources.js'
 import { useActiveSection } from '../hooks/useActiveSection.js'
 import { assetPath } from '../utils/assetPath.js'
+import { useLocalize } from '../utils/localize.js'
 import Icon from './Icon.jsx'
+import LanguageSwitcher from './LanguageSwitcher.jsx'
 import './Navbar.css'
 
 /*
  * NAVBAR
  * ------
  * The sticky menu at the top of every screen.
- * The menu items come from the "navigation" list in src/config/site.js.
+ * The menu items come from the "navigation" list in src/config/site.js, and
+ * their text from "nav" in the translation files (src/locales/).
  *
  * - On wide screens the links sit in a row. Hovering a link (or reaching it
  *   with the Tab key) opens a dropdown listing the parts of that section.
  * - On small screens the links move into a panel opened by the menu button.
  *   Dropdowns are hidden there to keep the panel short.
  * - The link for the section currently on screen is highlighted.
+ * - The language switcher sits on the right (inside the panel on mobile).
  */
 
 // Created once, outside the component, so the list stays the same between renders.
@@ -33,28 +38,30 @@ const sectionIds = navigation.map((item) => item.id)
  * Most lists are built from the data files, so a new About tab, resource
  * category or photo album appears in the menu automatically.
  *
- * Each entry has:
- *   label - the text shown
- *   kind  - what should happen when it is clicked (handled in App.jsx):
- *             'scroll'           scroll to the element whose id is "target"
- *             'aboutTab'         open the About tab "target"
- *             'resourceCategory' open the resource category "target"
- *             'album'            show the gallery album "target"
+ * Each entry has ONE of these for its text:
+ *   labelKey - the name of a text in the translation files (src/locales/)
+ *   label    - text taken straight from a data file (may hold all languages)
+ *
+ * and says what should happen when it is clicked (handled in App.jsx):
+ *   kind 'scroll'           scroll to the element whose id is "target"
+ *   kind 'aboutTab'         open the About tab "target"
+ *   kind 'resourceCategory' open the resource category "target"
+ *   kind 'album'            show the gallery album "target"
  */
 const dropdowns = {
   home: [
-    { label: 'Welcome', kind: 'scroll', target: 'home' },
-    { label: 'Community highlight', kind: 'scroll', target: 'home-video' },
-    { label: 'Start here', kind: 'scroll', target: 'home-previews' },
+    { labelKey: 'nav.dropdown.welcome', kind: 'scroll', target: 'home' },
+    { labelKey: 'nav.dropdown.highlight', kind: 'scroll', target: 'home-video' },
+    { labelKey: 'nav.dropdown.startHere', kind: 'scroll', target: 'home-previews' },
   ],
   about: aboutTabs.map((tab) => ({
-    label: tab.label,
+    labelKey: `about.tabs.${tab.id}`,
     kind: 'aboutTab',
     target: tab.id,
   })),
   events: [
-    { label: 'Upcoming event', kind: 'scroll', target: 'events' },
-    { label: 'Event archive', kind: 'scroll', target: 'events-archive' },
+    { labelKey: 'nav.dropdown.upcomingEvent', kind: 'scroll', target: 'events' },
+    { labelKey: 'nav.dropdown.eventArchive', kind: 'scroll', target: 'events-archive' },
   ],
   resources: resourceCategories.map((category) => ({
     label: category.title,
@@ -62,7 +69,7 @@ const dropdowns = {
     target: category.id,
   })),
   gallery: [
-    { label: 'All photos', kind: 'album', target: 'all' },
+    { labelKey: 'nav.dropdown.allPhotos', kind: 'album', target: 'all' },
     ...albums.map((album) => ({
       label: album.title,
       kind: 'album',
@@ -72,6 +79,8 @@ const dropdowns = {
 }
 
 export default function Navbar({ onDropdownSelect }) {
+  const { t } = useTranslation()
+  const localizeText = useLocalize()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
   const activeSectionId = useActiveSection(sectionIds)
@@ -138,17 +147,18 @@ export default function Navbar({ onDropdownSelect }) {
         >
           <Icon name={isMenuOpen ? 'close' : 'menu'} size={24} />
           <span className="visually-hidden">
-            {isMenuOpen ? 'Close menu' : 'Open menu'}
+            {isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
           </span>
         </button>
 
         <nav
           id="navbar-menu"
           className={`navbar__menu ${isMenuOpen ? 'is-open' : ''}`}
-          aria-label="Main"
+          aria-label={t('nav.mainLabel')}
         >
           <ul className="navbar__links">
             {mainLinks.map((item) => {
+              const itemLabel = t(`nav.${item.id}`)
               const dropdownItems = dropdowns[item.id] ?? []
               // A dropdown is only useful when there is more than one part to choose.
               const hasDropdown = dropdownItems.length > 1
@@ -163,7 +173,7 @@ export default function Navbar({ onDropdownSelect }) {
                     aria-current={activeSectionId === item.id ? 'true' : undefined}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item.label}
+                    {itemLabel}
                     {hasDropdown && (
                       <span className="navbar__chevron">
                         <Icon name="chevronDown" size={14} />
@@ -172,15 +182,20 @@ export default function Navbar({ onDropdownSelect }) {
                   </a>
 
                   {hasDropdown && (
-                    <ul className="navbar__dropdown" aria-label={`${item.label} sections`}>
+                    <ul
+                      className="navbar__dropdown"
+                      aria-label={t('nav.sectionsOf', { section: itemLabel })}
+                    >
                       {dropdownItems.map((dropdownItem) => (
-                        <li key={dropdownItem.label}>
+                        <li key={dropdownItem.target}>
                           <a
                             href={`#${item.id}`}
                             className="navbar__dropdown-link"
                             onClick={(event) => handleDropdownClick(event, dropdownItem)}
                           >
-                            {dropdownItem.label}
+                            {dropdownItem.labelKey
+                              ? t(dropdownItem.labelKey)
+                              : localizeText(dropdownItem.label)}
                           </a>
                         </li>
                       ))}
@@ -190,13 +205,17 @@ export default function Navbar({ onDropdownSelect }) {
               )
             })}
           </ul>
-          <a
-            href={`#${contactLink.id}`}
-            className="button button--primary navbar__cta"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            {contactLink.label}
-          </a>
+
+          <div className="navbar__actions">
+            <LanguageSwitcher />
+            <a
+              href={`#${contactLink.id}`}
+              className="button button--primary navbar__cta"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t(`nav.${contactLink.id}`)}
+            </a>
+          </div>
         </nav>
       </div>
     </header>

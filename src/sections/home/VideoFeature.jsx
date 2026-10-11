@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon.jsx'
 import Reveal from '../../components/Reveal.jsx'
 import { featuredVideo } from '../../config/site.js'
@@ -8,8 +9,9 @@ import './VideoFeature.css'
 /*
  * VIDEO FEATURE
  * -------------
- * A large video preview on the homepage. Settings are in "featuredVideo"
- * in src/config/site.js.
+ * A large video preview on the homepage. The video ID and cover photo are
+ * in "featuredVideo" in src/config/site.js. The heading and description are
+ * translated in src/locales/, under "video".
  *
  * For speed, the YouTube player is NOT loaded with the page. Visitors first
  * see a cover photo with a play button. The real player loads only after
@@ -19,8 +21,9 @@ import './VideoFeature.css'
  * a "coming soon" note instead of a broken player.
  */
 export default function VideoFeature() {
+  const { t } = useTranslation()
   const [isPlaying, setIsPlaying] = useState(false)
-  const { youtubeVideoId, title, description, coverImage, coverAlt } = featuredVideo
+  const { youtubeVideoId, coverImage } = featuredVideo
   const hasVideo = Boolean(youtubeVideoId)
 
   return (
@@ -28,12 +31,12 @@ export default function VideoFeature() {
       <div className="container">
         <Reveal className="video-feature__heading">
           <div>
-            <p className="eyebrow">Community highlight</p>
+            <p className="eyebrow">{t('video.eyebrow')}</p>
             <h2 id="video-title" className="video-feature__title">
-              {title}
+              {t('video.title')}
             </h2>
           </div>
-          <p className="lead">{description}</p>
+          <p className="lead">{t('video.description')}</p>
         </Reveal>
 
         <Reveal className="video-feature__frame" delay={100}>
@@ -41,7 +44,7 @@ export default function VideoFeature() {
             <iframe
               // youtube-nocookie.com is YouTube's privacy-friendly player.
               src={`https://www.youtube-nocookie.com/embed/${youtubeVideoId}?autoplay=1&rel=0`}
-              title={title}
+              title={t('video.title')}
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -49,7 +52,7 @@ export default function VideoFeature() {
             <>
               <img
                 src={assetPath(coverImage)}
-                alt={coverAlt}
+                alt={t('video.coverAlt')}
                 loading="lazy"
                 width="1200"
                 height="800"
@@ -63,14 +66,14 @@ export default function VideoFeature() {
                   <span className="video-feature__play-icon">
                     <Icon name="play" size={30} />
                   </span>
-                  <span>Play video</span>
+                  <span>{t('video.play')}</span>
                 </button>
               ) : (
                 <p className="video-feature__coming-soon">
                   <span className="video-feature__play-icon">
                     <Icon name="play" size={30} />
                   </span>
-                  <span>Highlight reel coming soon</span>
+                  <span>{t('video.comingSoon')}</span>
                 </p>
               )}
             </>

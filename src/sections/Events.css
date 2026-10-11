@@ -84,6 +84,13 @@
   color: rgb(255 255 255 / 0.8);
 }
 
+/* The greyed-out "Registration opens soon" button on the dark card. */
+.featured-event .button:disabled {
+  background: rgb(255 255 255 / 0.12);
+  border-color: rgb(255 255 255 / 0.25);
+  color: rgb(255 255 255 / 0.75);
+}
+
 .featured-event__actions {
   display: flex;
   flex-wrap: wrap;

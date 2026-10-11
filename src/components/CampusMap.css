@@ -1,0 +1,131 @@
+.campus-map {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-cream-deep);
+  box-shadow: var(--shadow-soft);
+}
+
+/* The area Leaflet draws the map into. Change the height here. */
+.campus-map__canvas {
+  height: clamp(340px, 52vw, 520px);
+  /* Keeps the map below the sticky navbar and pop-ups. */
+  z-index: 0;
+  font-family: var(--font-body);
+}
+
+/* Softens the map colours slightly so the red pins stand out. */
+.campus-map__canvas .leaflet-tile-pane {
+  filter: saturate(0.55) contrast(0.95);
+}
+
+/* ----- Pins ----- */
+
+/* Leaflet puts this class on the pin's outer element. */
+.campus-map__pin {
+  cursor: pointer;
+}
+
+/* The visible red dot with a white ring. */
+.campus-map__pin span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 4px;
+  border: 3px solid var(--color-white);
+  border-radius: 50%;
+  background: var(--color-red);
+  box-shadow: 0 2px 8px rgb(36 37 34 / 0.45);
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.campus-map__pin:hover span,
+.campus-map__pin:focus-visible span,
+.campus-map__pin.is-highlighted span {
+  transform: scale(1.35);
+  background: var(--cabinet-primary);
+}
+
+.campus-map__pin:focus-visible {
+  outline: 3px solid var(--cabinet-primary);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* ----- The box shown when a pin is hovered ----- */
+
+.leaflet-tooltip.campus-map__tooltip {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  box-shadow: var(--shadow-raised);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.campus-map__tooltip strong {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+}
+
+.campus-map__tooltip span {
+  color: var(--color-gray);
+}
+
+.campus-map__tooltip em {
+  margin-top: 0.25rem;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--color-red);
+}
+
+/* ----- Zoom buttons (bottom right) ----- */
+
+.campus-map__controls {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.75rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.campus-map__control {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  box-shadow: var(--shadow-soft);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.campus-map__control:hover {
+  transform: translateY(-2px);
+}
+
+.campus-map__control--red {
+  background: var(--color-crimson);
+  color: var(--color-white);
+}
+
+.campus-map__control--dark {
+  background: var(--color-charcoal);
+  color: var(--color-white);
+}

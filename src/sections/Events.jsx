@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import CabinetLabel from '../components/CabinetLabel.jsx'
 import EventCard, { EventPoster } from '../components/EventCard.jsx'
 import EventDetail from '../components/EventDetail.jsx'
 import Icon from '../components/Icon.jsx'
@@ -14,6 +16,7 @@ import {
   getPastEvents,
   getUpcomingEvents,
 } from '../utils/eventHelpers.js'
+import { useLocalize } from '../utils/localize.js'
 import './Events.css'
 
 /*
@@ -37,13 +40,11 @@ import './Events.css'
  * event too.
  */
 
-const statusTabs = [
-  { id: 'past', label: 'Past events' },
-  { id: 'upcoming', label: 'Upcoming' },
-  { id: 'all', label: 'All events' },
-]
+// The three status filters. Their text is in src/locales/, under "events" -> "filters".
+const statusFilterIds = ['past', 'upcoming', 'all']
 
 export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowAlbum }) {
+  const { t } = useTranslation()
   const [statusFilter, setStatusFilter] = useState('past')
   const [yearFilter, setYearFilter] = useState('all')
 
@@ -71,6 +72,11 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
     ? albums.find((album) => album.eventId === openEvent.id)
     : null
 
+  const statusTabs = statusFilterIds.map((filterId) => ({
+    id: filterId,
+    label: t(`events.filters.${filterId}`),
+  }))
+
   return (
     <section
       id="events"
@@ -80,9 +86,9 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
       <div className="container">
         <SectionHeading
           number="02"
-          label="What’s happening"
-          title="Good things happen together."
-          description="From shared meals to new traditions, there’s always a reason to come together."
+          label={t('events.label')}
+          title={t('events.title')}
+          description={t('events.description')}
           headingId="events-title"
         />
 
@@ -90,30 +96,30 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
           <FeaturedEvent event={featuredEvent} onOpen={onOpenEvent} />
         ) : (
           <Reveal className="events__empty-featured">
-            <p className="eyebrow">Upcoming</p>
-            <p>No upcoming events right now. New dates will be announced here.</p>
+            <p className="eyebrow">{t('events.upcoming')}</p>
+            <p>{t('events.noUpcoming')}</p>
           </Reveal>
         )}
 
         <div id="events-archive" className="events__archive">
           <Reveal className="events__toolbar">
-            <h3 className="events__archive-title">Event archive</h3>
+            <h3 className="events__archive-title">{t('events.archiveTitle')}</h3>
             <div className="events__filters">
               <Tabs
                 tabs={statusTabs}
                 activeId={statusFilter}
                 onChange={setStatusFilter}
-                label="Filter events by status"
+                label={t('events.filterStatusLabel')}
                 idPrefix="events"
               />
               <label className="events__year">
-                <span className="visually-hidden">Filter events by year</span>
+                <span className="visually-hidden">{t('events.filterYearLabel')}</span>
                 <select
                   className="select"
                   value={yearFilter}
                   onChange={(event) => setYearFilter(event.target.value)}
                 >
-                  <option value="all">All years</option>
+                  <option value="all">{t('events.allYears')}</option>
                   {availableYears.map((year) => (
                     <option key={year} value={year}>
                       {year}
@@ -139,9 +145,7 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
                 ))}
               </ul>
             ) : (
-              <p className="events__no-results">
-                No events match these filters yet.
-              </p>
+              <p className="events__no-results">{t('events.noResults')}</p>
             )}
           </div>
         </div>
@@ -164,6 +168,9 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
  * details and a button on the other.
  */
 function FeaturedEvent({ event, onOpen }) {
+  const { t, i18n } = useTranslation()
+  const localizeText = useLocalize()
+
   return (
     <Reveal as="article" className="featured-event on-dark">
       <div className="featured-event__poster">
@@ -172,46 +179,65 @@ function FeaturedEvent({ event, onOpen }) {
 
       <div className="featured-event__body">
         <div className="featured-event__badges">
-          <span className="chip chip--red">Next event</span>
-          {event.isSample && <PlaceholderBadge>Sample event</PlaceholderBadge>}
+          <span className="chip chip--red">{t('events.nextEvent')}</span>
+          <CabinetLabel name={event.cabinet} />
+          {event.isSample && <PlaceholderBadge>{t('events.sample')}</PlaceholderBadge>}
         </div>
 
-        <h3 className="featured-event__title">{event.title}</h3>
+        <h3 className="featured-event__title">{localizeText(event.title)}</h3>
 
         <ul className="featured-event__facts">
           <li>
             <Icon name="calendar" size={18} />
-            {formatEventDate(event)}
+            {formatEventDate(event, i18n.language) || t('events.dateTba')}
           </li>
           <li>
             <Icon name="mapPin" size={18} />
-            {event.venue || 'Venue to be announced'}
+            {localizeText(event.venue) || t('events.venueTba')}
           </li>
+          {/* The fee is shown only when one has been filled in. */}
+          {localizeText(event.fee) && (
+            <li>
+              <Icon name="ticket" size={18} />
+              {localizeText(event.fee)}
+            </li>
+          )}
         </ul>
 
-        <p className="featured-event__summary">{event.summary}</p>
+        <p className="featured-event__summary">{localizeText(event.summary)}</p>
 
         <div className="featured-event__actions">
-          <button
-            type="button"
-            className="button button--light"
-            onClick={() => onOpen(event.id)}
-          >
-            View details
-            <Icon name="arrowRight" size={18} />
-          </button>
-          {event.registrationUrl && (
+          {/*
+            REGISTRATION BUTTON
+            Opens the event's registration form (for example a Google Form)
+            in a new tab. The link is the event's "registrationUrl" in
+            src/data/events.js. Until a link is added, the button is shown
+            greyed out so visitors can see that registration is coming.
+          */}
+          {event.registrationUrl ? (
             <a
               href={event.registrationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="button button--outline"
+              className="button button--primary"
             >
-              Register
+              {t('events.registerNow')}
               <Icon name="externalLink" size={18} />
-              <span className="visually-hidden">(opens in a new tab)</span>
+              <span className="visually-hidden">{t('common.opensNewTab')}</span>
             </a>
+          ) : (
+            <button type="button" className="button" disabled>
+              {t('events.registrationOpensSoon')}
+            </button>
           )}
+          <button
+            type="button"
+            className="button button--outline"
+            onClick={() => onOpen(event.id)}
+          >
+            {t('events.viewDetails')}
+            <Icon name="arrowRight" size={18} />
+          </button>
         </div>
       </div>
     </Reveal>

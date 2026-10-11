@@ -1,0 +1,117 @@
+.language-switcher {
+  position: relative;
+}
+
+/* The button that shows the current language. */
+.language-switcher__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.6);
+  color: var(--color-charcoal);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.language-switcher__toggle:hover,
+.language-switcher.is-open .language-switcher__toggle {
+  border-color: var(--color-charcoal);
+  background: var(--color-white);
+}
+
+.language-switcher__chevron {
+  display: grid;
+  transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.language-switcher.is-open .language-switcher__chevron {
+  transform: rotate(180deg);
+}
+
+/* The list of languages. Hidden until the button is clicked. */
+.language-switcher__list {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 10;
+  min-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  box-shadow: var(--shadow-raised);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--duration-fast) var(--ease-smooth),
+    transform var(--duration-fast) var(--ease-smooth),
+    visibility var(--duration-fast);
+}
+
+.language-switcher.is-open .language-switcher__list {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+.language-switcher__option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 42px;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: transparent;
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.language-switcher__option:hover {
+  background: var(--color-cream);
+  color: var(--color-red);
+}
+
+/* The short code in front of each name, e.g. "EN". */
+.language-switcher__code {
+  min-width: 2.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-gray);
+}
+
+/* The language currently in use. */
+.language-switcher__option.is-active {
+  background: var(--color-cream);
+  font-weight: 700;
+}
+
+.language-switcher__option.is-active .language-switcher__code {
+  color: var(--color-red);
+}
+
+/*
+ * In the mobile menu the switcher is on the left, so its list lines up
+ * with the left edge instead of the right.
+ */
+@media (max-width: 1120px) {
+  .language-switcher__list {
+    right: auto;
+    left: 0;
+  }
+}

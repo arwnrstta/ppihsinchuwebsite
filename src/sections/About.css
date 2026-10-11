@@ -267,6 +267,13 @@
   color: var(--color-charcoal);
 }
 
+/* Explanatory subtitle under the official Indonesian document title. */
+.ad-art__subtitle {
+  margin-top: 0.4rem;
+  font-weight: 600;
+  color: var(--color-red);
+}
+
 .ad-art__actions {
   display: flex;
   flex-wrap: wrap;

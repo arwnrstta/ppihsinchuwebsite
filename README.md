@@ -15,6 +15,8 @@ This guide is written for future committee members, including people who have ne
 
 A single-page website with six sections: **Home, About, Events, Resources, Gallery, Connect With Us**.
 
+It is available in three languages: **English** (default), **Bahasa Indonesia** and **Traditional Chinese (繁體中文)**. Visitors switch with the language dropdown in the navbar, and their choice is remembered.
+
 ### Technology
 
 | Tool | What it does |
@@ -22,9 +24,11 @@ A single-page website with six sections: **Home, About, Events, Resources, Galle
 | [React](https://react.dev) | Builds the page out of reusable pieces called components |
 | [Vite](https://vite.dev) | Runs the website on your computer and builds the final version |
 | Plain CSS | All styling. No CSS framework is used |
-| Google Fonts | Bricolage Grotesque, Instrument Sans, Alumni Sans |
+| [i18next](https://www.i18next.com) + react-i18next | Switches the website between languages |
+| [Leaflet](https://leafletjs.com) + OpenStreetMap | The campus map in the About section (free, no account or API key) |
+| Google Fonts | Montserrat, Instrument Sans, Alumni Sans |
 
-There are no other libraries. There is no database and no server: the website is a set of static files.
+There are no other libraries. There is no database and no server: the website is a set of static files. Translations are plain text files that you edit by hand. No automatic or AI translation runs on the live website.
 
 ### Folder structure
 
@@ -52,7 +56,13 @@ ppi-hsinchu/
 │   │   ├── events.js       All events
 │   │   ├── resources.js    Student resources
 │   │   ├── gallery.js      Photo albums
+│   │   ├── universities.js Schools shown on the campus map
 │   │   └── contactForms.js Contact form fields
+│   ├── locales/            ★ Interface text in each language
+│   │   ├── en.json         English
+│   │   ├── id.json         Bahasa Indonesia
+│   │   └── zh-TW.json      Traditional Chinese
+│   ├── i18n.js             Language setup: list of languages, fallback, saved choice
 │   ├── components/         Reusable building blocks (cards, tabs, pop-ups...)
 │   ├── sections/           The six page sections
 │   │   ├── home/           Parts of the homepage
@@ -202,11 +212,31 @@ Records are listed from **oldest to newest**. Add one block per cabinet:
   cabinetName: 'Kabinet Example',
   president: 'Full Name',
   photo: '/images/leadership/2025-2026.jpg',
-  highlight: 'One or two sentences about this cabinet.',
+  slogan: 'The cabinet slogan',
+  divisions: [
+    {
+      name: 'Badan Pengurus Harian',
+      members: [
+        { name: 'Full Name', position: 'Ketua' },
+        { name: 'Full Name', position: 'Sekretaris' },
+      ],
+    },
+    {
+      name: 'Divisi Acara',
+      members: [
+        { name: 'Full Name', position: 'Ketua Divisi' },
+        { name: 'Full Name', position: 'Anggota' },
+      ],
+    },
+  ],
 },
 ```
 
-Photos go in `public/images/leadership/`. Landscape photos (4:3) fit best. Only **one** record should have `isCurrent: true`: the cabinet in office now.
+- **Photo.** Photos go in `public/images/leadership/`. Landscape photos (4:3) fit best.
+- **Slogan.** Optional. Leave it as `''` and no slogan is shown.
+- **Members.** `divisions` fills the pop-up opened by the **View cabinet members** button. Only names and positions are needed. Division names differed from cabinet to cabinet, so each record lists its own divisions with whatever names that cabinet used. Use `divisions: []` while the list is unknown; the button is then replaced by "Member list to be added."
+- **Current cabinet.** Only **one** record should have `isCurrent: true`. Do not type its members here: they are read automatically from [src/data/committee.js](src/data/committee.js).
+- **At handover.** Before replacing `committee.js` with the new committee, copy the outgoing cabinet's names and positions into its record in this file, or its member list will be lost.
 
 ### Add upcoming events
 
@@ -230,15 +260,26 @@ Copy an existing event block, paste it, and change the details:
 ```
 
 - `id` must be unique, with no spaces.
+- `cabinet` is the cabinet that ran the event, for example `cabinet: 'Kabinet Karya Raya',`. It appears as a label on the event's card and in its pop-up: purple for the current cabinet (the name in `src/config/cabinet.js`) and grey for any earlier cabinet. The name must be spelled exactly the same as in `cabinet.js` to count as current. Leave it as `''` to show no label.
+- `fee` is what it costs to join. Write an amount as plain text (`fee: 'NT$150',`) or words per language (`fee: { en: 'Free', id: 'Gratis', 'zh-TW': '免費' },`). It appears on the event's card, on the featured event, and as a "Fee" row in the pop-up. Leave it as `''` and no fee is shown.
 - `date` must be written as `YYYY-MM-DD`. Leave it as `''` to show "Date to be announced".
 - The upcoming event with the nearest date automatically becomes the large featured event.
+- `registrationUrl` is the link to your registration form (for example a Google Form: in the form, click **Send**, choose the link tab, and copy the link). On the featured event it becomes the red **Register now** button, which opens the form in a new tab. While it is `''`, the button is greyed out and reads "Registration opens soon".
 - Do not add `isSample: true` to real events. That line marks placeholder content.
 
 ### Archive past events
 
 **You do not need to do anything.** The website compares each event's `date` with today's date. Once the date has passed, the event moves from "Upcoming" to "Past events" by itself.
 
-After an event, it is nice to rewrite the `description` in the past tense and link a photo album (see below).
+After an event, it is nice to rewrite the `description` in the past tense and add its documentation link.
+
+**Documentation (Google Drive) button.** Every past event shows a **View documentation** button, on its card and in its pop-up. Paste the link to the event's photo folder into `documentationUrl`:
+
+```js
+documentationUrl: 'https://drive.google.com/drive/folders/...',
+```
+
+In Google Drive, right-click the folder, choose **Share**, set access to **Anyone with the link**, and copy the link. Without that setting visitors will be asked to sign in. While `documentationUrl` is `''`, the button is greyed out and reads "Documentation coming soon". The button never appears on upcoming events.
 
 ### Upload event posters
 
@@ -269,6 +310,31 @@ Only `name`, `tag` and `description` are required. Leave out the lines you do no
 
 **Important:** every current item has `needsVerification: true`, which shows a "Needs verification" label. Remove that line only after someone has checked the information against an official source.
 
+### Update the guidebook tile
+
+**File:** [src/data/resources.js](src/data/resources.js), under `guidebook`
+
+The large tile at the top of the Student Resources section opens the guidebook in a new tab.
+
+```js
+export const guidebook = {
+  title: 'Jelajah Hsinchu Vol. 1',
+  edition: { en: 'Fall 2026', id: 'Musim Gugur 2026', 'zh-TW': '2026 秋季' },
+  description: { en: '...', id: '...', 'zh-TW': '...' },
+  url: 'https://heyzine.com/flip-book/6701319284.html',
+  thumbnail: '/images/resources/guidebook-cover.jpg',
+}
+```
+
+**To change the thumbnail**, either:
+
+- replace the file `public/images/resources/guidebook-cover.jpg` with a new picture that has the same name, or
+- save a new picture in `public/images/resources/` and change `thumbnail` to its path.
+
+The current thumbnail is the first page of the guidebook. A portrait picture (taller than wide) fits best. To use the first page of a new volume, take a screenshot of its cover, or export page 1 of the PDF as a JPG.
+
+When a new volume comes out, update `title`, `edition`, `url` and the thumbnail.
+
 ### Add photo galleries
 
 **File:** [src/data/gallery.js](src/data/gallery.js)
@@ -296,6 +362,32 @@ Only `name`, `tag` and `description` are required. Leave out the lines you do no
 
 - `eventId` must match the `id` of the event in `events.js`. This one line creates both links: "View event" on the album and "View photos" on the event. Use `''` if the album has no event.
 - `alt` describes the photo for visitors who use screen readers. Please always fill it in.
+
+### Update the campus map
+
+**File:** [src/data/universities.js](src/data/universities.js)
+
+The map in **About → Our Campuses** shows one pin per school. Hovering a pin shows the school's name; clicking it opens the school's website. The same schools are listed as cards under the map.
+
+To add a school, copy a block and change the details:
+
+```js
+{
+  id: 'nthu',
+  shortName: 'NTHU',
+  name: { en: 'National Tsing Hua University', 'zh-TW': '國立清華大學' },
+  area: { en: 'East District, Hsinchu City', id: 'Distrik Timur, Kota Hsinchu', 'zh-TW': '新竹市東區' },
+  latitude: 24.7961,
+  longitude: 120.9967,
+  url: 'https://www.nthu.edu.tw/',
+},
+```
+
+To find `latitude` and `longitude`: open Google Maps, right-click the campus, and click the two numbers at the top of the menu to copy them. The first is the latitude, the second the longitude.
+
+The map zooms by itself to fit every pin. A school far from Hsinchu makes the map zoom out, which pushes the Hsinchu pins closer together.
+
+The map images come from OpenStreetMap, which is free. The small "© OpenStreetMap" credit in the corner is required by their licence, so please leave it in place.
 
 ### Update social media links
 
@@ -329,7 +421,7 @@ Copy the video ID from the YouTube link. It is the part after `v=`:
 https://www.youtube.com/watch?v=abc123XYZ00   →   youtubeVideoId: 'abc123XYZ00'
 ```
 
-You can also change `title`, `description` and the `coverImage` shown before the video plays. The video only loads after a visitor presses play, which keeps the page fast.
+You can also change the `coverImage` shown before the video plays. The heading and description of the video block are under `"video"` in the files in `src/locales/`. The video only loads after a visitor presses play, which keeps the page fast.
 
 ### Update the contact form and contact email
 
@@ -352,6 +444,178 @@ Temporary content is marked with small labels so visitors are not misled. When a
 ```js
 showPlaceholderLabels: false,
 ```
+
+---
+
+## Languages and translations
+
+The website has three languages. English is the **fallback**: whenever a translation is missing or left empty, the English text is shown instead. This means you can always publish in English first and translate later, and nothing will look broken.
+
+Text lives in two kinds of places.
+
+| Kind of text | Where it lives | Examples |
+| --- | --- | --- |
+| **Interface text** | [src/locales/](src/locales/) — one file per language | Menu, buttons, section headings, error messages, footer |
+| **Content** | The data files in [src/data/](src/data/) and [src/config/cabinet.js](src/config/cabinet.js) | Events, resources, vision and mission, committee divisions, photo captions |
+
+### What is never translated
+
+- **PPI Hsinchu** and **Perhimpunan Pelajar Indonesia di Hsinchu**
+- **Kabinet Karya Raya** and other cabinet names
+- People's names
+- Official institution names, unless they have an established translation (for example 國立清華大學)
+- The official title of the AD/ART. Other languages show a small explanatory subtitle under it.
+
+### Edit existing translations (interface text)
+
+Open the file for the language in [src/locales/](src/locales/):
+
+| Language | File |
+| --- | --- |
+| English | `src/locales/en.json` |
+| Bahasa Indonesia | `src/locales/id.json` |
+| Traditional Chinese | `src/locales/zh-TW.json` |
+
+Each line has a **name** on the left and the **text** on the right. Only change the text on the right:
+
+```json
+"nav": {
+  "home": "Beranda",
+  "about": "Tentang",
+```
+
+Rules for these files:
+
+- Never change the names on the left. All three files must use the same names.
+- Keep every quote `"` and comma. These files are stricter than the data files: a missing comma breaks the page.
+- Words inside double curly brackets, such as `{{count}}` or `{{title}}`, are filled in by the website. Keep them exactly as they are and move them to wherever they belong in the sentence.
+- To use the English text for now, set the text to `""`.
+
+To find a piece of text, press **Ctrl + Shift + F** in VS Code and search for the English wording.
+
+### Write content in several languages (data files)
+
+In the data files, any text can be written in two ways.
+
+**One text per language** (most content):
+
+```js
+title: {
+  en: 'Culture Night',
+  id: 'Malam Budaya',
+  'zh-TW': '文化之夜',
+},
+```
+
+**Plain text**, when it is the same in every language (names, official titles):
+
+```js
+organizer: 'PPI Hsinchu',
+```
+
+Notes:
+
+- `'zh-TW'` needs quotes because it contains a hyphen. `en` and `id` do not.
+- Leave a language out, or set it to `''`, and English is used.
+- Use Traditional Chinese as written in Taiwan, not Simplified Chinese.
+- Never paste text from an automatic translator without asking a fluent speaker to check it.
+
+### Add a multilingual event
+
+In [src/data/events.js](src/data/events.js), write `title`, `venue`, `summary` and `description` per language:
+
+```js
+{
+  id: 'malam-budaya-2027',
+  title: { en: 'Culture Night', id: 'Malam Budaya', 'zh-TW': '文化之夜' },
+  date: '2027-05-22',
+  time: '18:30 - 21:30',
+  venue: 'Venue name, Hsinchu',
+  organizer: 'PPI Hsinchu',
+  summary: {
+    en: 'An evening of Indonesian music, dance, and food.',
+    id: 'Malam penuh musik, tari, dan kuliner Indonesia.',
+    'zh-TW': '一個充滿印尼音樂、舞蹈與美食的夜晚。',
+  },
+  description: {
+    en: 'Join us for our annual culture night.',
+    id: 'Bergabunglah dalam malam budaya tahunan kami.',
+    'zh-TW': '歡迎參加我們的年度文化之夜。',
+  },
+  poster: '/images/events/malam-budaya-2027.jpg',
+  registrationUrl: 'https://...',
+},
+```
+
+Dates are translated automatically: `2027-05-22` appears as "22 May 2027", "22 Mei 2027" or "2027年5月22日".
+
+### Translate a student resource
+
+In [src/data/resources.js](src/data/resources.js), each text of an item can be written per language, including every step of a guide:
+
+```js
+{
+  name: { en: 'ARC renewal', id: 'Perpanjangan ARC', 'zh-TW': '居留證延期' },
+  tag: tags.guide,
+  description: {
+    en: 'How to renew your ARC.',
+    id: 'Cara memperpanjang ARC.',
+    'zh-TW': '如何辦理居留證延期。',
+  },
+  steps: [
+    { en: 'First step.', id: 'Langkah pertama.', 'zh-TW': '第一步。' },
+    { en: 'Second step.', id: 'Langkah kedua.', 'zh-TW': '第二步。' },
+  ],
+},
+```
+
+The short labels on the cards (`tags.guide`, `tags.food`...) are translated once in the `tags` list at the top of the file. Reuse them, or add a new one there. The search box searches in the language the visitor is using.
+
+### Update cabinet information in all languages
+
+In [src/config/cabinet.js](src/config/cabinet.js):
+
+- `name`, `shortName` and `period` are written once and never translated.
+- `vision`, each point of `mission`, and the `philosophy` texts are written once per language.
+
+```js
+vision: {
+  en: 'To be a warm and inclusive home...',
+  id: 'Menjadi rumah yang hangat dan inklusif...',
+  'zh-TW': '成為溫暖且包容的家……',
+},
+```
+
+### Committee divisions and positions
+
+In [src/data/committee.js](src/data/committee.js), each division keeps its **official Indonesian name** and adds translations:
+
+```js
+name: 'Divisi Kemahasiswaan',
+shortName: 'Kemahasiswaan',
+translatedName: { en: 'Student Affairs', 'zh-TW': '學生事務組' },
+```
+
+| Language | What visitors see |
+| --- | --- |
+| Indonesian | **Divisi Kemahasiswaan** |
+| English | **Student Affairs**, with *Divisi Kemahasiswaan* underneath |
+| Chinese | **學生事務組**, with *Divisi Kemahasiswaan* underneath |
+
+Positions are written in Indonesian in the data file (`position: 'Sekretaris'`). Their translations are under `"positions"` in the three files in `src/locales/`. If you use a new position (for example `'Humas'`), add a line for it to each file. Until you do, it is shown exactly as written.
+
+### Add another language
+
+1. Copy `src/locales/en.json` to a new file named with the language code, for example `src/locales/ja.json`, and translate the text on the right of each line.
+2. Open [src/i18n.js](src/i18n.js) and:
+   - import the file at the top: `import ja from './locales/ja.json'`
+   - add it to `languages`: `{ code: 'ja', label: '日本語', name: '日本語', dateLocale: 'ja-JP' },`
+   - add it to `resources`: `ja: { translation: ja },`
+3. The language now appears in the switcher. Content in the data files shows in English until you add a `ja: '...'` line to each text.
+
+### Change the default language
+
+In [src/i18n.js](src/i18n.js), change `defaultLanguage`. It is both the language new visitors see and the fallback for missing translations, so it should be the language in which all content is complete.
 
 ---
 
@@ -388,15 +652,16 @@ Smaller numbers are faster. Set `--reveal-distance` to `0px` for a plain fade. A
 
 ### Update the navbar
 
-**File:** [src/config/site.js](src/config/site.js), under `navigation`
-
-To rename a menu item, change its `label`. The `id` values must match the section ids on the page, so leave those unchanged. The last item in the list is displayed as the red button.
+- **Order of the menu items:** [src/config/site.js](src/config/site.js), under `navigation`. The `id` values must match the section ids on the page, so leave those unchanged. The last item in the list is displayed as the red button.
+- **Text of the menu items:** the three files in [src/locales/](src/locales/), under `"nav"`.
 
 **Dropdowns.** Hovering a menu item shows a dropdown of that section's parts. The About, Resources and Gallery dropdowns are built from the data files (`aboutTabs` in `src/data/about.js`, the categories in `resources.js`, the albums in `gallery.js`), so they update by themselves. The Home and Events dropdowns are short fixed lists at the top of [src/components/Navbar.jsx](src/components/Navbar.jsx). A menu item with fewer than two parts gets no dropdown. Dropdowns are hidden in the mobile menu.
 
+**Language switcher.** The language dropdown (showing `EN`, `ID` or `繁中`) comes from the `languages` list in [src/i18n.js](src/i18n.js).
+
 ### Change the homepage hero
 
-**File:** [src/config/site.js](src/config/site.js), under `hero`: headline, button label, hero image and the scrolling words. The two logos in the navbar come from `site.logo` and from `logo` in [src/config/cabinet.js](src/config/cabinet.js).
+**File:** [src/config/site.js](src/config/site.js), under `hero`: headline, hero image, and which section the button leads to. The button text and the scrolling words are under `"hero"` in the files in [src/locales/](src/locales/). The two logos in the navbar come from `site.logo` and from `logo` in [src/config/cabinet.js](src/config/cabinet.js).
 
 ---
 
@@ -447,6 +712,7 @@ The website needs **no environment variables**. The only external services are:
 | Service | Used for | Where it is configured |
 | --- | --- | --- |
 | Google Fonts | Fonts | `index.html` |
+| OpenStreetMap | Map images for the campus map | `src/components/CampusMap.jsx` |
 | YouTube | Homepage video (optional) | `featuredVideo` in `src/config/site.js` |
 | A form service (optional) | Contact form delivery | `contact.formEndpoint` in `src/config/site.js` |
 
@@ -489,6 +755,15 @@ External links must be complete and start with `https://`. Test every link after
 **An event is in the wrong list (upcoming or past)**
 Check the `date`. It must be `YYYY-MM-DD` with a four-digit year and two-digit month and day, for example `'2027-04-05'`.
 
+**Some text appears in English although another language is selected**
+That text has no translation yet, so the English fallback is shown. For interface text, fill in the matching line in `src/locales/id.json` or `zh-TW.json`. For content, add the `id:` or `'zh-TW':` line in the data file.
+
+**A word like `nav.home` or `events.title` appears on the page**
+The name on the left side of a line in `src/locales/en.json` was changed or deleted. Restore it. Only the text on the right should be edited.
+
+**The page shows `[object Object]`**
+A multilingual text `{ en: ..., id: ... }` was used where the website expects plain text. Check the file you just edited against the examples in "Languages and translations".
+
 **"View photos" does not appear on an event**
 The album's `eventId` in `gallery.js` must match the event's `id` in `events.js` exactly.
 
@@ -506,6 +781,7 @@ git checkout -- src/data/events.js
 
 ## Notes for developers
 
+- Translation uses `react-i18next`. Interface strings come from `t('key')`; multilingual content from the data files goes through `localize()` / `useLocalize()` in `src/utils/localize.js`. No user-facing string should be hardcoded in JSX.
 - Sections share state through `App.jsx` only where two sections need to talk to each other (see the comment at the top of that file).
 - Each component has its own CSS file next to it. Class names follow the pattern `block__element--modifier`.
 - Pop-ups use the browser's native `<dialog>` element (see `src/components/Modal.jsx`).

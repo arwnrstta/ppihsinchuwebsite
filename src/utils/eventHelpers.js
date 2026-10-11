@@ -1,3 +1,5 @@
+import { languages } from '../i18n.js'
+
 /*
  * Small helper functions for working with the events in src/data/events.js.
  */
@@ -26,12 +28,19 @@ export function getEventYear(event) {
   return Number(event.date.slice(0, 4))
 }
 
-/* '2027-03-14' -> '14 March 2027'. */
-export function formatEventDate(event) {
-  if (!event.date) return 'Date to be announced'
+/*
+ * Writes an event's date in the visitor's language:
+ *   '2027-03-14' -> '14 March 2027' (English), '14 Maret 2027' (Indonesian),
+ *                   '2027年3月14日' (Chinese)
+ * Returns '' when the event has no date yet, so the caller can show its own
+ * "Date to be announced" text.
+ */
+export function formatEventDate(event, languageCode) {
+  if (!event.date) return ''
   const [year, month, day] = event.date.split('-').map(Number)
   const date = new Date(year, month - 1, day)
-  return date.toLocaleDateString('en-GB', {
+  const language = languages.find((item) => item.code === languageCode)
+  return date.toLocaleDateString(language?.dateLocale ?? 'en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

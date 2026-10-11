@@ -47,7 +47,7 @@
 .navbar__menu {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: 1.25rem;
 }
 
 .navbar__links {
@@ -68,6 +68,8 @@
   font-size: 0.92rem;
   font-weight: 500;
   text-decoration: none;
+  /* Menu words never break onto two lines, whatever the language. */
+  white-space: nowrap;
   color: var(--color-gray);
   transition: color var(--duration-fast) var(--ease-smooth);
 }
@@ -157,6 +159,13 @@
   color: var(--color-red);
 }
 
+/* Language switcher and the red button, side by side. */
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
 .navbar__cta {
   min-height: 42px;
   padding: 0.55rem 1.2rem;
@@ -175,7 +184,11 @@
 
 /* ----- Small screens: links move into a drop-down panel ----- */
 
-@media (max-width: 940px) {
+/*
+ * The breakpoint is wide enough for the longest language (Indonesian) to
+ * fit the full menu, the language switcher and the button on one line.
+ */
+@media (max-width: 1120px) {
   .navbar__toggle {
     display: grid;
   }
@@ -220,6 +233,15 @@
 
   .navbar__link::after {
     display: none;
+  }
+
+  /* In the panel: language switcher on the left, button filling the rest. */
+  .navbar__actions {
+    justify-content: space-between;
+  }
+
+  .navbar__cta {
+    flex: 1;
   }
 
   /* The mobile panel shows the main links only. */

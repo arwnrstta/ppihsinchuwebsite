@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Footer from './components/Footer.jsx'
 import Navbar from './components/Navbar.jsx'
 import About from './sections/About.jsx'
@@ -36,6 +37,7 @@ function scrollToSection(sectionId) {
 }
 
 export default function App() {
+  const { t } = useTranslation()
   const [aboutTab, setAboutTab] = useState('who-we-are')
   const [resourceCategoryId, setResourceCategoryId] = useState(resourceCategories[0].id)
   const [openEventId, setOpenEventId] = useState(null)
@@ -74,7 +76,7 @@ export default function App() {
   return (
     <>
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t('common.skipToContent')}
       </a>
       <Navbar onDropdownSelect={handleDropdownSelect} />
       <main id="main-content">

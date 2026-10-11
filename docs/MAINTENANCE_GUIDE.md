@@ -21,13 +21,41 @@ You should almost never need to open the `components` or `sections` folders.
 | Committee names, positions, portraits | `src/data/committee.js` |
 | Past cabinets | `src/data/leadership.js` |
 | Events | `src/data/events.js` |
-| Student resources | `src/data/resources.js` |
+| Student resources and the guidebook tile | `src/data/resources.js` |
 | Photo albums | `src/data/gallery.js` |
+| Schools on the campus map | `src/data/universities.js` |
 | "Who We Are" text | `src/data/about.js` |
-| Social media, contact email, video, AD/ART, menu, hero text | `src/config/site.js` |
+| Social media, contact email, video, AD/ART, menu order | `src/config/site.js` |
+| Menu words, buttons, headings, messages (in each language) | `src/locales/en.json`, `id.json`, `zh-TW.json` |
 | PPI Hsinchu red, fonts, animation speed | `src/styles/variables.css` |
 
 Images go in `public/images/` and documents in `public/documents/`.
+
+## Three languages
+
+The website is in **English, Bahasa Indonesia and Traditional Chinese**. English is the fallback: anything not translated yet simply appears in English, so the site never looks broken.
+
+There are two things to remember.
+
+**1. Content in the data files can be written once per language:**
+
+```js
+title: {
+  en: 'Culture Night',
+  id: 'Malam Budaya',
+  'zh-TW': '文化之夜',
+},
+```
+
+If you only have the English text today, write just `en:` and add the others later.
+
+**2. Menu words, buttons and headings are in `src/locales/`**, one file per language. Change only the text on the right-hand side of each line.
+
+**Never translate:** PPI Hsinchu, the cabinet name, people's names, and official titles.
+
+**Always ask a fluent speaker** to check Indonesian and Chinese text before publishing. Use Traditional Chinese as written in Taiwan.
+
+Full instructions are in the README under "Languages and translations".
 
 ---
 
@@ -57,12 +85,13 @@ File: `src/config/cabinet.js`
 - [ ] `name`, `shortName` and `period`
 - [ ] New cabinet logo saved in `public/images/brand/`, and the `logo` path updated
 - [ ] `colors` changed to the new cabinet's colours
-- [ ] `vision`, `mission` and `philosophy` rewritten
+- [ ] `vision`, `mission` and `philosophy` rewritten in all three languages
 
 File: `src/data/leadership.js`
 
 - [ ] Remove `isCurrent: true` from the previous cabinet
-- [ ] Fill in the previous cabinet's president, photo and highlight while people still remember them
+- [ ] Fill in the previous cabinet's president, photo and slogan while people still remember them
+- [ ] **Before** changing `src/data/committee.js`, copy the previous cabinet's member names and positions into its `divisions` in `leadership.js`. The current cabinet's list is read from `committee.js`, so it disappears once that file is replaced
 - [ ] Add a new record for your cabinet at the bottom of the list, with `isCurrent: true`
 
 ### 2. Update committee profiles
@@ -71,6 +100,8 @@ File: `src/data/committee.js`
 
 - [ ] Every name and position updated
 - [ ] Divisions added, renamed or removed to match your structure
+- [ ] Each division has its official Indonesian `name` plus a `translatedName` in English and Chinese
+- [ ] Any new position title added under `"positions"` in the three files in `src/locales/`
 - [ ] New cutout portraits saved in `public/images/committee/` and linked
 - [ ] Old portraits that are no longer used deleted from the folder
 
@@ -94,6 +125,7 @@ Click every link on the website and fix or remove any that are broken.
 - [ ] Nothing to move: events become "past" automatically once their date has passed
 - [ ] Rewrite the descriptions of finished events in the past tense
 - [ ] Remove registration links from finished events (`registrationUrl: ''`)
+- [ ] Add each finished event's Google Drive folder link as its `documentationUrl` (folder shared as "Anyone with the link")
 - [ ] Add a photo album for each finished event
 
 ### 6. Add upcoming events
@@ -101,6 +133,7 @@ Click every link on the website and fix or remove any that are broken.
 File: `src/data/events.js`
 
 - [ ] Each planned event added with date, venue and poster
+- [ ] Title, summary and description written in all three languages (English at minimum)
 - [ ] Registration links tested
 
 ### 7. Update student resources
@@ -111,6 +144,10 @@ File: `src/data/resources.js`
 - [ ] Restaurants and shops that have closed removed; new ones added
 - [ ] `needsVerification: true` removed only from items you have personally checked
 
+- [ ] The schools on the campus map (`src/data/universities.js`) still match where members study, and each website link works
+
+- [ ] The guidebook tile (`guidebook` in `src/data/resources.js`) points to the latest volume, with its cover as the thumbnail
+
 ### 8. Verify contact information
 
 File: `src/config/site.js`
@@ -120,6 +157,9 @@ File: `src/config/site.js`
 - [ ] Send a test message through the website and confirm it arrives
 
 ### 9. Test website responsiveness
+
+- [ ] Use the language dropdown to switch between EN, ID and 繁中, and read through every section in each language
+- [ ] No text is left in the wrong language, and no long word is cut off or overlapping
 
 - [ ] Open the site on a phone, a tablet and a computer
 - [ ] On a computer, you can also press **F12** in the browser, then click the phone/tablet icon to preview different screen sizes
@@ -167,6 +207,7 @@ Things to notice:
 - The path starts with `/images/`, not `public/images/`.
 - The quotes and the comma at the end of the line are still there.
 - You did not need to change any other file.
+- The name is never translated. The position `'Ketua'` stays in Indonesian here; visitors using English or Chinese automatically see "President" or 「會長」.
 
 ---
 
@@ -182,19 +223,32 @@ Things to notice:
 export const events = [
   {
     id: 'malam-budaya-2027',
-    title: 'Malam Budaya',
+    title: {
+      en: 'Culture Night',
+      id: 'Malam Budaya',
+      'zh-TW': '文化之夜',
+    },
     date: '2027-05-22',
     time: '18:30 - 21:30',
     venue: 'Venue name, Hsinchu',
-    organizer: 'PPI Hsinchu, Divisi Sosial dan Budaya',
-    summary: 'An evening of Indonesian music, dance, and food.',
-    description:
-      'Join us for our annual culture night, with performances by students from across Hsinchu and a shared Indonesian dinner.',
+    organizer: 'PPI Hsinchu',
+    summary: {
+      en: 'An evening of Indonesian music, dance, and food.',
+      id: 'Malam penuh musik, tari, dan kuliner Indonesia.',
+      'zh-TW': '一個充滿印尼音樂、舞蹈與美食的夜晚。',
+    },
+    description: {
+      en: 'Join us for our annual culture night, with performances by students from across Hsinchu and a shared Indonesian dinner.',
+      id: 'Bergabunglah dalam malam budaya tahunan kami, dengan penampilan mahasiswa dari seluruh Hsinchu dan makan malam khas Indonesia bersama.',
+      'zh-TW': '歡迎參加我們的年度文化之夜，有來自新竹各校學生的表演，以及一起享用的印尼晚餐。',
+    },
     poster: '/images/events/malam-budaya-2027.jpg',
     registrationUrl: 'https://forms.gle/your-form-link',
   },
   // ...the other events stay below
 ```
+
+Short on time? Write only the `en:` lines. The event appears in English in every language until you add the others.
 
 **Step 3.** Save and check the **Events** section. If this is the nearest upcoming event, it appears as the large featured card. The homepage card updates too.
 
@@ -205,6 +259,8 @@ Things to notice:
 - `id` is unique and has no spaces.
 - The date is written year-month-day: `2027-05-22`.
 - The block starts with `{` and ends with `},`.
+- `'zh-TW'` is written with quotes because it contains a hyphen.
+- The date is not translated by you: the website writes it correctly in each language.
 
 ---
 
@@ -213,6 +269,7 @@ Things to notice:
 - **Change one thing at a time**, then check the website. Mistakes are much easier to find.
 - **Keep images small.** Large photos make the website slow, especially on phones. Aim for under 400 KB each.
 - **Use simple file names**: lowercase, hyphens, no spaces.
+- **Translate carefully.** Do not paste from an automatic translator without a fluent speaker checking it. A missing translation (shown in English) is better than a wrong one.
 - **Do not publish unverified information**, especially about immigration, insurance or scholarships. Link to the official source instead.
 - **Ask permission** before publishing photos of people.
 - **Save your work with Git** (or keep a dated copy of the project folder) before making big changes, so you can go back.

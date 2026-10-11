@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { contact, site } from '../config/site.js'
+import { useTranslation } from 'react-i18next'
+import { contact } from '../config/site.js'
 import { contactFormTypes } from '../data/contactForms.js'
+import { useLocalize } from '../utils/localize.js'
 import Icon from './Icon.jsx'
 import Tabs from './Tabs.jsx'
 import './ContactForm.css'
@@ -9,9 +11,9 @@ import './ContactForm.css'
  * CONTACT FORM
  * ------------
  * One form with two modes: "Student / General" and "Sponsorship /
- * Partnership". The fields for each mode are listed in
- * src/data/contactForms.js, and this component draws whichever list is
- * selected.
+ * Partnership". The fields for each mode (and their labels in every
+ * language) are listed in src/data/contactForms.js, and this component
+ * draws whichever list is selected.
  *
  * WHERE DOES THE MESSAGE GO?  (BACKEND INTEGRATION POINT)
  * This website has no server, so delivery depends on "contact" in
@@ -26,29 +28,39 @@ import './ContactForm.css'
  *   neither set              -> the Send button is disabled.
  *
  * The form never claims a message was sent unless a service confirmed it.
+ *
+ * LANGUAGES
+ * Errors are stored as a "kind" ('required' or 'email'), not as finished
+ * sentences, so they switch language together with the rest of the page.
+ * The matching sentences are in src/locales/, under "contact" -> "form".
  */
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-/* Checks one field and returns an error message, or '' if it is fine. */
-function validateField(field, value) {
+/* Checks one field and returns 'required', 'email', or '' if it is fine. */
+function getErrorKind(field, value) {
   const trimmedValue = (value ?? '').trim()
-  if (field.required && !trimmedValue) return `Please enter ${field.label.toLowerCase()}.`
+  if (field.required && !trimmedValue) return 'required'
   if (field.type === 'email' && trimmedValue && !emailPattern.test(trimmedValue)) {
-    return 'Please enter a valid email address.'
+    return 'email'
   }
   return ''
 }
 
 export default function ContactForm() {
+  const { t } = useTranslation()
+  const localizeText = useLocalize()
+
   const [formTypeId, setFormTypeId] = useState(contactFormTypes[0].id)
   // What the visitor has typed, kept separately for each form type.
   const [valuesByType, setValuesByType] = useState({})
-  const [errors, setErrors] = useState({})
-  // status.kind is 'idle', 'sending', 'success', 'email-opened' or 'error'.
-  const [status, setStatus] = useState({ kind: 'idle' })
+  // For each field name: 'required', 'email' or ''.
+  const [errorKinds, setErrorKinds] = useState({})
+  // status is 'idle', 'sending', 'success', 'email-opened' or 'error'.
+  const [status, setStatus] = useState('idle')
 
   const formType = contactFormTypes.find((type) => type.id === formTypeId)
+  const formTitle = localizeText(formType.title)
   const values = valuesByType[formTypeId] ?? {}
 
   const deliveryMethod = contact.formEndpoint
@@ -59,8 +71,8 @@ export default function ContactForm() {
 
   function switchFormType(newTypeId) {
     setFormTypeId(newTypeId)
-    setErrors({})
-    setStatus({ kind: 'idle' })
+    setErrorKinds({})
+    setStatus('idle')
   }
 
   function updateValue(fieldName, newValue) {
@@ -69,33 +81,33 @@ export default function ContactForm() {
       [formTypeId]: { ...values, [fieldName]: newValue },
     })
     // Clear this field's error as soon as the visitor starts fixing it.
-    if (errors[fieldName]) setErrors({ ...errors, [fieldName]: '' })
+    if (errorKinds[fieldName]) setErrorKinds({ ...errorKinds, [fieldName]: '' })
   }
 
   /* Option 1: send to an online form service. */
   async function sendToEndpoint() {
-    setStatus({ kind: 'sending' })
+    setStatus('sending')
     try {
       const response = await fetch(contact.formEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ inquiryType: formType.title, ...values }),
+        body: JSON.stringify({ inquiryType: formTitle, ...values }),
       })
       if (!response.ok) throw new Error(`Form service answered ${response.status}`)
 
-      setStatus({ kind: 'success' })
+      setStatus('success')
       setValuesByType({ ...valuesByType, [formTypeId]: {} })
     } catch {
-      setStatus({ kind: 'error' })
+      setStatus('error')
     }
   }
 
   /* Option 2: open the visitor's email app with the message written out. */
   function openEmailApp() {
-    const subject = values.subject || `${formType.title} via ${site.name} website`
+    const subject = values.subject || t('contact.form.emailSubject', { type: formTitle })
     const bodyLines = formType.fields
       .filter((field) => field.name !== 'subject' && values[field.name])
-      .map((field) => `${field.label}: ${values[field.name]}`)
+      .map((field) => `${localizeText(field.label)}: ${values[field.name]}`)
 
     const mailtoLink =
       `mailto:${contact.email}` +
@@ -103,20 +115,20 @@ export default function ContactForm() {
       `&body=${encodeURIComponent(bodyLines.join('\n\n'))}`
     window.location.assign(mailtoLink)
 
-    setStatus({ kind: 'email-opened' })
+    setStatus('email-opened')
   }
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    const newErrors = {}
+    const newErrorKinds = {}
     formType.fields.forEach((field) => {
-      const errorMessage = validateField(field, values[field.name])
-      if (errorMessage) newErrors[field.name] = errorMessage
+      const errorKind = getErrorKind(field, values[field.name])
+      if (errorKind) newErrorKinds[field.name] = errorKind
     })
-    setErrors(newErrors)
+    setErrorKinds(newErrorKinds)
 
-    const firstInvalidField = formType.fields.find((field) => newErrors[field.name])
+    const firstInvalidField = formType.fields.find((field) => newErrorKinds[field.name])
     if (firstInvalidField) {
       // Move the cursor to the first problem so it is easy to fix.
       document.getElementById(`contact-${formTypeId}-${firstInvalidField.name}`)?.focus()
@@ -127,13 +139,25 @@ export default function ContactForm() {
     else if (deliveryMethod === 'email') openEmailApp()
   }
 
+  /* Turns an error kind into a sentence in the visitor's language. */
+  function getErrorMessage(field) {
+    const errorKind = errorKinds[field.name]
+    if (!errorKind) return ''
+    return t(`contact.form.errors.${errorKind}`, { field: localizeText(field.label) })
+  }
+
+  const formTypeTabs = contactFormTypes.map((type) => ({
+    id: type.id,
+    label: localizeText(type.label),
+  }))
+
   return (
     <div className="contact-form">
       <Tabs
-        tabs={contactFormTypes}
+        tabs={formTypeTabs}
         activeId={formTypeId}
         onChange={switchFormType}
-        label="Type of inquiry"
+        label={t('contact.form.typeLabel')}
         idPrefix="contact"
       />
 
@@ -148,7 +172,7 @@ export default function ContactForm() {
         // Turns off the browser's own pop-up messages; ours are shown instead.
         noValidate
       >
-        <h3 className="contact-form__title">{formType.title}</h3>
+        <h3 className="contact-form__title">{formTitle}</h3>
 
         <div className="contact-form__fields">
           {formType.fields.map((field) => (
@@ -157,7 +181,7 @@ export default function ContactForm() {
               field={field}
               inputId={`contact-${formTypeId}-${field.name}`}
               value={values[field.name] ?? ''}
-              error={errors[field.name]}
+              error={getErrorMessage(field)}
               onChange={(newValue) => updateValue(field.name, newValue)}
             />
           ))}
@@ -167,39 +191,37 @@ export default function ContactForm() {
           <button
             type="submit"
             className="button button--primary"
-            disabled={deliveryMethod === 'none' || status.kind === 'sending'}
+            disabled={deliveryMethod === 'none' || status === 'sending'}
           >
-            {status.kind === 'sending' ? 'Sending…' : 'Send message'}
+            {status === 'sending' ? t('contact.form.sending') : t('contact.form.send')}
             <Icon name="arrowRight" size={18} />
           </button>
 
           <p className="contact-form__delivery-note">
-            {deliveryMethod === 'endpoint' && 'Your message is sent securely to the PPI Hsinchu team.'}
-            {deliveryMethod === 'email' &&
-              'This opens your email app with your message ready to send.'}
-            {deliveryMethod === 'none' &&
-              'Online messaging is not connected yet. Contact details will be added here soon.'}
+            {deliveryMethod === 'endpoint' && t('contact.form.deliveryEndpoint')}
+            {deliveryMethod === 'email' && t('contact.form.deliveryEmail')}
+            {deliveryMethod === 'none' && t('contact.form.deliveryNone')}
           </p>
         </div>
 
         {/* role="status" makes screen readers announce the result. */}
         <div role="status" className="contact-form__status">
-          {status.kind === 'success' && (
+          {status === 'success' && (
             <p className="contact-form__message contact-form__message--success">
-              Thank you. Your message has been sent and we will reply by email.
+              {t('contact.form.success')}
             </p>
           )}
-          {status.kind === 'email-opened' && (
+          {status === 'email-opened' && (
             <p className="contact-form__message">
-              Your email app should now be open with your message. Press Send
-              there to deliver it. If nothing opened, email us directly at{' '}
-              <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+              {t('contact.form.emailOpened')}{' '}
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
             </p>
           )}
-          {status.kind === 'error' && (
+          {status === 'error' && (
             <p className="contact-form__message contact-form__message--error">
-              Sorry, your message could not be sent. Please try again later
-              {contact.email ? ` or email us at ${contact.email}.` : '.'}
+              {contact.email
+                ? t('contact.form.errorWithEmail', { email: contact.email })
+                : t('contact.form.error')}
             </p>
           )}
         </div>
@@ -210,6 +232,8 @@ export default function ContactForm() {
 
 /* One labelled input, dropdown or text area, with its error message. */
 function FormField({ field, inputId, value, error, onChange }) {
+  const { t } = useTranslation()
+  const localizeText = useLocalize()
   const errorId = `${inputId}-error`
 
   // Settings shared by every kind of input.
@@ -226,8 +250,10 @@ function FormField({ field, inputId, value, error, onChange }) {
   return (
     <div className={`form-field ${field.wide ? 'form-field--wide' : ''}`}>
       <label htmlFor={inputId} className="form-field__label">
-        {field.label}
-        {!field.required && <span className="form-field__optional"> (optional)</span>}
+        {localizeText(field.label)}
+        {!field.required && (
+          <span className="form-field__optional"> {t('contact.form.optional')}</span>
+        )}
       </label>
 
       {field.type === 'textarea' && (
@@ -236,12 +262,15 @@ function FormField({ field, inputId, value, error, onChange }) {
 
       {field.type === 'select' && (
         <select {...sharedProps} className="form-field__input select">
-          <option value="">Please choose</option>
-          {field.options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+          <option value="">{t('contact.form.choose')}</option>
+          {field.options.map((option, index) => {
+            const optionText = localizeText(option)
+            return (
+              <option key={index} value={optionText}>
+                {optionText}
+              </option>
+            )
+          })}
         </select>
       )}
 

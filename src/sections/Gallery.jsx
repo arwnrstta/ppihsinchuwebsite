@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import GalleryGrid from '../components/GalleryGrid.jsx'
 import Icon from '../components/Icon.jsx'
 import Lightbox from '../components/Lightbox.jsx'
@@ -8,6 +9,7 @@ import SectionHeading from '../components/SectionHeading.jsx'
 import Tabs from '../components/Tabs.jsx'
 import { events } from '../data/events.js'
 import { albums } from '../data/gallery.js'
+import { useLocalize } from '../utils/localize.js'
 import './Gallery.css'
 
 /*
@@ -24,29 +26,40 @@ import './Gallery.css'
  * straight to its album.
  */
 export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent }) {
+  const { t } = useTranslation()
+  const localizeText = useLocalize()
   // Position of the photo open in the lightbox, or null when it is closed.
   const [lightboxIndex, setLightboxIndex] = useState(null)
 
   const albumTabs = [
-    { id: 'all', label: 'All photos' },
+    { id: 'all', label: t('gallery.allPhotos') },
     ...albums.map((album) => ({
       id: album.id,
-      label: `${album.title} · ${album.year}`,
+      label: `${localizeText(album.title)} · ${album.year}`,
     })),
   ]
 
   const selectedAlbum = albums.find((album) => album.id === selectedAlbumId)
   const visibleAlbums = selectedAlbum ? [selectedAlbum] : albums
 
-  // One flat list of photos, each remembering which album it belongs to.
+  /*
+   * One flat list of photos. Each photo's texts are put into the visitor's
+   * language here, so GalleryGrid and Lightbox can simply display them.
+   */
   const visiblePhotos = visibleAlbums.flatMap((album) =>
-    album.photos.map((photo) => ({ ...photo, albumTitle: album.title })),
+    album.photos.map((photo) => ({
+      src: photo.src,
+      alt: localizeText(photo.alt),
+      caption: localizeText(photo.caption),
+      albumTitle: localizeText(album.title),
+    })),
   )
 
   const linkedEvent = selectedAlbum
     ? events.find((event) => event.id === selectedAlbum.eventId)
     : null
   const hasSamplePhotos = visibleAlbums.some((album) => album.isSample)
+  const albumDescription = selectedAlbum ? localizeText(selectedAlbum.description) : ''
 
   function selectAlbum(albumId) {
     setLightboxIndex(null)
@@ -62,9 +75,9 @@ export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent })
       <div className="container">
         <SectionHeading
           number="04"
-          label="Photo gallery"
-          title="The moments in between."
-          description="A collection of the faces, places, and little memories that make this community ours."
+          label={t('gallery.label')}
+          title={t('gallery.title')}
+          description={t('gallery.description')}
           headingId="gallery-title"
         />
 
@@ -73,11 +86,13 @@ export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent })
             tabs={albumTabs}
             activeId={selectedAlbum ? selectedAlbum.id : 'all'}
             onChange={selectAlbum}
-            label="Filter photos by album"
+            label={t('gallery.filterLabel')}
             idPrefix="gallery"
             mobileSelect
           />
-          {hasSamplePhotos && <PlaceholderBadge>Placeholder stock photos</PlaceholderBadge>}
+          {hasSamplePhotos && (
+            <PlaceholderBadge>{t('gallery.placeholderPhotos')}</PlaceholderBadge>
+          )}
         </Reveal>
 
         <div
@@ -91,10 +106,10 @@ export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent })
           {selectedAlbum && (
             <div className="gallery__album">
               <div>
-                <h3 className="gallery__album-title">{selectedAlbum.title}</h3>
+                <h3 className="gallery__album-title">{localizeText(selectedAlbum.title)}</h3>
                 <p className="gallery__album-description">
                   {selectedAlbum.year}
-                  {selectedAlbum.description && ` · ${selectedAlbum.description}`}
+                  {albumDescription && ` · ${albumDescription}`}
                 </p>
               </div>
               {linkedEvent && (
@@ -104,7 +119,7 @@ export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent })
                   onClick={() => onOpenEvent(linkedEvent.id)}
                 >
                   <Icon name="calendar" size={18} />
-                  View event: {linkedEvent.title}
+                  {t('gallery.viewEvent', { title: localizeText(linkedEvent.title) })}
                 </button>
               )}
             </div>
@@ -113,7 +128,7 @@ export default function Gallery({ selectedAlbumId, onSelectAlbum, onOpenEvent })
           {visiblePhotos.length > 0 ? (
             <GalleryGrid photos={visiblePhotos} onOpenPhoto={setLightboxIndex} />
           ) : (
-            <p className="gallery__empty">Photos will be added here soon.</p>
+            <p className="gallery__empty">{t('gallery.empty')}</p>
           )}
         </div>
       </div>

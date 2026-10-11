@@ -103,6 +103,15 @@
   color: var(--color-red);
 }
 
+.event-card__fee {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+
 .event-card__title {
   font-size: 1.3rem;
 }
@@ -127,6 +136,42 @@
 .event-card:hover .event-card__button {
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/*
+ * The documentation button. "position: relative" and "z-index" lift it above
+ * the card's stretched click area, so it can be clicked on its own.
+ */
+.event-card__documentation {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border: 1.5px solid var(--color-charcoal);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+a.event-card__documentation:hover {
+  background: var(--color-charcoal);
+  color: var(--color-white);
+}
+
+/* Shown while no link has been added yet. */
+.event-card__documentation.is-unavailable {
+  border-style: dashed;
+  border-color: var(--color-line);
+  color: var(--color-gray);
+  font-weight: 500;
 }
 
 .event-card__summary {

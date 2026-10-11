@@ -1,0 +1,104 @@
+/* Cover picture on the left, text on the right, on a dark red card. */
+.guidebook-tile {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  overflow: hidden;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: var(--radius-large);
+  background: var(--gradient-dark);
+  color: var(--color-white);
+  text-decoration: none;
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    box-shadow var(--duration-medium) var(--ease-smooth);
+}
+
+.guidebook-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-raised);
+}
+
+/* Soft red glow in the corner, matching the featured event card. */
+.guidebook-tile::before {
+  content: '';
+  position: absolute;
+  top: -45%;
+  right: -12%;
+  width: 55%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(206 17 38 / 0.45), transparent 65%);
+  pointer-events: none;
+}
+
+/* The cover is tilted slightly and straightens when the tile is hovered. */
+.guidebook-tile__cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-small);
+  box-shadow: 0 24px 48px rgb(0 0 0 / 0.4);
+  transform: rotate(-3deg);
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.guidebook-tile:hover .guidebook-tile__cover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.guidebook-tile__cover img {
+  width: 100%;
+  height: auto;
+  /* Any thumbnail is shown in the shape of a book page (A4, portrait). */
+  aspect-ratio: 990 / 1400;
+  object-fit: cover;
+}
+
+.guidebook-tile__body {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.guidebook-tile__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.guidebook-tile__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.guidebook-tile__description {
+  max-width: 50ch;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  color: rgb(255 255 255 / 0.82);
+}
+
+.guidebook-tile__button {
+  margin-top: 0.5rem;
+}
+
+.guidebook-tile:hover .guidebook-tile__button svg {
+  transform: translateX(3px);
+}
+
+/* Phones: cover on top, text underneath. */
+@media (max-width: 640px) {
+  .guidebook-tile {
+    grid-template-columns: 1fr;
+  }
+
+  .guidebook-tile__cover {
+    max-width: 210px;
+  }
+}

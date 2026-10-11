@@ -1,0 +1,79 @@
+.campuses {
+  display: grid;
+  /* minmax(0, 1fr) stops wide content from stretching the page sideways. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* The cards under the map. As many columns as fit, at least 250px each. */
+.campuses__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.campus-card {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  height: 100%;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-cream);
+  text-decoration: none;
+  transition:
+    transform var(--duration-fast) var(--ease-smooth),
+    border-color var(--duration-fast) var(--ease-smooth),
+    box-shadow var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth);
+}
+
+.campus-card:hover,
+.campus-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--color-red);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+}
+
+.campus-card__short-name {
+  justify-self: start;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-red);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.campus-card__name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.campus-card__area {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+  color: var(--color-gray);
+}
+
+.campus-card__area svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.campus-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-red);
+}

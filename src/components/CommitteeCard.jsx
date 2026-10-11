@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { assetPath } from '../utils/assetPath.js'
 import './CommitteeCard.css'
 
@@ -15,11 +16,20 @@ import './CommitteeCard.css'
  *   watermark - the faint vertical word behind the portrait (division name)
  *   index     - position in the grid, used to stagger the entrance animation
  *
+ * LANGUAGES
+ *   - The member's name is never translated.
+ *   - The position is written in Indonesian in the data file. Its English
+ *     and Chinese versions come from "positions" in src/locales/. A position
+ *     that is not listed there is shown exactly as written.
+ *
  * If a member has no photo yet, a neutral silhouette is shown instead.
  * If a member has no name yet, "Name to be announced" is shown.
  */
 export default function CommitteeCard({ member, watermark, index = 0 }) {
-  const displayName = member.name || 'Name to be announced'
+  const { t } = useTranslation()
+  const displayName = member.name || t('about.committee.nameTba')
+  // defaultValue is used when no translation exists for this position.
+  const position = t(`positions.${member.position}`, { defaultValue: member.position })
 
   return (
     <article className="committee-card" style={{ '--card-index': index }}>
@@ -31,7 +41,7 @@ export default function CommitteeCard({ member, watermark, index = 0 }) {
         <img
           className="committee-card__portrait"
           src={assetPath(member.photo)}
-          alt={`Portrait of ${displayName}`}
+          alt={t('about.committee.portraitAlt', { name: displayName })}
           loading="lazy"
         />
       ) : (
@@ -45,7 +55,7 @@ export default function CommitteeCard({ member, watermark, index = 0 }) {
         <h4 className={`committee-card__name ${member.name ? '' : 'is-placeholder'}`}>
           {displayName}
         </h4>
-        <p className="committee-card__position">{member.position}</p>
+        <p className="committee-card__position">{position}</p>
       </div>
     </article>
   )

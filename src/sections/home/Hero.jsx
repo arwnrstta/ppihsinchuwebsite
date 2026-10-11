@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Icon from '../../components/Icon.jsx'
 import { hero, site } from '../../config/site.js'
 import { assetPath } from '../../utils/assetPath.js'
@@ -13,17 +14,24 @@ import './Hero.css'
  *   4. One button in the middle of the image
  * followed by the scrolling band of words.
  *
- * All text and images come from "site" and "hero" in src/config/site.js.
+ * Names and images come from "site" and "hero" in src/config/site.js.
+ * The button text and scrolling words are translated in src/locales/,
+ * under "hero". The organisation's names are never translated.
  */
 export default function Hero() {
+  const { t } = useTranslation()
   const [chineseLeft, chineseRight] = site.chineseNameParts
+  // returnObjects lets a translation be a list of words instead of one text.
+  const marqueeWords = t('hero.marquee', { returnObjects: true })
 
   return (
     <section id="home" className="hero" aria-labelledby="hero-title">
       <div className="container">
         {/* "hero__inner" is a size container: the headline scales with its width. */}
         <div className="hero__inner">
-          <p className="hero__subtitle">{site.fullName}</p>
+          <p className="hero__subtitle" lang="id">
+            {site.fullName}
+          </p>
 
           <h1 id="hero-title" className="hero__title">
             {hero.headline}
@@ -43,22 +51,19 @@ export default function Hero() {
           // Small screens load the small file; large screens load the sharp one.
           srcSet={`${assetPath(hero.image)} 1024w, ${assetPath(hero.imageLarge)} 2048w`}
           sizes="(max-width: 700px) 160vw, 100vw"
-          alt={hero.imageAlt}
+          alt={t('hero.imageAlt')}
           width="2048"
           height="1251"
           fetchPriority="high"
         />
 
-        <a
-          href={`#${hero.primaryButton.sectionId}`}
-          className="button button--primary hero__button"
-        >
-          {hero.primaryButton.label}
+        <a href={`#${hero.buttonSectionId}`} className="button button--primary hero__button">
+          {t('hero.button')}
           <Icon name="arrowRight" size={20} />
         </a>
       </div>
 
-      <Marquee words={hero.marqueeWords} />
+      <Marquee words={marqueeWords} />
     </section>
   )
 }

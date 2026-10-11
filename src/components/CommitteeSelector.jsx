@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Tabs from './Tabs.jsx'
 
 /*
@@ -13,11 +14,16 @@ import Tabs from './Tabs.jsx'
  *   divisions        - the list from src/data/committee.js
  *   activeDivisionId - id of the division being shown
  *   onChange         - called with the new division id
+ *
+ * The buttons show the translated division name in English and Chinese,
+ * and the short Indonesian name in Indonesian.
  */
 export default function CommitteeSelector({ divisions, activeDivisionId, onChange }) {
+  const { t, i18n } = useTranslation()
+
   const divisionTabs = divisions.map((division) => ({
     id: division.id,
-    label: division.shortName,
+    label: division.translatedName?.[i18n.language] || division.shortName,
   }))
 
   return (
@@ -25,7 +31,7 @@ export default function CommitteeSelector({ divisions, activeDivisionId, onChang
       tabs={divisionTabs}
       activeId={activeDivisionId}
       onChange={onChange}
-      label="Committee divisions"
+      label={t('about.committee.selectorLabel')}
       idPrefix="committee"
       tone="cabinet"
       mobileSelect

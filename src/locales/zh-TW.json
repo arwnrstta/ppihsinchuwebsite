@@ -1,0 +1,262 @@
+{
+  "common": {
+    "skipToContent": "跳至主要內容",
+    "opensNewTab": "（在新分頁開啟）",
+    "comingSoon": "即將推出",
+    "close": "關閉",
+    "sample": "範例",
+    "draftCopy": "暫定文案"
+  },
+  "language": {
+    "label": "語言"
+  },
+  "nav": {
+    "home": "首頁",
+    "about": "關於我們",
+    "events": "活動",
+    "resources": "學生資源",
+    "gallery": "相簿",
+    "connect": "聯絡我們",
+    "mainLabel": "主選單",
+    "openMenu": "開啟選單",
+    "closeMenu": "關閉選單",
+    "sectionsOf": "{{section}}的子項目",
+    "dropdown": {
+      "welcome": "歡迎",
+      "highlight": "社群精選",
+      "startHere": "從這裡開始",
+      "upcomingEvent": "即將舉行的活動",
+      "eventArchive": "活動紀錄",
+      "allPhotos": "所有照片"
+    }
+  },
+  "hero": {
+    "button": "探索我們的社群",
+    "imageAlt": "新竹的歷史城門，有著紅色屋瓦",
+    "marquee": ["社群", "文化", "連結", "新竹", "印尼"]
+  },
+  "video": {
+    "eyebrow": "社群精選",
+    "title": "新竹生活，動態呈現。",
+    "description": "一窺那些讓這個社群有家的感覺的聚會、慶典與日常片刻。",
+    "coverAlt": "戶外的社群聚會",
+    "play": "播放影片",
+    "comingSoon": "精選影片即將推出"
+  },
+  "previews": {
+    "eyebrow": "從這裡開始",
+    "title": "PPI Hsinchu 的一切，盡在這裡。",
+    "about": {
+      "label": "關於我們",
+      "title": "無論你來自哪裡，這裡都有你的位置。",
+      "text": "我們是誰、我們的理念，以及我們的組織方式。"
+    },
+    "events": {
+      "label": "即將舉行的活動",
+      "fallbackTitle": "聚在一起，好事就會發生。",
+      "fallbackText": "新活動將在這裡公布。"
+    },
+    "community": {
+      "label": "我們的社群",
+      "title": "認識 {{cabinet}}。",
+      "text": "{{members}} 位學生志工，分屬 {{teams}} 個團隊，讓這個社群緊密相連。"
+    },
+    "gallery": {
+      "label": "相簿",
+      "title": "那些其間的片刻。",
+      "text": "{{count}} 張照片，記錄著屬於我們社群的面孔、地方與回憶。"
+    }
+  },
+  "about": {
+    "label": "關於我們",
+    "title": "一個社群，許多故事。",
+    "description": "認識 PPI Hsinchu：我們是誰、指引我們的理念，以及讓這一切成真的人們。",
+    "tabsLabel": "關於 PPI Hsinchu",
+    "tabs": {
+      "who-we-are": "我們是誰",
+      "campuses": "我們的校園",
+      "vision-mission": "願景、使命與理念",
+      "ad-art": "組織章程 (AD/ART)",
+      "committee": "幹部團隊",
+      "leadership": "歷屆領導團隊"
+    },
+    "campuses": {
+      "eyebrow": "我們就讀的學校",
+      "heading": "一個社群，橫跨多所校園。",
+      "intro": "我們的成員就讀於新竹及鄰近地區的 {{count}} 所大學。將游標移到標記上即可查看學校，點擊則可前往學校網站。",
+      "mapLabel": "PPI Hsinchu 成員就讀大學的地圖",
+      "clickToVisit": "點擊前往網站",
+      "visitWebsite": "前往網站",
+      "zoomIn": "放大",
+      "zoomOut": "縮小",
+      "resetView": "顯示所有大學"
+    },
+    "vision": {
+      "currentCabinet": "本屆內閣",
+      "note": "引領我們今年工作的理念，從長遠的願景到內閣名稱背後的意義。",
+      "visionTitle": "願景",
+      "missionTitle": "使命",
+      "philosophyTitle": "內閣理念"
+    },
+    "adArt": {
+      "view": "查看 AD/ART (PDF)",
+      "comingSoon": "AD/ART PDF · 即將推出",
+      "lastUpdated": "最後更新：{{date}}"
+    },
+    "committee": {
+      "heading": "因為有用心的人，才有這一切。",
+      "intro": "認識這 {{count}} 位讓社群緊密相連的學生志工。請選擇組別以查看其成員。",
+      "selectorLabel": "幹部組別",
+      "members_other": "{{count}} 位成員",
+      "placeholders": "部分姓名與照片即將公布",
+      "nameTba": "姓名待公布",
+      "portraitAlt": "{{name}} 的照片"
+    },
+    "leadership": {
+      "eyebrow": "我們的歷史",
+      "heading": "每一屆內閣都留下了足跡。",
+      "intro": "PPI Hsinchu 由一代又一代的學生傳承下來。逐年瀏覽，認識塑造這個組織的歷屆內閣。",
+      "chooseYear": "選擇年度",
+      "previousYear": "上一年度",
+      "nextYear": "下一年度",
+      "photoTba": "照片待補",
+      "photoAlt": "{{cabinet}}，{{year}}",
+      "photoAltFallback": "PPI Hsinchu 領導團隊",
+      "currentCabinet": "本屆內閣",
+      "toVerify": "資料待確認",
+      "cabinetTba": "內閣名稱待補",
+      "president": "會長 (Ketua)",
+      "term": "任期",
+      "tba": "待補",
+      "slogan": "口號",
+      "viewMembers": "查看內閣成員",
+      "membersOf": "{{cabinet}} 成員",
+      "membersTba": "成員名單待補。"
+    }
+  },
+  "positions": {
+    "Ketua": "會長",
+    "Koordinator": "總召",
+    "Wakil Ketua": "副會長",
+    "Wakil Koordinator": "副總召",
+    "Sekretaris": "秘書",
+    "Bendahara": "財務",
+    "Wakil Koordinator 1": "第一副總召",
+    "Wakil Koordinator 2": "第二副總召",
+    "Sekretaris 1": "第一秘書",
+    "Sekretaris 2": "第二秘書",
+    "Bendahara 1": "第一財務",
+    "Bendahara 2": "第二財務",
+    "Ketua Divisi": "組長",
+    "Anggota": "組員",
+    "Penasihat": "顧問"
+  },
+  "events": {
+    "label": "近期動態",
+    "title": "聚在一起，好事就會發生。",
+    "description": "從一起吃飯到新的傳統，總有相聚的理由。",
+    "upcoming": "即將舉行",
+    "nextEvent": "下一場活動",
+    "sample": "範例活動",
+    "dateTba": "日期待公布",
+    "venueTba": "地點待公布",
+    "viewDetails": "查看詳情",
+    "register": "報名",
+    "registerNow": "立即報名",
+    "registrationOpensSoon": "即將開放報名",
+    "viewDocumentation": "查看活動紀錄",
+    "documentationSoon": "活動紀錄即將上傳",
+    "noUpcoming": "目前沒有即將舉行的活動，新的日期將在這裡公布。",
+    "archiveTitle": "活動紀錄",
+    "filterStatusLabel": "依狀態篩選活動",
+    "filterYearLabel": "依年份篩選活動",
+    "filters": {
+      "past": "過往活動",
+      "upcoming": "即將舉行",
+      "all": "所有活動"
+    },
+    "allYears": "所有年份",
+    "noResults": "目前沒有符合條件的活動。",
+    "posterAlt": "{{title}} 的海報",
+    "posterSoon": "海報即將推出",
+    "detail": {
+      "label": "活動詳情：{{title}}",
+      "past": "過往活動",
+      "date": "日期",
+      "time": "時間",
+      "venue": "地點",
+      "fee": "費用",
+      "organizer": "主辦單位",
+      "registrationSoon": "報名資訊即將公布。",
+      "viewPhotos": "查看照片"
+    }
+  },
+  "resources": {
+    "guidebook": {
+      "label": "生活指南",
+      "read": "閱讀指南"
+    },
+    "label": "學生資源",
+    "title": "小事情，大不同。",
+    "description": "有前人的經驗，安頓下來會更容易。為在新竹的印尼學生準備的實用指南。",
+    "search": "搜尋所有資源",
+    "categoriesLabel": "資源分類",
+    "notice": "內容為草稿，請務必向官方來源確認細節。",
+    "results_other": "「{{query}}」共有 {{count}} 筆結果",
+    "clearSearch": "清除搜尋",
+    "needsVerification": "待確認",
+    "visitWebsite": "前往網站"
+  },
+  "gallery": {
+    "label": "相簿",
+    "title": "那些其間的片刻。",
+    "description": "收藏著屬於我們社群的面孔、地方與點滴回憶。",
+    "allPhotos": "所有照片",
+    "filterLabel": "依相簿篩選照片",
+    "placeholderPhotos": "暫用圖庫照片",
+    "viewEvent": "查看活動：{{title}}",
+    "empty": "照片即將新增。",
+    "openPhoto": "開啟照片：{{description}}",
+    "lightbox": {
+      "label": "照片檢視器",
+      "previous": "上一張照片",
+      "next": "下一張照片"
+    }
+  },
+  "contact": {
+    "label": "聯絡我們",
+    "title": "做你自己就好，為這個社群留下來。",
+    "description": "無論你剛抵達，還是已經把新竹當成家多年，這裡都有你的位置。歡迎學生、團體與贊助夥伴與我們聯繫。",
+    "follow": "追蹤我們",
+    "social": {
+      "followUs": "追蹤我們",
+      "comingSoon": "即將推出"
+    },
+    "form": {
+      "typeLabel": "詢問類型",
+      "optional": "（選填）",
+      "choose": "請選擇",
+      "send": "送出訊息",
+      "sending": "傳送中…",
+      "deliveryEndpoint": "你的訊息將安全地傳送給 PPI Hsinchu 團隊。",
+      "deliveryEmail": "這會開啟你的電子郵件程式，並帶入已寫好的訊息。",
+      "deliveryNone": "線上留言功能尚未啟用，聯絡資訊將於近期補上。",
+      "success": "謝謝你。訊息已送出，我們會以電子郵件回覆。",
+      "emailOpened": "你的電子郵件程式應已開啟並帶入訊息，請在該處按下傳送。如果沒有開啟，請直接寄信至",
+      "error": "抱歉，訊息無法送出，請稍後再試。",
+      "errorWithEmail": "抱歉，訊息無法送出。請稍後再試，或寄信至 {{email}}。",
+      "emailSubject": "{{type}}（來自 PPI Hsinchu 網站）",
+      "errors": {
+        "required": "請填寫：{{field}}。",
+        "email": "請輸入有效的電子郵件地址。"
+      }
+    }
+  },
+  "footer": {
+    "message": "來自新竹，心繫家鄉。",
+    "navLabel": "頁尾",
+    "explore": "網站導覽",
+    "currentCabinet": "本屆內閣",
+    "backToTop": "回到頂端"
+  }
+}

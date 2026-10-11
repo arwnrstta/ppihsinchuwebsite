@@ -316,6 +316,12 @@ p {
   color: var(--cabinet-deep);
 }
 
+/* Grey label for a cabinet that is no longer in office (see CabinetLabel.jsx). */
+.chip--past-cabinet {
+  background: #dcdbd6;
+  color: #4a4b47;
+}
+
 .chip--outline {
   background: transparent;
   border: 1px solid currentColor;

@@ -6,7 +6,7 @@ Tip: in VS Code, press **Ctrl + Shift + F** and search for `TODO` to find every 
 
 ## Brand and cabinet
 
-- [ ] Confirm the cabinet term (`period: '2026/2027'`) — `src/config/cabinet.js`
+- [DONE] Confirm the cabinet term (`period: '2026/2027'`) — `src/config/cabinet.js`
 - [ ] Replace the provisional purple colours with the official cabinet colours — `src/config/cabinet.js`
 - [ ] Official Vision (Visi) — `src/config/cabinet.js`
 - [ ] Official Mission (Misi) — `src/config/cabinet.js`
@@ -28,6 +28,12 @@ Tip: in VS Code, press **Ctrl + Shift + F** and search for `TODO` to find every 
 - [ ] Divisi Sponsorship: 2 names and portraits
 - [ ] Penasihat Umum: 2 names and portraits
 - [ ] Review the short division descriptions
+
+## Campus map — `src/data/universities.js`
+
+- [ ] Confirm the list of 8 schools
+- [ ] Confirm each pin sits on the right campus, and which NYCU campus should be shown
+- [ ] Confirm Hsing Wu (Linkou, New Taipei) and Yu Da (Miaoli) belong on the map
 
 ## Leadership Through the Years — `src/data/leadership.js`
 
@@ -72,6 +78,16 @@ All items are drafts marked "Needs verification".
 - [ ] TikTok URL
 - [ ] Official contact email (`contact.email`)
 - [ ] Optional: form service endpoint (`contact.formEndpoint`)
+
+## Translations
+
+All Indonesian and Chinese text was drafted together with the temporary English content and has **not** been reviewed by the committee.
+
+- [ ] A fluent Indonesian speaker has reviewed `src/locales/id.json` and the `id:` texts in the data files
+- [ ] A fluent Traditional Chinese (Taiwan) speaker has reviewed `src/locales/zh-TW.json` and the `'zh-TW':` texts in the data files
+- [ ] Confirm the English and Chinese names of each division (`translatedName` in `src/data/committee.js`)
+- [ ] Confirm the English and Chinese position titles (`"positions"` in `src/locales/`), especially Koordinator / Ketua
+- [ ] Official vision, mission and philosophy supplied in all three languages
 
 ## Before launch
 

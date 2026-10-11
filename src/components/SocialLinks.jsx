@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { socialLinks } from '../config/site.js'
 import Icon from './Icon.jsx'
 import './SocialLinks.css'
@@ -13,8 +14,11 @@ import './SocialLinks.css'
  *
  * Accounts with an empty "url" are shown as "Coming soon" and are not
  * clickable, so visitors never land on a broken link.
+ * Platform names (Instagram, LinkedIn...) are brand names and stay as they are.
  */
 export default function SocialLinks({ variant = 'cards' }) {
+  const { t } = useTranslation()
+
   if (variant === 'icons') {
     // The footer only shows accounts that already have a link.
     const liveLinks = socialLinks.filter((link) => link.url)
@@ -29,7 +33,7 @@ export default function SocialLinks({ variant = 'cards' }) {
               target="_blank"
               rel="noopener noreferrer"
               className="social-icons__link"
-              aria-label={`${link.label} (opens in a new tab)`}
+              aria-label={`${link.label} ${t('common.opensNewTab')}`}
             >
               <Icon name={link.icon} size={18} />
             </a>
@@ -50,7 +54,9 @@ export default function SocialLinks({ variant = 'cards' }) {
             <span className="social-cards__text">
               <span className="social-cards__label">{link.label}</span>
               <span className="social-cards__handle">
-                {link.url ? link.handle || 'Follow us' : 'Coming soon'}
+                {link.url
+                  ? link.handle || t('contact.social.followUs')
+                  : t('contact.social.comingSoon')}
               </span>
             </span>
             {link.url && <Icon name="externalLink" size={18} />}
@@ -67,7 +73,7 @@ export default function SocialLinks({ variant = 'cards' }) {
                 className="social-cards__item"
               >
                 {content}
-                <span className="visually-hidden">(opens in a new tab)</span>
+                <span className="visually-hidden">{t('common.opensNewTab')}</span>
               </a>
             ) : (
               <div className="social-cards__item is-unavailable">{content}</div>

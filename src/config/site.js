@@ -19,7 +19,6 @@ export const site = {
   // The Chinese name is shown in two parts: left and right of the hero.
   chineseNameParts: ['台灣新竹印尼', '學生聯合'],
   logo: '/images/brand/logo-ppi-hsinchu.png',
-  footerMessage: 'From Hsinchu, with home in our hearts.',
 
   /*
    * While this is true, small "Sample" / "Draft" labels appear next to
@@ -32,30 +31,36 @@ export const site = {
 /*
  * NAVBAR LINKS
  * Each "id" must match the id of a <section> on the page (see src/App.jsx).
- * To rename a menu item, change its "label" only.
+ * The order here is the order in the menu. The last item is shown as the
+ * red button.
+ *
+ * The menu TEXT is not here: it is translated in the files in src/locales/,
+ * under "nav" (for example "nav" -> "about").
  */
 export const navigation = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'events', label: 'Events' },
-  { id: 'resources', label: 'Resources' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'connect', label: 'Connect With Us' },
+  { id: 'home' },
+  { id: 'about' },
+  { id: 'events' },
+  { id: 'resources' },
+  { id: 'gallery' },
+  { id: 'connect' },
 ]
 
-/* HOMEPAGE HERO TEXT */
+/*
+ * HOMEPAGE HERO
+ * The button text, the scrolling words and the image description are
+ * translated in src/locales/, under "hero".
+ */
 export const hero = {
+  // The organisation's name is never translated.
   headline: 'PPI HSINCHU',
-  // The single button in the middle of the hero image.
-  primaryButton: { label: 'Explore the community', sectionId: 'about' },
+  // Which section the button in the middle of the hero image leads to.
+  buttonSectionId: 'about',
   image: '/images/home/hero-temple.png',
   imageLarge: '/images/home/hero-temple-large.png',
-  imageAlt: 'A historic gate tower in Hsinchu with a red tiled roof',
   // Photos on the homepage cards that lead to About and Gallery.
   aboutCardImage: '/images/photos/students-together.jpg',
   galleryCardImage: '/images/photos/night-market-walk.jpg',
-  // Words that scroll across the band below the hero.
-  marqueeWords: ['Community', 'Culture', 'Connection', 'Hsinchu', 'Indonesia'],
 }
 
 /*
@@ -65,14 +70,13 @@ export const hero = {
  * Example: for https://www.youtube.com/watch?v=abc123XYZ00 the ID is "abc123XYZ00".
  * While youtubeVideoId is empty, the homepage shows a "coming soon" state
  * instead of a broken player.
+ *
+ * The heading and description of this block are translated in src/locales/,
+ * under "video".
  */
 export const featuredVideo = {
-  youtubeVideoId: '',
-  title: 'Life in Hsinchu, in motion.',
-  description:
-    'A glimpse of the gatherings, celebrations, and everyday moments that make this community feel like home.',
+  youtubeVideoId: 'vOPxl3qz0qA',
   coverImage: '/images/photos/community-gathering.jpg',
-  coverAlt: 'A community gathering outdoors',
 }
 
 /*
@@ -83,11 +87,11 @@ export const featuredVideo = {
  * "icon" must be one of the icon names in src/components/Icon.jsx.
  */
 export const socialLinks = [
-  { id: 'instagram', label: 'Instagram', icon: 'instagram', handle: '', url: '' },
-  { id: 'linkedin', label: 'LinkedIn', icon: 'linkedin', handle: '', url: '' },
-  { id: 'facebook', label: 'Facebook', icon: 'facebook', handle: '', url: '' },
-  { id: 'youtube', label: 'YouTube', icon: 'youtube', handle: '', url: '' },
-  { id: 'tiktok', label: 'TikTok', icon: 'tiktok', handle: '', url: '' },
+  { id: 'instagram', label: 'Instagram', icon: 'instagram', handle: '', url: 'https://www.instagram.com/ppihsinchu' },
+  { id: 'linkedin', label: 'LinkedIn', icon: 'linkedin', handle: '', url: 'https://www.linkedin.com/company/ppihsinchu/' },
+  { id: 'facebook', label: 'Facebook', icon: 'facebook', handle: '', url: 'https://www.facebook.com/ppi.hsinchu.3#' },
+  { id: 'youtube', label: 'YouTube', icon: 'youtube', handle: '', url: 'https://www.youtube.com/@ppihsinchu' },
+  { id: 'tiktok', label: 'TikTok', icon: 'tiktok', handle: '', url: 'https://www.tiktok.com/@ppihsinchu' },
 ]
 
 /*
@@ -105,8 +109,8 @@ export const socialLinks = [
  * TODO: Add the official PPI Hsinchu email address and/or a form endpoint.
  */
 export const contact = {
-  email: '',
-  formEndpoint: '',
+  email: 'ppihsinchuorg@gmail.com',
+  formEndpoint: 'https://formspree.io/f/mppqrnjp', //Formspree
 }
 
 /*
@@ -117,6 +121,6 @@ export const contact = {
  * While pdfPath is empty, the button shows a disabled "Coming soon" state.
  */
 export const adArt = {
-  pdfPath: '',
-  lastUpdated: '',
+  pdfPath: 'public/documents/Amandemen II AD_ART PPI Hsinchu 2025.pdf',
+  lastUpdated: '2025',
 }

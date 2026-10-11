@@ -1,5 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// Loads the translations before anything is drawn. See src/i18n.js.
+import './i18n.js'
 import './styles/variables.css'
 import './styles/global.css'
 import App from './App.jsx'

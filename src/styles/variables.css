@@ -43,10 +43,15 @@
   );
   --gradient-cream: linear-gradient(180deg, var(--color-cream), var(--color-cream-deep));
 
-  /* --- Fonts (loaded in index.html) --- */
-  --font-heading: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'Alumni Sans', 'Arial Narrow', Impact, sans-serif;
+  /*
+   * --- Fonts (loaded in index.html) ---
+   * The 'PingFang TC' / 'Microsoft JhengHei' / 'Noto Sans TC' entries are
+   * fonts already installed on phones and computers. They are used for
+   * Chinese characters, which the main fonts do not contain.
+   */
+  --font-heading: 'Montserrat', 'Segoe UI', system-ui, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  --font-body: 'Instrument Sans', 'Segoe UI', system-ui, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+  --font-display: 'Alumni Sans', 'Arial Narrow', Impact, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
 
   /* --- Layout --- */
   --page-max-width: 1240px;

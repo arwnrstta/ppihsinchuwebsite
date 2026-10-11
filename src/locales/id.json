@@ -1,0 +1,262 @@
+{
+  "common": {
+    "skipToContent": "Langsung ke konten utama",
+    "opensNewTab": "(terbuka di tab baru)",
+    "comingSoon": "Segera hadir",
+    "close": "Tutup",
+    "sample": "Contoh",
+    "draftCopy": "Teks sementara"
+  },
+  "language": {
+    "label": "Bahasa"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "events": "Kegiatan",
+    "resources": "Informasi",
+    "gallery": "Galeri",
+    "connect": "Hubungi Kami",
+    "mainLabel": "Utama",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "sectionsOf": "Bagian {{section}}",
+    "dropdown": {
+      "welcome": "Selamat datang",
+      "highlight": "Sorotan komunitas",
+      "startHere": "Mulai di sini",
+      "upcomingEvent": "Kegiatan mendatang",
+      "eventArchive": "Arsip kegiatan",
+      "allPhotos": "Semua foto"
+    }
+  },
+  "hero": {
+    "button": "Jelajahi komunitas",
+    "imageAlt": "Gerbang kota bersejarah di Hsinchu dengan atap genting merah",
+    "marquee": ["Komunitas", "Budaya", "Kebersamaan", "Hsinchu", "Indonesia"]
+  },
+  "video": {
+    "eyebrow": "Sorotan komunitas",
+    "title": "Kehidupan di Hsinchu, dalam gerak.",
+    "description": "Sekilas tentang pertemuan, perayaan, dan momen sehari-hari yang membuat komunitas ini terasa seperti rumah.",
+    "coverAlt": "Pertemuan komunitas di luar ruangan",
+    "play": "Putar video",
+    "comingSoon": "Video sorotan segera hadir"
+  },
+  "previews": {
+    "eyebrow": "Mulai di sini",
+    "title": "Semua tentang PPI Hsinchu, di satu tempat.",
+    "about": {
+      "label": "Tentang",
+      "title": "Rumah bagi semua, dari mana pun asalmu.",
+      "text": "Siapa kami, apa yang kami perjuangkan, dan bagaimana kami berorganisasi."
+    },
+    "events": {
+      "label": "Kegiatan mendatang",
+      "fallbackTitle": "Hal baik terjadi saat kita bersama.",
+      "fallbackText": "Kegiatan baru akan diumumkan di sini."
+    },
+    "community": {
+      "label": "Komunitas kami",
+      "title": "Kenali {{cabinet}}.",
+      "text": "{{members}} mahasiswa sukarelawan dalam {{teams}} tim menjaga komunitas ini tetap terhubung."
+    },
+    "gallery": {
+      "label": "Galeri foto",
+      "title": "Momen-momen di antaranya.",
+      "text": "{{count}} foto wajah, tempat, dan kenangan yang menjadikan komunitas ini milik kita."
+    }
+  },
+  "about": {
+    "label": "Tentang kami",
+    "title": "Satu komunitas, banyak cerita.",
+    "description": "Kenali PPI Hsinchu: siapa kami, apa yang menuntun kami, dan orang-orang di baliknya.",
+    "tabsLabel": "Tentang PPI Hsinchu",
+    "tabs": {
+      "who-we-are": "Siapa Kami",
+      "campuses": "Kampus Kami",
+      "vision-mission": "Visi, Misi & Filosofi",
+      "ad-art": "AD/ART",
+      "committee": "Pengurus",
+      "leadership": "Kepemimpinan dari Masa ke Masa"
+    },
+    "campuses": {
+      "eyebrow": "Kampus Naungan Kami",
+      "heading": "8 Universitas, 1 Komunitas.",
+      "intro": "Kami menaungi {{count}} universitas di Hsinchu dan sekitarnya. Arahkan kursor ke penanda untuk melihat kampusnya, atau klik untuk mengunjungi situsnya.",
+      "mapLabel": "Peta universitas tempat anggota PPI Hsinchu berkuliah",
+      "clickToVisit": "Klik untuk mengunjungi situs",
+      "visitWebsite": "Kunjungi situs",
+      "zoomIn": "Perbesar",
+      "zoomOut": "Perkecil",
+      "resetView": "Tampilkan semua universitas"
+    },
+    "vision": {
+      "currentCabinet": "Kabinet saat ini",
+      "note": "Gagasan yang menuntun kerja tahun ini, dari visi jangka panjang hingga makna di balik nama kabinet.",
+      "visionTitle": "Visi",
+      "missionTitle": "Misi",
+      "philosophyTitle": "Filosofi Kabinet"
+    },
+    "adArt": {
+      "view": "Lihat AD/ART (PDF)",
+      "comingSoon": "PDF AD/ART · Segera hadir",
+      "lastUpdated": "Terakhir diperbarui: {{date}}"
+    },
+    "committee": {
+      "heading": "Terwujud berkat orang-orang yang peduli.",
+      "intro": "Kenali {{count}} mahasiswa sukarelawan yang menjaga komunitas kita tetap terhubung. Pilih divisi untuk melihat timnya.",
+      "selectorLabel": "Divisi kepengurusan",
+      "members_other": "{{count}} anggota",
+      "placeholders": "Sebagian nama dan foto segera hadir",
+      "nameTba": "Nama akan diumumkan",
+      "portraitAlt": "Foto {{name}}"
+    },
+    "leadership": {
+      "eyebrow": "Sejarah kami",
+      "heading": "Setiap kabinet meninggalkan jejaknya.",
+      "intro": "PPI Hsinchu diwariskan dari satu generasi mahasiswa ke generasi berikutnya. Telusuri tahun demi tahun untuk mengenal kabinet yang membentuknya.",
+      "chooseYear": "Pilih tahun",
+      "previousYear": "Tahun sebelumnya",
+      "nextYear": "Tahun berikutnya",
+      "photoTba": "Foto akan ditambahkan",
+      "photoAlt": "{{cabinet}}, {{year}}",
+      "photoAltFallback": "Kepengurusan PPI Hsinchu",
+      "currentCabinet": "Kabinet saat ini",
+      "toVerify": "Data perlu diverifikasi",
+      "cabinetTba": "Nama kabinet akan ditambahkan",
+      "president": "Koordinator",
+      "term": "Periode",
+      "tba": "Akan ditambahkan",
+      "slogan": "Slogan",
+      "viewMembers": "Lihat anggota kabinet",
+      "membersOf": "Anggota {{cabinet}}",
+      "membersTba": "Daftar anggota akan ditambahkan."
+    }
+  },
+  "positions": {
+    "Ketua": "Ketua",
+    "Koordinator": "Koordinator",
+    "Wakil Ketua": "Wakil Ketua",
+    "Wakil Koordinator": "Wakil Koordinator",
+    "Sekretaris": "Sekretaris",
+    "Bendahara": "Bendahara",
+    "Wakil Koordinator 1": "Wakil Koordinator 1",
+    "Wakil Koordinator 2": "Wakil Koordinator 2",
+    "Sekretaris 1": "Sekretaris 1",
+    "Sekretaris 2": "Sekretaris 2",
+    "Bendahara 1": "Bendahara 1",
+    "Bendahara 2": "Bendahara 2",
+    "Ketua Divisi": "Ketua Divisi",
+    "Anggota": "Anggota",
+    "Penasihat": "Penasihat"
+  },
+  "events": {
+    "label": "Kegiatan kami",
+    "title": "Hal baik terjadi saat kita bersama.",
+    "description": "Dari makan bersama hingga tradisi baru, selalu ada alasan untuk berkumpul.",
+    "upcoming": "Mendatang",
+    "nextEvent": "Kegiatan berikutnya",
+    "sample": "Contoh kegiatan",
+    "dateTba": "Tanggal akan diumumkan",
+    "venueTba": "Lokasi akan diumumkan",
+    "viewDetails": "Lihat detail",
+    "register": "Daftar",
+    "registerNow": "Daftar sekarang",
+    "registrationOpensSoon": "Pendaftaran segera dibuka",
+    "viewDocumentation": "Lihat dokumentasi",
+    "documentationSoon": "Dokumentasi segera hadir",
+    "noUpcoming": "Belum ada kegiatan mendatang. Jadwal baru akan diumumkan di sini.",
+    "archiveTitle": "Arsip kegiatan",
+    "filterStatusLabel": "Saring kegiatan berdasarkan status",
+    "filterYearLabel": "Saring kegiatan berdasarkan tahun",
+    "filters": {
+      "past": "Kegiatan lalu",
+      "upcoming": "Mendatang",
+      "all": "Semua kegiatan"
+    },
+    "allYears": "Semua tahun",
+    "noResults": "Belum ada kegiatan yang sesuai dengan saringan ini.",
+    "posterAlt": "Poster {{title}}",
+    "posterSoon": "Poster segera hadir",
+    "detail": {
+      "label": "Detail kegiatan: {{title}}",
+      "past": "Kegiatan lalu",
+      "date": "Tanggal",
+      "time": "Waktu",
+      "venue": "Lokasi",
+      "fee": "Biaya",
+      "organizer": "Penyelenggara",
+      "registrationSoon": "Informasi pendaftaran segera hadir.",
+      "viewPhotos": "Lihat foto"
+    }
+  },
+  "resources": {
+    "guidebook": {
+      "label": "Buku Panduan",
+      "read": "Baca buku panduan"
+    },
+    "label": "Informasi mahasiswa",
+    "title": "Hal-hal kecil yang sangat berarti.",
+    "description": "Beradaptasi lebih mudah bila ada yang sudah pernah mengalaminya. Panduan praktis bagi mahasiswa Indonesia di Hsinchu.",
+    "search": "Cari semua informasi",
+    "categoriesLabel": "Kategori informasi",
+    "notice": "Konten sementara. Selalu pastikan detailnya ke sumber resmi.",
+    "results_other": "{{count}} hasil untuk “{{query}}”",
+    "clearSearch": "Hapus pencarian",
+    "needsVerification": "Perlu diverifikasi",
+    "visitWebsite": "Kunjungi situs"
+  },
+  "gallery": {
+    "label": "Galeri foto",
+    "title": "Momen-momen di antaranya.",
+    "description": "Kumpulan wajah, tempat, dan kenangan kecil yang menjadikan komunitas ini milik kita.",
+    "allPhotos": "Semua foto",
+    "filterLabel": "Saring foto berdasarkan album",
+    "placeholderPhotos": "Foto stok sementara",
+    "viewEvent": "Lihat kegiatan: {{title}}",
+    "empty": "Foto akan segera ditambahkan di sini.",
+    "openPhoto": "Buka foto: {{description}}",
+    "lightbox": {
+      "label": "Penampil foto",
+      "previous": "Foto sebelumnya",
+      "next": "Foto berikutnya"
+    }
+  },
+  "contact": {
+    "label": "Hubungi kami",
+    "title": "Datang apa adanya. Bertahan karena komunitasnya.",
+    "description": "Baik kamu baru tiba maupun sudah bertahun-tahun menyebut Hsinchu sebagai rumah, selalu ada tempat untukmu di sini. Mahasiswa, organisasi, dan sponsor dipersilakan menyapa.",
+    "follow": "Ikuti kami",
+    "social": {
+      "followUs": "Ikuti kami",
+      "comingSoon": "Segera hadir"
+    },
+    "form": {
+      "typeLabel": "Jenis pertanyaan",
+      "optional": "(opsional)",
+      "choose": "Silakan pilih",
+      "send": "Kirim pesan",
+      "sending": "Mengirim…",
+      "deliveryEndpoint": "Pesanmu dikirim dengan aman ke tim PPI Hsinchu.",
+      "deliveryEmail": "Ini akan membuka aplikasi email dengan pesanmu yang siap dikirim.",
+      "deliveryNone": "Pengiriman pesan daring belum terhubung. Informasi kontak akan segera ditambahkan di sini.",
+      "success": "Terima kasih. Pesanmu telah terkirim dan kami akan membalas melalui email.",
+      "emailOpened": "Aplikasi email seharusnya sudah terbuka dengan pesanmu. Tekan Kirim di sana untuk mengirimkannya. Jika tidak ada yang terbuka, kirim email langsung ke",
+      "error": "Maaf, pesanmu tidak dapat dikirim. Silakan coba lagi nanti.",
+      "errorWithEmail": "Maaf, pesanmu tidak dapat dikirim. Silakan coba lagi nanti atau kirim email ke {{email}}.",
+      "emailSubject": "{{type}} melalui situs PPI Hsinchu",
+      "errors": {
+        "required": "Mohon isi: {{field}}.",
+        "email": "Mohon masukkan alamat email yang valid."
+      }
+    }
+  },
+  "footer": {
+    "message": "Dari Hsinchu, dengan rumah di hati.",
+    "navLabel": "Footer",
+    "explore": "Jelajahi",
+    "currentCabinet": "Kabinet saat ini",
+    "backToTop": "Kembali ke atas"
+  }
+}
