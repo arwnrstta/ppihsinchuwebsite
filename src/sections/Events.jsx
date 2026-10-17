@@ -9,7 +9,6 @@ import Reveal from '../components/Reveal.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import Tabs from '../components/Tabs.jsx'
 import { events } from '../data/events.js'
-import { albums } from '../data/gallery.js'
 import {
   formatEventDate,
   getEventYear,
@@ -43,7 +42,7 @@ import './Events.css'
 // The three status filters. Their text is in src/locales/, under "events" -> "filters".
 const statusFilterIds = ['all', 'upcoming', 'past' ]
 
-export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowAlbum }) {
+export default function Events({ openEventId, onOpenEvent, onCloseEvent }) {
   const { t } = useTranslation()
   const [statusFilter, setStatusFilter] = useState('all')
   const [yearFilter, setYearFilter] = useState('all')
@@ -67,10 +66,6 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
   )
 
   const openEvent = events.find((event) => event.id === openEventId)
-  // An album is linked to an event through the album's "eventId" field.
-  const albumForOpenEvent = openEvent
-    ? albums.find((album) => album.eventId === openEvent.id)
-    : null
 
   const statusTabs = statusFilterIds.map((filterId) => ({
     id: filterId,
@@ -154,9 +149,7 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowA
       {openEvent && (
         <EventDetail
           event={openEvent}
-          album={albumForOpenEvent}
           onClose={onCloseEvent}
-          onShowAlbum={onShowAlbum}
         />
       )}
     </section>

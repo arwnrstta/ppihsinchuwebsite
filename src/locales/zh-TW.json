@@ -187,8 +187,7 @@
       "venue": "地點",
       "fee": "費用",
       "organizer": "主辦單位",
-      "registrationSoon": "報名資訊即將公布。",
-      "viewPhotos": "查看照片"
+      "registrationSoon": "報名資訊即將公布。"
     }
   },
   "resources": {
@@ -231,6 +230,8 @@
     "openPhotos": "查看 {{name}} 的照片",
     "logoOf": "{{name}} 標誌",
     "promotion": "優惠",
+    "officialLinks": "官方連結",
+    "lastChecked": "最後確認日期：{{date}}",
     "actions": {
       "openInMaps": "在 Google 地圖中開啟",
       "directions": "路線導航",
@@ -262,9 +263,7 @@
     "title": "那些其間的片刻。",
     "description": "收藏著屬於我們社群的面孔、地方與點滴回憶。",
     "allPhotos": "所有照片",
-    "filterLabel": "依相簿篩選照片",
-    "placeholderPhotos": "暫用圖庫照片",
-    "viewEvent": "查看活動：{{title}}",
+    "filterLabel": "依年份篩選照片",
     "empty": "照片即將新增。",
     "openPhoto": "開啟照片：{{description}}",
     "lightbox": {

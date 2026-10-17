@@ -47,7 +47,7 @@ import { tags } from './resourceTags.js'
  * localServices.js, import it at the top of this file and add a section.
  *
  * SECTION ICONS: 'restaurant', 'grocery', 'shop', 'service', 'medical',
- * 'university'.
+ * 'transport'.
  * Without "icon", the icon follows listingType.
  *
  * LANGUAGES
@@ -150,13 +150,22 @@ import { tags } from './resourceTags.js'
  * that is not from Google Maps) are not shown, and a warning appears in the
  * browser console while running "npm run dev".
  *
- * IMPORTANT
- * Much of the content below is a PLACEHOLDER written to show the layout.
- * Immigration, insurance and scholarship rules change often. Before
- * publishing, check every item against the official source and add the
- * correct details, addresses and links.
+ * GUIDE FIELDS (shown when a card is opened)
+ *   text         - a short paragraph
+ *   steps        - numbered steps
+ *   tips         - bullet points
+ *   subsections  - smaller headed blocks: [{ title, text, steps, tips, links }]
+ *   links        - official links: [{ label, url, description }]
+ *   lastVerified - 'YYYY-MM-DD': the day someone checked the information
+ *                  against the official sources. Shown as "Last checked on".
+ *                  Only write it after actually checking.
  *
- * TODO: Replace placeholder items with verified information.
+ * KEEPING THIS UP TO DATE
+ * Immigration, insurance, work and scholarship rules change often. Check
+ * them against the official sources at least once a year (see
+ * docs/MAINTENANCE_GUIDE.md) and update lastVerified when you do. Items
+ * marked needsVerification still contain something that could not be
+ * confirmed; the comment next to it says what.
  */
 
 /*
@@ -265,12 +274,6 @@ export const resourceTypes = {
   },
 }
 
-const officialUniversityWebsite = {
-  en: 'Official university website.',
-  id: 'Situs resmi universitas.',
-  'zh-TW': '學校官方網站。',
-}
-
 /*
  * CATEGORIES
  *   id     - short unique name
@@ -327,33 +330,81 @@ export const resourceCategories = [
         },
         tag: tags.transport,
         description: {
-          en: 'An overview of buses, trains, the high-speed rail, bike sharing, and scooters.',
-          id: 'Gambaran umum tentang bus, kereta, kereta cepat, sepeda sewa, dan skuter.',
-          'zh-TW': '公車、火車、高鐵、公共自行車與機車的概覽。',
+          en: 'Official sites for buses, trains, the high-speed rail, YouBike, and campus shuttles.',
+          id: 'Situs resmi untuk bus, kereta, kereta cepat, YouBike, dan bus kampus.',
+          'zh-TW': '公車、火車、高鐵、YouBike 與校園接駁車的官方網站。',
         },
-        steps: [
+        icon: 'transport',
+        // Each service below is one row with a link button.
+        listingType: 'information',
+        listings: [
           {
-            en: 'Get a contactless transport card (such as an EasyCard) for buses, trains, and bike sharing.',
-            id: 'Miliki kartu transportasi nirsentuh (seperti EasyCard) untuk bus, kereta, dan sepeda sewa.',
-            'zh-TW': '辦一張電子票證（例如悠遊卡），可用於公車、火車與公共自行車。',
+            id: 'hsinchu-city-bus',
+            name: { en: 'Hsinchu City buses', id: 'Bus Kota Hsinchu', 'zh-TW': '新竹市公車' },
+            description: 'Bus routes and timetables from the Hsinchu City Department of Transportation (see “Bus information”). For live arrival times, use Google Maps or the smart displays at many bus stops.',
+            websiteUrl: 'https://dep-traffic.hccg.gov.tw/en/',
+            websiteLabel: { en: 'City transport info', id: 'Info transportasi kota', 'zh-TW': '市府交通資訊' },
           },
           {
-            en: 'Check your university’s shuttle bus routes between campuses and stations.',
-            id: 'Cek rute bus antar-jemput universitasmu antara kampus dan stasiun.',
-            'zh-TW': '查詢學校往返校區與車站的接駁車路線。',
+            id: 'hsinchu-county-bus',
+            name: { en: 'Hsinchu County buses', id: 'Bus Kabupaten Hsinchu', 'zh-TW': '新竹縣公車' },
+            description: 'Hsinchu County Smart Bus: routes and service changes for Zhubei, Hukou, and nearby towns (in Chinese).',
+            websiteUrl: 'https://ibus.hsinchu.gov.tw/',
+            websiteLabel: { en: 'County bus info', id: 'Info bus kabupaten', 'zh-TW': '縣府公車資訊' },
           },
           {
-            en: 'Use a map app with public transport directions to plan trips.',
-            id: 'Gunakan aplikasi peta dengan petunjuk transportasi umum untuk merencanakan perjalanan.',
-            'zh-TW': '使用提供大眾運輸路線的地圖應用程式規劃行程。',
+            id: 'highway-bus',
+            name: { en: 'Intercity highway buses', id: 'Bus antarkota', 'zh-TW': '公路客運' },
+            description: 'Real-time information for intercity buses, run by the Highway Bureau. Available in English.',
+            websiteUrl: 'https://www.taiwanbus.tw/',
+          },
+          {
+            id: 'tra',
+            name: { en: 'Taiwan Railway (TRA)', 'zh-TW': '臺灣鐵路 (TRA)' },
+            description: 'Local and intercity trains: timetables and tickets.',
+            websiteUrl: 'https://www.railway.gov.tw/',
+          },
+          {
+            id: 'thsr',
+            name: { en: 'Taiwan High Speed Rail (THSR)', 'zh-TW': '台灣高鐵 (THSR)' },
+            description: 'Fast trains between major cities. Hsinchu HSR Station is in Zhubei, not at Hsinchu TRA Station.',
+            websiteUrl: 'https://en.thsrc.com.tw/',
+          },
+          {
+            id: 'youbike',
+            name: 'YouBike',
+            description: 'Public bike sharing, with a station map and station list.',
+            websiteUrl: 'https://en.youbike.com.tw/',
+          },
+          {
+            id: 'easycard',
+            name: { en: 'EasyCard', 'zh-TW': '悠遊卡' },
+            description: 'Stored-value card for public transport and small payments, including where it can be used.',
+            websiteUrl: 'https://www.easycard.com.tw/en/',
+          },
+          {
+            id: 'nthu-shuttle',
+            name: { en: 'NTHU campus shuttle', id: 'Bus kampus NTHU', 'zh-TW': '清華大學校園公車' },
+            description: 'Timetables are posted as news by NTHU’s Division of Physical Facilities and change every term.',
+            websiteUrl: 'https://affairs.site.nthu.edu.tw/?Lang=en',
+            websiteLabel: { en: 'NTHU shuttle timetables', id: 'Jadwal bus NTHU', 'zh-TW': '清大校園公車時刻表' },
+          },
+          {
+            id: 'nycu-shuttle',
+            name: { en: 'NYCU shuttles', id: 'Bus antar-jemput NYCU', 'zh-TW': '陽明交大交通車' },
+            description: 'NYCU runs shuttles linking Guangfu Campus with Boai Campus and Hsinchu HSR Station. Timetables come from NYCU’s Office of General Affairs; ask your department for the current one.',
+            // TODO: add the official NYCU timetable page as websiteUrl once
+            // confirmed (none could be found on 2026-10-17).
+            needsVerification: true,
           },
         ],
-        notes: {
-          en: 'General guidance only. Add local routes and tips from current students.',
-          id: 'Hanya panduan umum. Tambahkan rute lokal dan kiat dari mahasiswa yang sedang berkuliah.',
-          'zh-TW': '僅為一般性建議。請補上在地路線與在學學生的經驗分享。',
-        },
-        needsVerification: true,
+        tips: [
+          'An EasyCard works on many transport services, including buses, TRA trains, and YouBike.',
+          'Hsinchu TRA Station (city centre) and Hsinchu HSR Station (Zhubei) are different stations. Check which one you need before you travel.',
+          'Google Maps public transport directions are a reliable way to plan bus and train trips.',
+          'To ride a scooter you need a driving licence that is valid in Taiwan, and helmets are compulsory.',
+        ],
+        lastVerified: '2026-10-17',
       },
       {
         id: 'housing',
@@ -364,48 +415,112 @@ export const resourceCategories = [
         },
         tag: tags.housing,
         description: {
-          en: 'Tips on university dormitories and renting off campus.',
-          id: 'Kiat seputar asrama universitas dan menyewa tempat tinggal di luar kampus.',
-          'zh-TW': '關於學校宿舍與校外租屋的建議。',
+          en: 'University dormitories and renting off campus: what to check before you pay.',
+          id: 'Asrama universitas dan menyewa di luar kampus: apa yang perlu dicek sebelum membayar.',
+          'zh-TW': '學校宿舍與校外租屋：付款前該確認的事項。',
         },
-        steps: [
+        subsections: [
           {
-            en: 'Ask your university’s housing office about dormitory applications and deadlines.',
-            id: 'Tanyakan kepada bagian asrama universitasmu tentang pendaftaran dan tenggat waktu.',
-            'zh-TW': '向學校住宿組詢問宿舍申請方式與截止日期。',
+            title: { en: 'University dormitories', id: 'Asrama universitas', 'zh-TW': '學校宿舍' },
+            tips: [
+              'Contact your university’s housing office for availability, application deadlines, and fees.',
+              'Read the dormitory rules (contract length, guests, cooking, quiet hours) before you apply.',
+              'Apply as early as possible, as places can be limited.',
+            ],
           },
           {
-            en: 'If renting off campus, visit the room in person and read the contract carefully before paying a deposit.',
-            id: 'Jika menyewa di luar kampus, lihat kamarnya langsung dan baca kontrak dengan teliti sebelum membayar deposit.',
-            'zh-TW': '若在校外租屋，請親自看房並仔細閱讀合約後再支付押金。',
-          },
-          {
-            en: 'Ask senior students in the community about areas and landlords they recommend.',
-            id: 'Tanyakan kepada para senior di komunitas tentang daerah dan pemilik kos yang mereka rekomendasikan.',
-            'zh-TW': '向社群裡的學長姐請教他們推薦的區域與房東。',
+            title: { en: 'Renting off campus', id: 'Menyewa di luar kampus', 'zh-TW': '校外租屋' },
+            steps: [
+              'Search on trusted platforms such as 591, and ask seniors in the community about areas and landlords.',
+              'Visit the room in person before paying anything.',
+              'Work out the total monthly cost: rent, electricity, water, internet, management fees, and any other charges.',
+              'Read the rental agreement carefully, including the deposit, contract length, and early-termination terms.',
+              'Keep every payment receipt, and photograph the room’s condition on the day you move in.',
+            ],
+            tips: [
+              'For residential rentals, the security deposit may not exceed two months’ rent (Rental Housing Market Development and Regulation Act, Article 7).',
+              'The Ministry of the Interior publishes a standard residential lease template (in Chinese) you can compare your contract with.',
+              'After moving, report your new address to the National Immigration Agency within 15 days (see Immigration & Documents).',
+            ],
+            links: [
+              {
+                label: '591 Rentals',
+                url: 'https://rent.591.com.tw/',
+                description: 'Rental listings (in Chinese)',
+              },
+              {
+                label: 'Ministry of the Interior: rental housing regulations',
+                url: 'https://www.land.moi.gov.tw/chhtml/news/89',
+                description: 'Official rules and lease templates (in Chinese)',
+              },
+            ],
           },
         ],
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
-        id: 'banking-mobile',
+        id: 'bank-account',
         name: {
-          en: 'Banking and mobile services',
-          id: 'Perbankan dan layanan seluler',
-          'zh-TW': '銀行與行動通訊',
+          en: 'Opening a bank account',
+          id: 'Membuka rekening bank',
+          'zh-TW': '開立銀行帳戶',
         },
         tag: tags.essentials,
         description: {
-          en: 'Opening a bank account and getting a local SIM card.',
-          id: 'Membuka rekening bank dan mendapatkan kartu SIM lokal.',
-          'zh-TW': '開立銀行帳戶與申辦本地 SIM 卡。',
+          en: 'What to bring, and choosing between a bank and Chunghwa Post.',
+          id: 'Apa yang perlu dibawa, dan memilih antara bank atau Chunghwa Post.',
+          'zh-TW': '需要準備什麼，以及選擇銀行或中華郵政。',
         },
-        notes: {
-          en: 'Placeholder. Requirements differ between banks and telecom providers. Add verified steps and the documents students usually need.',
-          id: 'Sementara. Persyaratan berbeda antara bank dan operator seluler. Tambahkan langkah yang sudah diverifikasi dan dokumen yang biasanya dibutuhkan mahasiswa.',
-          'zh-TW': '暫定內容。各銀行與電信業者的規定不同，請補上經確認的步驟與學生通常需要準備的文件。',
+        steps: [
+          'Choose where to open an account: a bank near your campus, or Chunghwa Post (the post office), which also offers savings accounts.',
+          'Ask the branch which documents it needs before you go. Most ask for your passport and ARC; some also ask for another ID such as your student ID, or a Taiwan phone number.',
+          'Visit the branch in person. Ask for an ATM card and online banking at the same time.',
+          'If you will send or receive money from abroad, ask about international transfer fees and the details needed for incoming transfers.',
+        ],
+        tips: [
+          'Requirements differ between banks, and sometimes between branches of the same bank.',
+          'Your university may have a campus branch or a preferred bank for scholarships and stipends.',
+          'When your ARC is renewed, update your details with your bank as well.',
+        ],
+        links: [
+          {
+            label: 'Chunghwa Post (English)',
+            url: 'https://www.post.gov.tw/post/internet/U_english2/',
+          },
+          {
+            label: 'Chunghwa Post savings and remittances',
+            url: 'https://www.post.gov.tw/post/internet/B_saving/',
+            description: 'Postal savings accounts and money transfers (in Chinese)',
+          },
+        ],
+        lastVerified: '2026-10-17',
+      },
+      {
+        id: 'sim-card',
+        name: {
+          en: 'Getting a Taiwan SIM card',
+          id: 'Mendapatkan kartu SIM Taiwan',
+          'zh-TW': '申辦台灣 SIM 卡',
         },
-        needsVerification: true,
+        tag: tags.essentials,
+        description: {
+          en: 'Prepaid or monthly plans, what to bring, and what to compare.',
+          id: 'Paket prabayar atau bulanan, apa yang perlu dibawa, dan apa yang perlu dibandingkan.',
+          'zh-TW': '預付卡或月租方案、需要攜帶的證件，以及比較重點。',
+        },
+        tips: [
+          'Prepaid: no contract, top up as you go. Monthly (postpaid): billed every month, often with a fixed contract period.',
+          'Bring your passport and ARC. Providers often ask for two forms of ID, so check with the store first.',
+          'Want an eSIM? Check that your phone supports it before signing up.',
+          'Compare data allowance, contract length, early-termination fees, and any setup fees before you sign.',
+          'Taiwan closed its 3G network in 2024. Phones that do not support 4G calling (VoLTE) cannot make calls, including emergency calls.',
+          'Providers are listed alphabetically below; PPI Hsinchu does not recommend any particular one.',
+        ],
+        links: [
+          { label: 'Chunghwa Telecom', url: 'https://www.cht.com.tw/' },
+          { label: 'Far EasTone', url: 'https://www.fetnet.net/' },
+          { label: 'Taiwan Mobile', url: 'https://www.taiwanmobile.com/' },
+        ],
       },
       {
         id: 'local-services',
@@ -441,49 +556,52 @@ export const resourceCategories = [
       {
         id: 'arc-renewal',
         name: {
-          en: 'ARC renewal',
-          id: 'Perpanjangan ARC',
-          'zh-TW': '居留證 (ARC) 延期',
+          en: 'ARC application and renewal',
+          id: 'Pengajuan dan perpanjangan ARC',
+          'zh-TW': '居留證申請與延期',
         },
         tag: tags.guide,
         description: {
-          en: 'How to renew your Alien Resident Certificate before it expires.',
-          id: 'Cara memperpanjang Alien Resident Certificate sebelum masa berlakunya habis.',
-          'zh-TW': '如何在外僑居留證到期前辦理延期。',
+          en: 'Your Alien Resident Certificate is your residence permit. Apply after you arrive, and renew it before it expires.',
+          id: 'Alien Resident Certificate adalah izin tinggalmu. Ajukan setelah tiba, dan perpanjang sebelum habis masa berlakunya.',
+          'zh-TW': '外僑居留證是你的居留許可。抵台後申請，並在到期前延期。',
         },
-        steps: [
+        subsections: [
           {
-            en: 'Check the expiry date printed on your ARC and plan to renew well before it.',
-            id: 'Periksa tanggal kedaluwarsa yang tertera pada ARC dan rencanakan perpanjangan jauh sebelum tanggal itu.',
-            'zh-TW': '確認居留證上的到期日，並提早規劃延期。',
+            title: { en: 'What the ARC is', id: 'Apa itu ARC', 'zh-TW': '什麼是居留證' },
+            text: 'The Alien Resident Certificate (ARC) is the residence permit for foreigners staying in Taiwan for more than six months, and your main ID while you live here. Students who enter on a resident visa must apply for their first ARC within 15 days of arrival.',
           },
           {
-            en: 'Confirm the current requirements and application window with the National Immigration Agency or your university’s international office.',
-            id: 'Pastikan persyaratan dan periode pengajuan terbaru ke National Immigration Agency atau kantor urusan internasional universitasmu.',
-            'zh-TW': '向內政部移民署或學校國際事務處確認最新的規定與申請期間。',
-          },
-          {
-            en: 'Prepare the documents on the official list.',
-            id: 'Siapkan dokumen sesuai daftar resmi.',
-            'zh-TW': '依官方清單準備文件。',
-          },
-          {
-            en: 'Submit your application and keep the receipt until you collect your new ARC.',
-            id: 'Ajukan permohonan dan simpan tanda terimanya sampai kamu mengambil ARC yang baru.',
-            'zh-TW': '送出申請，並保留收據直到領取新的居留證。',
+            title: { en: 'Renewing your ARC', id: 'Memperpanjang ARC', 'zh-TW': '居留證延期' },
+            steps: [
+              'Check the expiry date on your ARC. Most universities ask students to apply for an extension in the 30 days before it expires, and some international offices collect applications for you. Follow your university’s instructions.',
+              'Prepare your documents. These usually include your passport, your current ARC, a recent photo, and proof that you are still enrolled; the NIA document instructions below list the exact requirements.',
+              'Apply through the NIA Student Online Application System, choosing “Foreign students and Overseas Chinese students”.',
+              'Wait for the review (often around five working days), then pay the fee as instructed, online or at a convenience store.',
+              'Collect your new ARC as instructed by the NIA.',
+            ],
           },
         ],
-        notes: {
-          en: 'Draft outline only. Exact documents, fees, and timelines must be added from the official source.',
-          id: 'Hanya kerangka sementara. Dokumen, biaya, dan jangka waktu yang tepat harus ditambahkan dari sumber resmi.',
-          'zh-TW': '僅為草稿大綱。確切的文件、費用與時程須依官方來源補上。',
-        },
-        websiteUrl: 'https://www.immigration.gov.tw/',
+        tips: [
+          'Never let your ARC expire. Overstaying can lead to fines, and you may have to leave Taiwan and apply for a new visa.',
+          'Carry your ARC with you: it is your official ID in Taiwan.',
+          'For questions, call the 1990 hotline for foreigners or ask your international office.',
+        ],
+        websiteUrl: 'https://coa.immigration.gov.tw/coa-frontend/student/entry',
         websiteLabel: {
-          en: 'National Immigration Agency',
-          id: 'National Immigration Agency',
-          'zh-TW': '內政部移民署',
+          en: 'NIA student online application',
+          id: 'Aplikasi online mahasiswa NIA',
+          'zh-TW': '移民署學生線上申辦',
         },
+        links: [
+          { label: 'National Immigration Agency', url: 'https://www.immigration.gov.tw/' },
+          {
+            label: 'NIA document instructions for ARC applications (PDF)',
+            url: 'https://www.immigration.gov.tw/media/80228/instructions-on-document-submission-in-applications-by-foreign-nationals-for-an-alien-resident-certificate-or-its-extension-or-replacement-or-change-of-reason-for-residence.pdf',
+          },
+        ],
+        // The 30-day renewal window comes from university guidance; confirm
+        // it with the NIA before removing this line.
         needsVerification: true,
       },
       {
@@ -495,16 +613,43 @@ export const resourceCategories = [
         },
         tag: tags.guide,
         description: {
-          en: 'Resident visas, visitor visas, and what to prepare before arriving in Taiwan.',
-          id: 'Visa residen, visa kunjungan, dan apa saja yang perlu disiapkan sebelum tiba di Taiwan.',
-          'zh-TW': '居留簽證、停留簽證，以及來台前需要準備的事項。',
+          en: 'Visitor or resident visa? Check what you need before you travel to Taiwan.',
+          id: 'Visa kunjungan atau visa residen? Cek kebutuhanmu sebelum berangkat ke Taiwan.',
+          'zh-TW': '停留簽證或居留簽證？來台前先確認你需要哪一種。',
         },
-        notes: {
-          en: 'Placeholder. Add verified guidance and links to the official visa pages.',
-          id: 'Sementara. Tambahkan panduan yang sudah diverifikasi dan tautan ke halaman visa resmi.',
-          'zh-TW': '暫定內容。請補上經確認的說明與官方簽證頁面連結。',
-        },
-        needsVerification: true,
+        subsections: [
+          {
+            title: { en: 'Visitor and resident visas', id: 'Visa kunjungan dan visa residen', 'zh-TW': '停留簽證與居留簽證' },
+            tips: [
+              'Visitor visas are for short stays, such as tourism, family visits, or short courses.',
+              'Resident visas are for stays of more than six months, such as a degree programme. After entering on a resident visa, you apply for an ARC within 15 days.',
+              'Not every visa can be changed into student residence after you arrive, so apply for the visa that matches your study plans.',
+            ],
+          },
+          {
+            title: { en: 'Applying from Indonesia', id: 'Mengajukan dari Indonesia', 'zh-TW': '在印尼申請' },
+            steps: [
+              'Check the requirements for your visa type on the Bureau of Consular Affairs website.',
+              'Complete the online visa application form and print it.',
+              'Submit the form, your passport, and supporting documents to the Taipei Economic and Trade Office in Jakarta, or its Surabaya office if you live in its area.',
+            ],
+            tips: [
+              'Typical documents include your passport, photos, and, for students, your university admission letter. The full list depends on the visa type, so always follow the official checklist.',
+            ],
+          },
+        ],
+        links: [
+          { label: 'Bureau of Consular Affairs', url: 'https://www.boca.gov.tw/mp-2.html' },
+          { label: 'Visitor visas', url: 'https://www.boca.gov.tw/np-147-2.html' },
+          { label: 'Resident visas', url: 'https://www.boca.gov.tw/np-150-2.html' },
+          { label: 'Online visa application form', url: 'https://visawebapp.boca.gov.tw/' },
+          {
+            label: 'Taipei Economic and Trade Office, Jakarta',
+            url: 'https://www.roc-taiwan.org/id_en/index.html',
+            description: 'Taiwan’s representative office in Indonesia',
+          },
+        ],
+        lastVerified: '2026-10-17',
       },
       {
         id: 'change-of-address',
@@ -515,55 +660,106 @@ export const resourceCategories = [
         },
         tag: tags.guide,
         description: {
-          en: 'What to do when you move to a new address during your stay.',
-          id: 'Apa yang harus dilakukan saat pindah ke alamat baru selama tinggal di sini.',
-          'zh-TW': '居留期間搬家時該辦理的事項。',
+          en: 'Moved? Update the address on your ARC within 15 days.',
+          id: 'Pindah? Perbarui alamat di ARC-mu dalam 15 hari.',
+          'zh-TW': '搬家了嗎？請在 15 天內更新居留證地址。',
         },
-        notes: {
-          en: 'Placeholder. Add the verified procedure and the time limit for reporting a new address.',
-          id: 'Sementara. Tambahkan prosedur yang sudah diverifikasi dan batas waktu pelaporan alamat baru.',
-          'zh-TW': '暫定內容。請補上經確認的流程與申報新地址的期限。',
+        text: 'If you move, you must report your new residence address to the National Immigration Agency within 15 days. Late reporting can be fined.',
+        steps: [
+          'Prepare proof of your new address, such as your rental agreement or a dormitory certificate, together with your passport and ARC.',
+          'Apply through the NIA Student Online Application System, or at the NIA service center for your new area.',
+          'Once your ARC is updated, tell your university so that its records match.',
+        ],
+        websiteUrl: 'https://coa.immigration.gov.tw/coa-frontend/student/entry',
+        websiteLabel: {
+          en: 'NIA student online application',
+          id: 'Aplikasi online mahasiswa NIA',
+          'zh-TW': '移民署學生線上申辦',
         },
-        needsVerification: true,
+        links: [{ label: 'National Immigration Agency', url: 'https://www.immigration.gov.tw/' }],
+        lastVerified: '2026-10-17',
       },
       {
         id: 'immigration-procedures',
         name: {
-          en: 'General immigration procedures',
-          id: 'Prosedur imigrasi umum',
-          'zh-TW': '一般移民手續',
+          en: 'Other immigration situations',
+          id: 'Situasi imigrasi lainnya',
+          'zh-TW': '其他移民相關情況',
         },
         tag: tags.guide,
         description: {
-          en: 'Re-entry, lost documents, and other common situations.',
-          id: 'Izin masuk kembali, dokumen hilang, dan situasi umum lainnya.',
-          'zh-TW': '重入境、證件遺失及其他常見情況。',
+          en: 'A lost ARC, a new passport, travelling abroad, and changes in your student status.',
+          id: 'ARC hilang, paspor baru, bepergian ke luar negeri, dan perubahan status mahasiswa.',
+          'zh-TW': '居留證遺失、換新護照、出國旅行，以及學籍狀態變更。',
         },
-        notes: {
-          en: 'Placeholder. Add verified guidance for each situation.',
-          id: 'Sementara. Tambahkan panduan yang sudah diverifikasi untuk setiap situasi.',
-          'zh-TW': '暫定內容。請為各種情況補上經確認的說明。',
-        },
+        subsections: [
+          {
+            title: { en: 'Lost or damaged ARC', id: 'ARC hilang atau rusak', 'zh-TW': '居留證遺失或損毀' },
+            steps: [
+              'If your ARC is lost or stolen, report it to the local police first.',
+              'Apply for a replacement as soon as possible, even if your ARC is about to expire.',
+            ],
+          },
+          {
+            title: { en: 'New passport', id: 'Paspor baru', 'zh-TW': '換新護照' },
+            tips: [
+              'If you renew your passport, your ARC record still shows the old passport number. Ask your international office or the NIA how to update it, and do this before you travel.',
+            ],
+          },
+          {
+            title: { en: 'Travelling and re-entry', id: 'Bepergian dan masuk kembali', 'zh-TW': '出國與重入境' },
+            tips: [
+              'A valid ARC generally also works as a multiple re-entry permit, so you can leave and return with your passport and ARC.',
+              'Make sure your ARC will still be valid on the day you come back.',
+              'Long or repeated trips abroad can affect your NHI eligibility (see Healthcare & Emergency).',
+            ],
+          },
+          {
+            title: { en: 'Changes in your student status', id: 'Perubahan status mahasiswa', 'zh-TW': '學籍狀態變更' },
+            tips: [
+              'If you graduate, transfer, take a leave of absence, or withdraw, the purpose of your residence changes. Contact your international office and the NIA straight away to find out what you need to do.',
+            ],
+          },
+          {
+            title: { en: 'Who to ask', id: 'Bertanya ke mana', 'zh-TW': '可以詢問誰' },
+            tips: [
+              'Your university’s international office: school documents and procedures.',
+              'The National Immigration Agency or the 1990 hotline: residence rules and your ARC.',
+            ],
+          },
+        ],
+        links: [{ label: 'National Immigration Agency', url: 'https://www.immigration.gov.tw/' }],
+        // The passport-update procedure could not be confirmed on 2026-10-17.
         needsVerification: true,
       },
       {
         id: 'indonesian-office-taipei',
         name: {
-          en: 'Indonesian representative office in Taipei',
-          id: 'Kantor perwakilan Indonesia di Taipei',
-          'zh-TW': '印尼駐台北代表處',
+          en: 'Indonesian Economic and Trade Office in Taipei (KDEI)',
+          id: 'Kantor Dagang dan Ekonomi Indonesia (KDEI) di Taipei',
+          'zh-TW': '駐台北印尼經濟貿易代表處 (KDEI)',
         },
         tag: tags.official,
         description: {
-          en: 'Consular services for Indonesian citizens in Taiwan, such as passport renewal.',
-          id: 'Layanan kekonsuleran bagi warga negara Indonesia di Taiwan, seperti perpanjangan paspor.',
-          'zh-TW': '為在台印尼公民提供的領事服務，例如護照換發。',
+          en: 'Passport services and help for Indonesian citizens in Taiwan.',
+          id: 'Layanan paspor dan bantuan bagi WNI di Taiwan.',
+          'zh-TW': '為在台印尼公民提供護照服務與協助。',
         },
-        notes: {
-          en: 'Placeholder. Add the official website, address, and contact details.',
-          id: 'Sementara. Tambahkan situs resmi, alamat, dan informasi kontak.',
-          'zh-TW': '暫定內容。請補上官方網站、地址與聯絡方式。',
-        },
+        tips: [
+          'KDEI Taipei provides consular services for Indonesians in Taiwan, including passport issuance and renewal, travel documents (SPLP), and document legalisation.',
+          'Since January 2026, passport fees can also be paid at convenience stores such as 7-Eleven, FamilyMart, and Hi-Life.',
+          'Register your stay abroad (Lapor Diri) on Peduli WNI, the Indonesian Ministry of Foreign Affairs portal, so that you can be contacted in an emergency.',
+          'Check KDEI’s official channels for current opening hours, fees, and appointment procedures before you visit.',
+        ],
+        links: [
+          {
+            label: 'Peduli WNI',
+            url: 'https://peduliwni.kemlu.go.id/',
+            description: 'Indonesian Ministry of Foreign Affairs portal for citizens abroad',
+          },
+        ],
+        // TODO: add the official KDEI Taipei website as websiteUrl once it
+        // has been confirmed (it could not be verified on 2026-10-17).
         needsVerification: true,
       },
     ],
@@ -582,74 +778,90 @@ export const resourceCategories = [
     },
     items: [
       {
-        id: 'scholarships',
+        id: 'moe-scholarship',
         name: {
-          en: 'Scholarship information',
-          id: 'Informasi beasiswa',
-          'zh-TW': '獎學金資訊',
+          en: 'MOE Taiwan Scholarship',
+          id: 'Beasiswa MOE Taiwan',
+          'zh-TW': '教育部臺灣獎學金',
         },
         tag: tags.scholarships,
         description: {
-          en: 'Government, university, and private scholarships open to Indonesian students.',
-          id: 'Beasiswa pemerintah, universitas, dan swasta yang terbuka bagi mahasiswa Indonesia.',
-          'zh-TW': '開放印尼學生申請的政府、學校與民間獎學金。',
+          en: 'Ministry of Education scholarship for international students on degree programmes in Taiwan.',
+          id: 'Beasiswa Kementerian Pendidikan Taiwan untuk mahasiswa internasional program gelar.',
+          'zh-TW': '教育部提供國際學位生的獎學金。',
         },
-        notes: {
-          en: 'Placeholder. Add one card per scholarship with eligibility, the official link, and the application period.',
-          id: 'Sementara. Tambahkan satu kartu per beasiswa beserta syarat, tautan resmi, dan periode pendaftaran.',
-          'zh-TW': '暫定內容。請為每項獎學金新增一張卡片，包含申請資格、官方連結與申請期間。',
-        },
-        needsVerification: true,
-      },
-      {
-        id: 'universities',
-        name: {
-          en: 'Universities in Hsinchu',
-          id: 'Universitas di Hsinchu',
-          'zh-TW': '新竹的大學',
-        },
-        tag: tags.university,
-        description: {
-          en: 'Official websites of the universities where our members study.',
-          id: 'Situs resmi universitas tempat anggota kami berkuliah.',
-          'zh-TW': '我們成員就讀大學的官方網站。',
-        },
-        // Each university below is one row. Add another the same way.
-        listings: [
+        tips: [
+          'Covers tuition and fees up to a set amount each semester, plus a monthly living allowance.',
+          'Available for bachelor’s, master’s, and doctoral programmes.',
+          'You apply for the scholarship through the Taiwan office in your home country (for Indonesians, the Taipei Economic and Trade Office), and apply separately to your university.',
+          'Students already enrolled in Taiwan at the same degree level are generally not eligible.',
+          'Eligibility, deadlines, and amounts are published each year, so always read the current guidelines.',
+        ],
+        websiteUrl: 'https://taiwanscholarship.moe.gov.tw/',
+        websiteLabel: { en: 'Taiwan Scholarship website', id: 'Situs Taiwan Scholarship', 'zh-TW': '臺灣獎學金網站' },
+        links: [
           {
-            id: 'nthu',
-            // Official institution names stay in English, with the established
-            // Chinese name shown for Chinese readers.
-            name: {
-              en: 'National Tsing Hua University (NTHU)',
-              'zh-TW': '國立清華大學 (NTHU)',
-            },
-            description: officialUniversityWebsite,
-            websiteUrl: 'https://www.nthu.edu.tw/',
-            websiteLabel: {
-              en: 'Visit NTHU website',
-              id: 'Kunjungi situs NTHU',
-              'zh-TW': '前往清華大學網站',
-            },
-            needsVerification: true,
+            label: 'Ministry of Education: Taiwan Scholarship Program',
+            url: 'https://english.moe.gov.tw/fp-24-16833-23C09-1.html',
           },
           {
-            id: 'nycu',
-            name: {
-              en: 'National Yang Ming Chiao Tung University (NYCU)',
-              'zh-TW': '國立陽明交通大學 (NYCU)',
-            },
-            description: officialUniversityWebsite,
-            websiteUrl: 'https://www.nycu.edu.tw/',
-            websiteLabel: {
-              en: 'Visit NYCU website',
-              id: 'Kunjungi situs NYCU',
-              'zh-TW': '前往陽明交通大學網站',
-            },
-            needsVerification: true,
+            label: 'Taipei Economic and Trade Office, Jakarta',
+            url: 'https://www.roc-taiwan.org/id_en/index.html',
+            description: 'Announcements for applicants in Indonesia',
           },
         ],
-        icon: 'university',
+        lastVerified: '2026-10-17',
+      },
+      {
+        id: 'icdf-scholarship',
+        name: {
+          en: 'TaiwanICDF Scholarship',
+          id: 'Beasiswa TaiwanICDF',
+          'zh-TW': '國合會外籍生獎學金',
+        },
+        tag: tags.scholarships,
+        description: {
+          en: 'International Higher Education Scholarship from Taiwan’s International Cooperation and Development Fund, for selected programmes.',
+          id: 'Beasiswa pendidikan tinggi dari International Cooperation and Development Fund Taiwan untuk program tertentu.',
+          'zh-TW': '財團法人國際合作發展基金會的國際高等人力培訓外籍生獎學金。',
+        },
+        tips: [
+          'For Indonesian applicants, recent calls were limited to master’s and doctoral programmes.',
+          'Only specific programmes at partner universities take part; check the current call for the list.',
+          'Application periods change each year, so follow the latest official announcement.',
+        ],
+        links: [
+          {
+            label: 'TaiwanICDF scholarships',
+            url: 'https://www.icdf.org.tw/wSite/ct?xItem=4623&ctNode=31279&mp=1',
+            description: 'Official programme page (in Chinese)',
+          },
+          {
+            label: 'TaiwanICDF scholarship announcement for Indonesia',
+            url: 'https://www.roc-taiwan.org/id_en/post/3831.html',
+          },
+        ],
+        lastVerified: '2026-10-17',
+      },
+      {
+        id: 'university-scholarships',
+        name: {
+          en: 'University scholarships',
+          id: 'Beasiswa universitas',
+          'zh-TW': '學校獎學金',
+        },
+        tag: tags.scholarships,
+        description: {
+          en: 'Most universities offer their own scholarships for international students.',
+          id: 'Sebagian besar universitas menawarkan beasiswa sendiri untuk mahasiswa internasional.',
+          'zh-TW': '多數大學為國際學生提供校內獎學金。',
+        },
+        tips: [
+          'Each university runs its own scholarships, with its own rules, amounts, and deadlines.',
+          'Watch announcements from your international office and your department, and check again every semester.',
+          'Some scholarships require a minimum grade or credit load to keep receiving them.',
+          'Our members’ universities are listed under About › Our Campuses.',
+        ],
       },
       {
         id: 'academic-opportunities',
@@ -660,16 +872,24 @@ export const resourceCategories = [
         },
         tag: tags.academics,
         description: {
-          en: 'Exchange programmes, research opportunities, conferences, and competitions.',
-          id: 'Program pertukaran, kesempatan riset, konferensi, dan kompetisi.',
-          'zh-TW': '交換計畫、研究機會、研討會與競賽。',
+          en: 'Exchange programmes, research, conferences, competitions, and workshops.',
+          id: 'Program pertukaran, riset, konferensi, kompetisi, dan lokakarya.',
+          'zh-TW': '交換計畫、研究、研討會、競賽與工作坊。',
         },
-        notes: {
-          en: 'Placeholder. Add current opportunities as they are announced.',
-          id: 'Sementara. Tambahkan kesempatan terbaru saat diumumkan.',
-          'zh-TW': '暫定內容。請於公布時補上最新機會。',
-        },
-        needsVerification: true,
+        tips: [
+          'Student exchange: your international office announces exchange and dual-degree programmes with partner universities.',
+          'Undergraduate research: ask professors and research centres in your department about lab positions or research projects.',
+          'Conferences: watch your department’s announcements for calls for papers; some departments support student travel.',
+          'Hackathons and competitions: universities, companies, and government agencies host them regularly, and career centres and student clubs share many.',
+          'Workshops and professional development: career centres and libraries run sessions on CVs, interviews, and academic skills.',
+        ],
+        links: [
+          {
+            label: 'Study in Taiwan',
+            url: 'https://www.studyintaiwan.org/',
+            description: 'Programmes and scholarships for international students',
+          },
+        ],
       },
       {
         id: 'internships-careers',
@@ -680,15 +900,53 @@ export const resourceCategories = [
         },
         tag: tags.careers,
         description: {
-          en: 'Finding internships and jobs in Taiwan, and the work permit rules for students.',
-          id: 'Mencari magang dan pekerjaan di Taiwan, serta aturan izin kerja bagi mahasiswa.',
-          'zh-TW': '在台灣尋找實習與工作，以及學生工作許可的相關規定。',
+          en: 'Work permits for part-time jobs, and where to find internships.',
+          id: 'Izin kerja untuk kerja paruh waktu, dan tempat mencari magang.',
+          'zh-TW': '打工所需的工作許可，以及去哪裡找實習。',
         },
-        notes: {
-          en: 'Placeholder. Add verified work permit guidance and useful job platforms.',
-          id: 'Sementara. Tambahkan panduan izin kerja yang sudah diverifikasi dan platform lowongan yang berguna.',
-          'zh-TW': '暫定內容。請補上經確認的工作許可說明與實用的求職平台。',
-        },
+        subsections: [
+          {
+            title: { en: 'Student work permits', id: 'Izin kerja mahasiswa', 'zh-TW': '學生工作許可' },
+            steps: [
+              'Check that you are eligible: degree students can apply after enrolling; students in Mandarin language programmes must first study for at least six months.',
+              'Apply online through the Workforce Development Agency’s EZ Work Permit system. You will usually upload your student ID, passport, and ARC as PDF files.',
+              'Pay the application fee as instructed.',
+              'Start working only after your work permit has been approved.',
+            ],
+            tips: [
+              'During the semester you may work at most 20 hours per week. This weekly limit does not apply during official winter and summer vacations.',
+              'A student work permit is valid for up to six months, so reapply each term if you keep working.',
+              'Working without a permit can lead to heavy fines and removal from Taiwan.',
+              'Internships may follow different rules depending on their type (for example, credit-bearing internships). Check with your department and international office.',
+            ],
+          },
+          {
+            title: { en: 'Finding opportunities', id: 'Mencari kesempatan', 'zh-TW': '尋找機會' },
+            tips: [
+              'Your university career centre: job fairs, internship programmes, and CV help.',
+              'Department announcements: internships with partner companies and labs.',
+              'Job platforms such as 104 and 1111 (mostly in Chinese).',
+            ],
+            links: [
+              { label: '104 Job Bank', url: 'https://www.104.com.tw/' },
+              { label: '1111 Job Bank', url: 'https://www.1111.com.tw/' },
+            ],
+          },
+        ],
+        links: [
+          {
+            label: 'EZ Work Permit',
+            url: 'https://ezwp.wda.gov.tw/',
+            description: 'Online work permit applications (Workforce Development Agency)',
+          },
+          {
+            label: 'Foreigners Working in Taiwan',
+            url: 'https://ezworktaiwan.wda.gov.tw/',
+            description: 'Ministry of Labor information for foreign students and workers',
+          },
+        ],
+        // The 20-hour limit comes from university guidance; the Ministry of
+        // Labor page refers to the rules without stating the number.
         needsVerification: true,
       },
     ],
@@ -728,12 +986,12 @@ export const resourceCategories = [
         name: { en: 'Police', id: 'Polisi', 'zh-TW': '警察' },
         phone: '110',
         description: {
-          en: 'Crimes, traffic accidents, and any threat to your safety.',
-          id: 'Tindak kejahatan, kecelakaan lalu lintas, dan ancaman terhadap keselamatanmu.',
-          'zh-TW': '犯罪、交通事故及任何危及人身安全的情況。',
+          en: 'Crimes, threats to your safety, and urgent police help.',
+          id: 'Tindak kejahatan, ancaman terhadap keselamatanmu, dan bantuan polisi yang mendesak.',
+          'zh-TW': '犯罪、人身安全威脅與緊急警察協助。',
         },
         websiteUrl: 'https://www.npa.gov.tw/',
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
         id: 'fire-ambulance',
@@ -747,12 +1005,12 @@ export const resourceCategories = [
         },
         phone: '119',
         description: {
-          en: 'Fires, serious injuries, and medical emergencies.',
-          id: 'Kebakaran, cedera serius, dan keadaan darurat medis.',
-          'zh-TW': '火災、重大傷害與緊急醫療狀況。',
+          en: 'Fires, medical emergencies, and rescue.',
+          id: 'Kebakaran, keadaan darurat medis, dan penyelamatan.',
+          'zh-TW': '火災、緊急醫療與救援。',
         },
         websiteUrl: 'https://www.nfa.gov.tw/',
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
         id: 'mobile-emergency',
@@ -765,11 +1023,11 @@ export const resourceCategories = [
         },
         phone: '112',
         description: {
-          en: 'From a mobile phone, connects to emergency services even without a local SIM card.',
-          id: 'Dari ponsel, terhubung ke layanan darurat bahkan tanpa kartu SIM lokal.',
-          'zh-TW': '以手機撥打，即使沒有本地 SIM 卡也能連線至緊急救援單位。',
+          en: 'From a mobile phone, works even without a SIM card if there is network coverage. A voice menu connects you to the police (press 0) or fire and ambulance (press 9). When you can, dial 110 or 119 directly: it is faster.',
+          id: 'Dari ponsel, bisa dipakai bahkan tanpa kartu SIM selama ada sinyal. Menu suara akan menyambungkan ke polisi (tekan 0) atau pemadam kebakaran dan ambulans (tekan 9). Jika bisa, langsung hubungi 110 atau 119 karena lebih cepat.',
+          'zh-TW': '以手機撥打，只要有訊號，即使沒有 SIM 卡也能撥通。語音選單可轉接警察（按 0）或消防與救護（按 9）。可以的話請直接撥打 110 或 119，速度更快。',
         },
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
         id: 'foreigner-hotline',
@@ -784,12 +1042,12 @@ export const resourceCategories = [
         // Replaced the old number 0800-024-111 in 2022.
         phone: '1990',
         description: {
-          en: 'Questions about visas, residence, health insurance, and daily life, from the National Immigration Agency. Not for emergencies.',
-          id: 'Pertanyaan seputar visa, izin tinggal, asuransi kesehatan, dan kehidupan sehari-hari, dari National Immigration Agency. Bukan untuk keadaan darurat.',
-          'zh-TW': '內政部移民署提供的簽證、居留、健保與生活諮詢。非緊急求助專線。',
+          en: 'Information on residence, health insurance, work, and daily life from the National Immigration Agency. Chinese, English, and Japanese: 24 hours. Indonesian: weekdays, 9:00 to 17:00. Not for emergencies.',
+          id: 'Informasi seputar izin tinggal, asuransi kesehatan, pekerjaan, dan kehidupan sehari-hari dari National Immigration Agency. Bahasa Mandarin, Inggris, dan Jepang: 24 jam. Bahasa Indonesia: hari kerja, 09.00 sampai 17.00. Bukan untuk keadaan darurat.',
+          'zh-TW': '內政部移民署提供居留、健保、工作與生活諮詢。中文、英語、日語：24 小時；印尼語：週一至週五 9:00 至 17:00。非緊急求助專線。',
         },
-        websiteUrl: 'https://www.immigration.gov.tw/',
-        needsVerification: true,
+        websiteUrl: 'https://www.immigration.gov.tw/5475/5478/6928/6940/204896/204917/',
+        lastVerified: '2026-10-17',
       },
       {
         id: 'mental-health-hotline',
@@ -803,12 +1061,12 @@ export const resourceCategories = [
         },
         phone: '1925',
         description: {
-          en: 'Someone to talk to when you are struggling or thinking about suicide, from the Ministry of Health and Welfare.',
-          id: 'Tempat bercerita saat kamu merasa berat atau berpikir untuk bunuh diri, dari Ministry of Health and Welfare.',
-          'zh-TW': '衛生福利部提供，當你感到難以承受或有輕生念頭時，有人可以傾聽。',
+          en: 'Free, 24-hour support from the Ministry of Health and Welfare when you are struggling emotionally or thinking about suicide.',
+          id: 'Dukungan gratis 24 jam dari Ministry of Health and Welfare saat kamu merasa berat secara emosional atau berpikir untuk bunuh diri.',
+          'zh-TW': '衛生福利部提供的 24 小時免付費支持專線，在你情緒困擾或有輕生念頭時可以撥打。',
         },
         websiteUrl: 'https://www.mohw.gov.tw/',
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
         id: 'anti-fraud-hotline',
@@ -822,12 +1080,12 @@ export const resourceCategories = [
         },
         phone: '165',
         description: {
-          en: 'Check a suspicious call or message, or report a scam.',
-          id: 'Cek telepon atau pesan yang mencurigakan, atau laporkan penipuan.',
-          'zh-TW': '查證可疑的電話或訊息，或檢舉詐騙。',
+          en: 'Check a suspicious call or message, or report a scam, to the National Police Agency. Calls may be charged depending on your provider.',
+          id: 'Cek telepon atau pesan mencurigakan, atau laporkan penipuan, ke National Police Agency. Panggilan bisa dikenai biaya tergantung operator.',
+          'zh-TW': '向內政部警政署查證可疑電話或訊息，或檢舉詐騙。依電信業者不同，通話可能需付費。',
         },
         websiteUrl: 'https://165.npa.gov.tw/',
-        needsVerification: true,
+        lastVerified: '2026-10-17',
       },
       {
         id: 'nhi',
@@ -838,22 +1096,39 @@ export const resourceCategories = [
         },
         tag: tags.insurance,
         description: {
-          en: 'Taiwan’s public health insurance, which international students can usually join after a qualifying period of residence.',
-          id: 'Asuransi kesehatan publik Taiwan, yang biasanya dapat diikuti mahasiswa internasional setelah memenuhi masa tinggal tertentu.',
-          'zh-TW': '台灣的公共健康保險，國際學生通常在居留滿一定期間後可以加保。',
+          en: 'Taiwan’s public health insurance: when international students join, and how it works.',
+          id: 'Asuransi kesehatan publik Taiwan: kapan mahasiswa internasional bisa ikut, dan cara kerjanya.',
+          'zh-TW': '台灣的公共健康保險：國際學生何時加保，以及如何使用。',
         },
-        notes: {
-          en: 'Placeholder. Confirm the current eligibility rules and enrolment process with your university or the NHI Administration.',
-          id: 'Sementara. Pastikan aturan kelayakan dan proses pendaftaran terbaru ke universitasmu atau NHI Administration.',
-          'zh-TW': '暫定內容。請向學校或衛生福利部中央健康保險署確認最新的加保資格與流程。',
-        },
-        websiteUrl: 'https://www.nhi.gov.tw/',
-        websiteLabel: {
-          en: 'NHI Administration',
-          id: 'NHI Administration',
-          'zh-TW': '中央健康保險署',
-        },
-        needsVerification: true,
+        subsections: [
+          {
+            title: { en: 'Who can join', id: 'Siapa yang bisa ikut', 'zh-TW': '加保資格' },
+            tips: [
+              'International students holding an ARC must join NHI once they have lived in Taiwan for six full months.',
+              'The six months must be continuous, with one exception: you may leave Taiwan once for no more than 30 days, and those days are added to your waiting period. Leaving more than once, or for longer, restarts the count.',
+              'Different rules apply to people employed in Taiwan, newborns, and some family members.',
+              'Until you qualify, you need other health insurance. Your university will tell you what it requires.',
+            ],
+          },
+          {
+            title: { en: 'Enrolling', id: 'Pendaftaran', 'zh-TW': '加保方式' },
+            steps: [
+              'Your university usually enrols eligible students as a group and adds the premium to your tuition bill. Follow its instructions.',
+              'After you are enrolled, apply for your NHI card. Your university can tell you how.',
+            ],
+          },
+          {
+            title: { en: 'Using NHI', id: 'Menggunakan NHI', 'zh-TW': '使用健保' },
+            tips: [
+              'Bring your NHI card to every clinic and hospital visit.',
+              'You still pay a registration fee and a copayment at each visit. Larger hospitals usually charge a higher copayment than local clinics.',
+              'Some treatments, medicines, and materials are not covered or are only partly covered. Ask before treatment if you are unsure.',
+            ],
+          },
+        ],
+        websiteUrl: 'https://www.nhi.gov.tw/en/',
+        websiteLabel: { en: 'NHI Administration', id: 'NHI Administration', 'zh-TW': '中央健康保險署' },
+        lastVerified: '2026-10-17',
       },
       {
         id: 'clinics-hospitals',
@@ -875,34 +1150,28 @@ export const resourceCategories = [
       {
         id: 'healthcare-guidance',
         name: {
-          en: 'General healthcare guidance',
-          id: 'Panduan umum layanan kesehatan',
-          'zh-TW': '就醫一般須知',
+          en: 'Seeing a doctor in Taiwan',
+          id: 'Berobat di Taiwan',
+          'zh-TW': '在台灣看醫生',
         },
         tag: tags.guide,
         description: {
-          en: 'What to bring to an appointment and how visits usually work.',
-          id: 'Apa yang perlu dibawa saat berobat dan bagaimana biasanya prosesnya.',
-          'zh-TW': '看診時要帶什麼，以及一般的就醫流程。',
+          en: 'Finding a clinic, what to bring, how payment works, and when to call 119.',
+          id: 'Mencari klinik, apa yang perlu dibawa, cara pembayaran, dan kapan harus menghubungi 119.',
+          'zh-TW': '如何找診所、要帶什麼、如何付費，以及何時該撥打 119。',
         },
         steps: [
-          {
-            en: 'Bring your ARC and your health insurance card to every appointment.',
-            id: 'Bawa ARC dan kartu asuransi kesehatanmu setiap kali berobat.',
-            'zh-TW': '每次看診都請攜帶居留證與健保卡。',
-          },
-          {
-            en: 'For non-urgent problems, visit a local clinic before going to a large hospital.',
-            id: 'Untuk keluhan yang tidak mendesak, kunjungi klinik terdekat sebelum ke rumah sakit besar.',
-            'zh-TW': '非緊急狀況請先到附近診所，再視情況前往大醫院。',
-          },
-          {
-            en: 'Ask a friend who speaks Mandarin to come with you if you are unsure.',
-            id: 'Ajak teman yang bisa berbahasa Mandarin jika kamu ragu.',
-            'zh-TW': '如果不確定，可以請會說中文的朋友陪同。',
-          },
+          'Find a clinic or hospital. For everyday illness a local clinic is usually quickest. Use Google Maps, ask your university health centre, or search by the department you need, such as family medicine, ENT, or dermatology.',
+          'Book if you can. Many hospitals take appointments online or by phone; most small clinics accept walk-ins during opening hours.',
+          'Bring your ARC (or passport), your NHI card, and a list of any medication you take.',
+          'Pay at the counter. With NHI you pay a registration fee and a copayment; without NHI you pay the full cost, so keep your receipts for your insurance.',
+          'Get language help if you need it: write your symptoms down in Mandarin beforehand, use a translation app, or bring a friend who speaks Mandarin. Some larger hospitals have international medical service centres.',
         ],
-        needsVerification: true,
+        tips: [
+          'Life-threatening emergencies, such as chest pain, difficulty breathing, serious injury, or loss of consciousness: call 119 immediately.',
+          'Urgent but not life-threatening outside clinic hours: go to a hospital emergency department.',
+          'Your university health centre can often give first advice and referrals.',
+        ],
       },
     ],
   },

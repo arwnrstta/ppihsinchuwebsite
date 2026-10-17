@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { cabinet } from '../config/cabinet.js'
 import { navigation, site } from '../config/site.js'
 import { aboutTabs } from '../data/about.js'
-import { albums } from '../data/gallery.js'
+import { getGalleryYears } from '../utils/galleryHelpers.js'
 import { getVisibleCategories } from '../utils/resourceHelpers.js'
 import { useActiveSection } from '../hooks/useActiveSection.js'
 import { assetPath } from '../utils/assetPath.js'
@@ -37,7 +37,7 @@ const sectionIds = navigation.map((item) => item.id)
  * list here (or with only one entry) simply has no dropdown.
  *
  * Most lists are built from the data files, so a new About tab, resource
- * category or photo album appears in the menu automatically.
+ * category or gallery year appears in the menu automatically.
  *
  * Each entry has ONE of these for its text:
  *   labelKey - the name of a text in the translation files (src/locales/)
@@ -47,7 +47,7 @@ const sectionIds = navigation.map((item) => item.id)
  *   kind 'scroll'           scroll to the element whose id is "target"
  *   kind 'aboutTab'         open the About tab "target"
  *   kind 'resourceCategory' open the resource category "target"
- *   kind 'album'            show the gallery album "target"
+ *   kind 'galleryYear'      show the gallery year "target" ('all' for every year)
  */
 const dropdowns = {
   home: [
@@ -71,11 +71,11 @@ const dropdowns = {
     target: category.id,
   })),
   gallery: [
-    { labelKey: 'nav.dropdown.allPhotos', kind: 'album', target: 'all' },
-    ...albums.map((album) => ({
-      label: album.title,
-      kind: 'album',
-      target: album.id,
+    { labelKey: 'nav.dropdown.allPhotos', kind: 'galleryYear', target: 'all' },
+    ...getGalleryYears().map(({ year }) => ({
+      label: String(year),
+      kind: 'galleryYear',
+      target: String(year),
     })),
   ],
 }

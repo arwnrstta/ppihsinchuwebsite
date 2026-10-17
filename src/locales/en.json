@@ -188,8 +188,7 @@
       "venue": "Venue",
       "fee": "Fee",
       "organizer": "Organizer",
-      "registrationSoon": "Registration details coming soon.",
-      "viewPhotos": "View photos"
+      "registrationSoon": "Registration details coming soon."
     }
   },
   "resources": {
@@ -233,6 +232,8 @@
     "openPhotos": "View photos of {{name}}",
     "logoOf": "{{name}} logo",
     "promotion": "Promotion",
+    "officialLinks": "Official links",
+    "lastChecked": "Last checked on {{date}}",
     "actions": {
       "openInMaps": "Open in Google Maps",
       "directions": "Directions",
@@ -264,9 +265,7 @@
     "title": "The moments in between.",
     "description": "A collection of the faces, places, and little memories that make this community ours.",
     "allPhotos": "All photos",
-    "filterLabel": "Filter photos by album",
-    "placeholderPhotos": "Placeholder stock photos",
-    "viewEvent": "View event: {{title}}",
+    "filterLabel": "Filter photos by year",
     "empty": "Photos will be added here soon.",
     "openPhoto": "Open photo: {{description}}",
     "lightbox": {

@@ -1,9 +1,10 @@
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocalize } from '../utils/localize.js'
-import { hasActions } from '../utils/resourceHelpers.js'
+import { hasActions, hasGuideContent } from '../utils/resourceHelpers.js'
 import Icon from './Icon.jsx'
 import { ResourceActions, ResourceFacts } from './ResourceDetails.jsx'
+import ResourceGuide from './ResourceGuide.jsx'
 import VerificationBadge from './VerificationBadge.jsx'
 import './ResourceCard.css'
 
@@ -42,9 +43,8 @@ export default function ResourceCard({ resource, categoryTitle }) {
 
   const name = localizeText(resource.name)
   const description = localizeText(resource.description)
-  const notes = localizeText(resource.notes)
-  const steps = resource.steps ?? []
-  const hasFoldedDetails = steps.length > 0 || Boolean(notes)
+  // Steps, tips, subsections, links and notes fold away behind the title.
+  const hasFoldedDetails = hasGuideContent(resource)
   const hasActionButtons = hasActions(resource)
   const isPlace = resource.layout === 'place'
 
@@ -123,15 +123,7 @@ export default function ResourceCard({ resource, categoryTitle }) {
         >
           <div className="collapse__inner">
             <div className="resource-card__details">
-              {steps.length > 0 && (
-                <ol className="resource-card__steps">
-                  {steps.map((step, index) => (
-                    <li key={index}>{localizeText(step)}</li>
-                  ))}
-                </ol>
-              )}
-
-              {notes && <p className="resource-card__notes">{notes}</p>}
+              <ResourceGuide item={resource} />
             </div>
           </div>
         </div>

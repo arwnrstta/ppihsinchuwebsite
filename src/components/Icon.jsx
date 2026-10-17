@@ -136,6 +136,12 @@ const outlineIcons = {
       <path d="m8 9.5 3-6M16 9.5l-3-6M9 13.5v3M15 13.5v3" />
     </>
   ),
+  bus: (
+    <>
+      <rect x="4.5" y="3.5" width="15" height="14" rx="3" />
+      <path d="M4.5 11h15M8 17.5V20M16 17.5V20M8 14.5v.1M16 14.5v.1M8.5 6.5h7" />
+    </>
+  ),
   university: (
     <>
       <path d="m2.5 9 9.5-5 9.5 5-9.5 5-9.5-5Z" />

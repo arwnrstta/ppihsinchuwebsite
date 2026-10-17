@@ -41,7 +41,7 @@ ppi-hsinchu/
 │       ├── brand/          PPI Hsinchu logo and cabinet logo
 │       ├── committee/      Committee portraits
 │       ├── events/         Event posters
-│       ├── gallery/        Gallery photos
+│       ├── gallery/        Gallery photos, one folder per year
 │       ├── home/           Homepage hero image
 │       ├── leadership/     Photos of past cabinets
 │       └── photos/         General photos (currently stock placeholders)
@@ -57,7 +57,7 @@ ppi-hsinchu/
 │   │   ├── resources.js    Student resources
 │   │   ├── foodAndGroceries.js  Indonesian restaurants and grocery stores (also localServices.js, healthcareFacilities.js)
 │   │   ├── localBusinesses.js  Sponsored local business listings
-│   │   ├── gallery.js      Photo albums
+│   │   ├── gallery.js      Gallery photos, by year
 │   │   ├── universities.js Schools shown on the campus map
 │   │   ├── partners.js     Official partners (Our Partners page, homepage logos)
 │   │   └── contactForms.js Contact form fields
@@ -331,7 +331,7 @@ Only `name` is required. Leave out what you do not have: no `googleMapsUrl` mean
 - `nearbyUniversities` adds a campus tag such as "Near NTHU / NYCU", using the ids `nthu`, `nycu`, `ypu`, `chu`, `cute`, `ydu`, `hwu`. Add a school only after someone has checked that the place is genuinely convenient for its students; being in the same city or district is not enough. The short names in the tag come from `tagName` in `universities.js`.
 - `latitude` and `longitude` are optional and not shown yet; they are kept for future features such as a map.
 
-**How it looks.** Restaurants and grocery stores appear together as one always-open directory: two filters, then a grid of photo cards (photo or a neutral placeholder, name, business type, campus tag, short location, labels and buttons), with active sponsors in a "Featured Partners" strip above. Other lists (universities, hospitals, local services) appear as one expandable card that lists its places as compact rows. A section with no places is hidden completely. Sections are defined in `resources.js` as items with `listings: restaurants` (see the instructions at the top of that file), so a new kind of list can be added the same way.
+**How it looks.** Restaurants and grocery stores appear together as one always-open directory: two filters, then a grid of photo cards (photo or a neutral placeholder, name, business type, campus tag, short location, labels and buttons), with active sponsors in a "Featured Partners" strip above. Other lists (transport links, hospitals, local services) appear as one expandable card that lists its entries as compact rows. Guides can also have `tips`, `subsections`, a list of official `links`, and `lastVerified` (the date someone last checked them against official sources, shown as "Last checked on"); see the instructions at the top of `resources.js`. A section with no places is hidden completely. Sections are defined in `resources.js` as items with `listings: restaurants` (see the instructions at the top of that file), so a new kind of list can be added the same way.
 
 **Photos.** Each business can have one `image` (see the top of `foodAndGroceries.js`). Use only photos taken by us or shared by the owner; never copy them from Google Maps. Without a photo, the card shows a placeholder.
 
@@ -374,33 +374,29 @@ The current thumbnail is the first page of the guidebook. A portrait picture (ta
 
 When a new volume comes out, update `title`, `edition`, `url` and the thumbnail.
 
-### Add photo galleries
+### Add gallery photos
 
 **File:** [src/data/gallery.js](src/data/gallery.js)
 
-1. Resize photos to about 1600 pixels on the longest side, JPG, under about 400 KB each.
-2. Create a folder for the album, for example `public/images/gallery/halal-bihalal-2027/`, and put the photos in it.
-3. Add an album block:
+Gallery photos are grouped by year. The filter buttons above the photos show "All photos" and one button per year, newest first. There are no albums or event links.
+
+1. Resize photos to about 1600 pixels on the longest side, JPG, under about 400 KB each. Phone and camera originals are far too large, and HEIC photos do not open in most browsers.
+2. Put them in the folder for their year, for example `public/images/gallery/2027/`.
+3. Add one line per photo to that year's `photos` list (copy a whole year block for a new year):
 
 ```js
 {
-  id: 'halal-bihalal-2027',
-  title: 'Halal Bihalal',
   year: 2027,
-  description: 'An evening together after Eid.',
-  eventId: 'halal-bihalal-2027',
   photos: [
-    {
-      src: '/images/gallery/halal-bihalal-2027/01.jpg',
-      alt: 'Students sharing a meal at long tables',
-      caption: 'Dinner is served',
-    },
+    { src: '/images/gallery/2027/welcome-party.jpg', title: 'Welcome Party 2027', alt: 'Students cheering at a welcome party' },
   ],
 },
 ```
 
-- `eventId` must match the `id` of the event in `events.js`. This one line creates both links: "View event" on the album and "View photos" on the event. Use `''` if the album has no event.
-- `alt` describes the photo for visitors who use screen readers. Please always fill it in.
+- `title` is optional: the event or occasion, shown with the photo. Several photos can share a title.
+- `alt` is never shown on the page; screen readers read it to visitors who cannot see the photo. Please always fill it in.
+- A year without photos is not shown. Years can be listed in any order; the page always shows the newest first.
+- The year buttons and the navbar's Gallery dropdown update automatically.
 
 ### Update the campus map
 
@@ -694,7 +690,7 @@ Smaller numbers are faster. Set `--reveal-distance` to `0px` for a plain fade. A
 - **Order of the menu items:** [src/config/site.js](src/config/site.js), under `navigation`. The `id` values must match the section ids on the page, so leave those unchanged. The last item in the list is displayed as the red button.
 - **Text of the menu items:** the three files in [src/locales/](src/locales/), under `"nav"`.
 
-**Dropdowns.** Hovering a menu item shows a dropdown of that section's parts. The About, Resources and Gallery dropdowns are built from the data files (`aboutTabs` in `src/data/about.js`, the categories in `resources.js`, the albums in `gallery.js`), so they update by themselves. The Home and Events dropdowns are short fixed lists at the top of [src/components/Navbar.jsx](src/components/Navbar.jsx). A menu item with fewer than two parts gets no dropdown. Dropdowns are hidden in the mobile menu.
+**Dropdowns.** Hovering a menu item shows a dropdown of that section's parts. The About, Resources and Gallery dropdowns are built from the data files (`aboutTabs` in `src/data/about.js`, the categories in `resources.js`, the years in `gallery.js`), so they update by themselves. The Home and Events dropdowns are short fixed lists at the top of [src/components/Navbar.jsx](src/components/Navbar.jsx). A menu item with fewer than two parts gets no dropdown. Dropdowns are hidden in the mobile menu.
 
 **Language switcher.** The language dropdown (showing `EN`, `ID` or `繁中`) comes from the `languages` list in [src/i18n.js](src/i18n.js).
 
@@ -802,9 +798,6 @@ The name on the left side of a line in `src/locales/en.json` was changed or dele
 
 **The page shows `[object Object]`**
 A multilingual text `{ en: ..., id: ... }` was used where the website expects plain text. Check the file you just edited against the examples in "Languages and translations".
-
-**"View photos" does not appear on an event**
-The album's `eventId` in `gallery.js` must match the event's `id` in `events.js` exactly.
 
 **`npm run build` fails**
 Run `npm run lint`. It lists problems with file names and line numbers. Fix them and build again. If the build worked before your changes, the cause is in a file you edited.

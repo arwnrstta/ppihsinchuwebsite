@@ -147,7 +147,45 @@ function toCard(item, { key, categoryId, defaultType: fallbackType = defaultType
     googleMapsUrl: checkLink(item.googleMapsUrl, isGoogleMapsUrl, 'googleMapsUrl', itemName),
     websiteUrl: checkLink(item.websiteUrl, isWebUrl, 'websiteUrl', itemName),
     instagramUrl: checkLink(item.instagramUrl, isInstagramUrl, 'instagramUrl', itemName),
+    links: toLinks(item.links, itemName),
+    subsections: toSubsections(item.subsections, itemName),
   }
+}
+
+/*
+ * A list of { label, url, description } links with every url checked.
+ * Links without a valid url or a label are left out (with a warning).
+ */
+function toLinks(links, itemName) {
+  if (!Array.isArray(links)) return []
+  return links
+    .map((link) => ({ ...link, url: checkLink(link?.url, isWebUrl, 'links', itemName) }))
+    .filter((link) => {
+      if (link.url && localize(link.label, 'en')) return true
+      if (link.url) warn(`"${itemName}": a link has no label and is hidden.`)
+      return false
+    })
+}
+
+/* Subsections ({ title, text, steps, tips, links }) with their links checked. */
+function toSubsections(subsections, itemName) {
+  if (!Array.isArray(subsections)) return []
+  return subsections
+    .filter((subsection) => localize(subsection?.title, 'en'))
+    .map((subsection) => ({ ...subsection, links: toLinks(subsection.links, itemName) }))
+}
+
+/* True when a card or section has fold-out content for ResourceGuide.jsx. */
+export function hasGuideContent(item) {
+  return Boolean(
+    item.steps?.length ||
+      item.tips?.length ||
+      item.subsections?.length ||
+      item.links?.length ||
+      localize(item.text, 'en') ||
+      localize(item.notes, 'en') ||
+      item.lastVerified,
+  )
 }
 
 /* The valid ids in "businessTypes" (e.g. ['restaurant', 'grocery']). */
@@ -354,6 +392,11 @@ function toSection(item, { key, categoryId, today }) {
     listings: sortCards(listings),
     sponsored: sortCards(sponsored),
     filters: toFilters(item.filters, sectionName),
+    // Optional extras shown after the places (ResourceGuide.jsx).
+    tips: Array.isArray(item.tips) ? item.tips : [],
+    links: toLinks(item.links, sectionName),
+    notes: item.notes,
+    lastVerified: item.lastVerified,
   }
 }
 
@@ -416,8 +459,18 @@ function searchableText(entry, languageCode) {
     entry.address,
     entry.serviceInfo,
     entry.notes,
+    entry.text,
     entry.phone?.display,
     ...(entry.steps ?? []),
+    ...(entry.tips ?? []),
+    ...(entry.links ?? []).flatMap((link) => [link.label, link.description]),
+    ...(entry.subsections ?? []).flatMap((subsection) => [
+      subsection.title,
+      subsection.text,
+      ...(subsection.steps ?? []),
+      ...(subsection.tips ?? []),
+      ...(subsection.links ?? []).flatMap((link) => [link.label, link.description]),
+    ]),
   ]
     .map((text) => localize(text, languageCode))
     .join(' ')

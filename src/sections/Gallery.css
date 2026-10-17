@@ -18,27 +18,6 @@
   margin-bottom: 2rem;
 }
 
-.gallery__album {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  margin-bottom: 1.75rem;
-  padding: 1.25rem 1.5rem;
-  border: 1px solid rgb(255 255 255 / 0.14);
-  border-radius: var(--radius-medium);
-  background: rgb(255 255 255 / 0.04);
-}
-
-.gallery__album-title {
-  font-size: 1.5rem;
-}
-
-.gallery__album-description {
-  color: rgb(255 255 255 / 0.7);
-}
-
 .gallery__empty {
   padding: 3rem 1rem;
   border: 1.5px dashed rgb(255 255 255 / 0.2);

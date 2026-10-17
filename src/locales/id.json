@@ -187,8 +187,7 @@
       "venue": "Lokasi",
       "fee": "Biaya",
       "organizer": "Penyelenggara",
-      "registrationSoon": "Informasi pendaftaran segera hadir.",
-      "viewPhotos": "Lihat foto"
+      "registrationSoon": "Informasi pendaftaran segera hadir."
     }
   },
   "resources": {
@@ -231,6 +230,8 @@
     "openPhotos": "Lihat foto {{name}}",
     "logoOf": "Logo {{name}}",
     "promotion": "Promo",
+    "officialLinks": "Tautan resmi",
+    "lastChecked": "Terakhir dicek pada {{date}}",
     "actions": {
       "openInMaps": "Buka di Google Maps",
       "directions": "Petunjuk Arah",
@@ -262,9 +263,7 @@
     "title": "Momen-momen di antaranya.",
     "description": "Kumpulan wajah, tempat, dan kenangan kecil yang menjadikan komunitas ini milik kita.",
     "allPhotos": "Semua foto",
-    "filterLabel": "Saring foto berdasarkan album",
-    "placeholderPhotos": "Foto stok sementara",
-    "viewEvent": "Lihat kegiatan: {{title}}",
+    "filterLabel": "Saring foto berdasarkan tahun",
     "empty": "Foto akan segera ditambahkan di sini.",
     "openPhoto": "Buka foto: {{description}}",
     "lightbox": {

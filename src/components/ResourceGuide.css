@@ -1,0 +1,103 @@
+/*
+ * Fold-out content of a resource card or section (ResourceGuide.jsx).
+ * Numbered steps reuse .resource-card__steps from ResourceCard.css.
+ */
+.resource-guide {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+}
+
+.resource-guide__text {
+  color: var(--color-charcoal);
+}
+
+/* "Good to know" bullet points. */
+.resource-guide__tips {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.resource-guide__tips li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.resource-guide__tips li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+/* Smaller headed blocks, e.g. "University dormitories". */
+.resource-guide__subsection {
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.resource-guide__subtitle {
+  font-size: 1rem;
+}
+
+.resource-guide__label {
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+/* Official links: one per line, with an optional short explanation. */
+.resource-guide__links ul {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.resource-guide__links li {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.resource-guide__link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: var(--color-red);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--duration-fast) var(--ease-smooth);
+  overflow-wrap: anywhere;
+}
+
+.resource-guide__link:hover {
+  text-decoration-color: currentColor;
+}
+
+.resource-guide__link svg {
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.resource-guide__link-description {
+  font-size: 0.88rem;
+  color: var(--color-gray);
+}
+
+.resource-guide__checked {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--color-gray);
+}

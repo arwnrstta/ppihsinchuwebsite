@@ -65,8 +65,8 @@ All items are drafts marked "Needs verification".
 
 ## Gallery — `src/data/gallery.js`
 
-- [ ] Replace the 7 stock photos with real PPI Hsinchu photos
-- [ ] Create one album per event and link it with `eventId`
+- [ ] Real photos added under the right year, each with an `alt` description
+- [ ] Photos resized (about 1600 px, under about 400 KB) and saved in `public/images/gallery/<year>/`
 - [ ] Delete unused stock photos from `public/images/photos/`
 
 ## Connect With Us — `src/config/site.js`

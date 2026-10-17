@@ -32,10 +32,9 @@ import { hasActivePartners } from './utils/partnerHelpers.js'
  *                     homepage card can jump straight to "Our Committee".
  *   resourceCategoryId - which resource category is open, so the navbar
  *                     dropdown can open one.
- *   openEventId     - which event's detail window is open, so a gallery
- *                     album can open its event.
- *   selectedAlbumId - which album the gallery is showing, so an event can
- *                     jump to its photos.
+ *   openEventId     - which event's detail window is open.
+ *   selectedYear    - which year the gallery is showing, so the navbar
+ *                     dropdown can open one.
  */
 
 function scrollToSection(sectionId) {
@@ -52,7 +51,7 @@ export default function App() {
     () => getVisibleCategories()[0]?.id ?? '',
   )
   const [openEventId, setOpenEventId] = useState(null)
-  const [selectedAlbumId, setSelectedAlbumId] = useState('all')
+  const [selectedYear, setSelectedYear] = useState('all')
   const currentPage = useCurrentPage()
   const partnersAvailable = hasActivePartners()
   const isPartnersPage = currentPage === 'partners' && partnersAvailable
@@ -92,16 +91,15 @@ export default function App() {
     goToSection('about')
   }
 
-  function showAlbum(albumId) {
-    setOpenEventId(null)
-    setSelectedAlbumId(albumId)
+  function showGalleryYear(year) {
+    setSelectedYear(year)
     goToSection('gallery')
   }
 
   /*
    * Called when a visitor picks an entry in a navbar dropdown.
    * Each entry has a "kind" that says what to do and a "target" that says
-   * which tab, category, album or element to show.
+   * which tab, category, year or element to show.
    * The entries themselves are listed in src/components/Navbar.jsx.
    */
   function handleDropdownSelect(dropdownItem) {
@@ -110,8 +108,8 @@ export default function App() {
     } else if (dropdownItem.kind === 'resourceCategory') {
       setResourceCategoryId(dropdownItem.target)
       goToSection('resources')
-    } else if (dropdownItem.kind === 'album') {
-      showAlbum(dropdownItem.target)
+    } else if (dropdownItem.kind === 'galleryYear') {
+      showGalleryYear(dropdownItem.target)
     } else {
       goToSection(dropdownItem.target)
     }
@@ -140,17 +138,12 @@ export default function App() {
             openEventId={openEventId}
             onOpenEvent={setOpenEventId}
             onCloseEvent={() => setOpenEventId(null)}
-            onShowAlbum={showAlbum}
           />
           <Resources
             activeCategoryId={resourceCategoryId}
             onCategoryChange={setResourceCategoryId}
           />
-          <Gallery
-            selectedAlbumId={selectedAlbumId}
-            onSelectAlbum={setSelectedAlbumId}
-            onOpenEvent={setOpenEventId}
-          />
+          <Gallery selectedYear={selectedYear} onSelectYear={setSelectedYear} />
           <Contact />
           <FeaturedPartners />
         </main>

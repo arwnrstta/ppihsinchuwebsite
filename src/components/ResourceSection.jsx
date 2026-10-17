@@ -1,7 +1,9 @@
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocalize } from '../utils/localize.js'
+import { hasGuideContent } from '../utils/resourceHelpers.js'
 import Icon from './Icon.jsx'
+import ResourceGuide from './ResourceGuide.jsx'
 import ResourceListing from './ResourceListing.jsx'
 import './ResourceCard.css'
 import './ResourceSection.css'
@@ -36,7 +38,7 @@ const sectionIcons = {
   hospital: 'medical',
   clinic: 'medical',
   pharmacy: 'medical',
-  university: 'university',
+  transport: 'bus',
 }
 
 export default function ResourceSection({ section, categoryTitle, defaultOpen = false }) {
@@ -113,6 +115,9 @@ export default function ResourceSection({ section, categoryTitle, defaultOpen = 
                 ))}
               </ul>
             )}
+
+            {/* Optional tips, links and "last checked" date after the places. */}
+            {hasGuideContent(section) && <ResourceGuide item={section} />}
           </div>
         </div>
       </div>

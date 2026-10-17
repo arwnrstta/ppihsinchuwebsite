@@ -24,7 +24,7 @@ You should almost never need to open the `components` or `sections` folders.
 | Student resources and the guidebook tile | `src/data/resources.js` |
 | Restaurants, grocery stores, local services, healthcare facilities | `src/data/foodAndGroceries.js`, `localServices.js`, `healthcareFacilities.js` |
 | Sponsored local business listings | `src/data/localBusinesses.js` |
-| Photo albums | `src/data/gallery.js` |
+| Gallery photos (by year) | `src/data/gallery.js` |
 | Schools on the campus map | `src/data/universities.js` |
 | "Who We Are" text | `src/data/about.js` |
 | Social media, contact email, video, AD/ART, menu order | `src/config/site.js` |
@@ -128,7 +128,7 @@ Click every link on the website and fix or remove any that are broken.
 - [ ] Rewrite the descriptions of finished events in the past tense
 - [ ] Remove registration links from finished events (`registrationUrl: ''`)
 - [ ] Add each finished event's Google Drive folder link as its `documentationUrl` (folder shared as "Anyone with the link")
-- [ ] Add a photo album for each finished event
+- [ ] Add the year's best photos to the gallery (resized, with `alt` text)
 
 ### 6. Add upcoming events
 
@@ -142,7 +142,8 @@ File: `src/data/events.js`
 
 File: `src/data/resources.js`
 
-- [ ] Immigration, insurance and scholarship information checked against official sources. These rules change often
+- [ ] Immigration, insurance, work permit and scholarship information checked against official sources. These rules change often. Update `lastVerified` on each item you check, and look for `needsVerification` comments that say what is still unconfirmed
+- [ ] Transport links still work, including the NTHU and NYCU shuttle timetable pages
 - [ ] Restaurants and shops that have closed removed; new ones added (`foodAndGroceries.js`, `localServices.js`, `healthcareFacilities.js` in `src/data/`)
 - [ ] Campus tags (`nearbyUniversities` on food businesses) still correct: checked by someone who knows the area, not guessed from the district
 - [ ] `needsVerification: true` removed only from items you have personally checked. Open the website with `?review` in the address (e.g. `/?review#resources`) to see which items are still unchecked
@@ -260,7 +261,7 @@ Short on time? Write only the `en:` lines. The event appears in English in every
 
 **Step 3.** Save and check the **Events** section. If this is the nearest upcoming event, it appears as the large featured card. The homepage card updates too.
 
-**After the event:** you do not need to move anything. Once 22 May 2027 has passed, the event appears under "Past events" automatically. To add photos, create an album in `src/data/gallery.js` with `eventId: 'malam-budaya-2027'`.
+**After the event:** you do not need to move anything. Once 22 May 2027 has passed, the event appears under "Past events" automatically. To add photos, add them to the 2027 year in `src/data/gallery.js`.
 
 Things to notice:
 

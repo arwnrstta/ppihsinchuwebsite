@@ -5,10 +5,10 @@ import { cabinet } from '../../config/cabinet.js'
 import { hero } from '../../config/site.js'
 import { divisions } from '../../data/committee.js'
 import { events } from '../../data/events.js'
-import { albums } from '../../data/gallery.js'
 import { assetPath } from '../../utils/assetPath.js'
 import { formatEventDate, getUpcomingEvents } from '../../utils/eventHelpers.js'
 import { useLocalize } from '../../utils/localize.js'
+import { countGalleryPhotos } from '../../utils/galleryHelpers.js'
 import './HomePreviews.css'
 
 /*
@@ -28,7 +28,7 @@ export default function HomePreviews({ onShowAboutTab }) {
     (total, division) => total + division.members.length,
     0,
   )
-  const photoCount = albums.reduce((total, album) => total + album.photos.length, 0)
+  const photoCount = countGalleryPhotos()
 
   /* Opens a specific About tab instead of only scrolling to the section. */
   function openAboutTab(event, tabId) {

@@ -54,8 +54,8 @@
  *   isSample        - true marks placeholder content with a "Sample" label.
  *                     Remove this line for real events.
  *
- * To link an event to a photo album, set "eventId" on the album in
- * src/data/gallery.js. Nothing needs to change in this file.
+ * Photos of past events go in the yearly photo archive (src/data/gallery.js)
+ * or behind documentationUrl; events and gallery photos are not linked.
  */
 
 export const events = [

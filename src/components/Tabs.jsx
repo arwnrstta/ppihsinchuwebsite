@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import './Tabs.css'
 
 /*
@@ -23,7 +24,69 @@ import './Tabs.css'
  *   tone         - 'red' (default) or 'cabinet' for the purple cabinet colour
  *   mobileSelect - true swaps the buttons for a dropdown on small screens,
  *                  which is easier to use when there are many long labels
+ *
+ * When the row is wider than the screen it scrolls sideways (by touch,
+ * trackpad or mouse). Choosing a tab also scrolls the row by itself so
+ * that the chosen tab AND its neighbours are fully visible, e.g. choosing
+ * the second-to-last tab reveals the last one too. The first tab scrolls
+ * back to the start, the last one to the end. Nothing moves when they are
+ * already visible, and the page itself never scrolls up or down.
  */
+
+// Space kept between the visible tabs and the edges of the row (pixels).
+const edgePadding = 16
+
+/*
+ * Where the row should scroll to so the tab at "index" and its neighbours
+ * are fully visible, or null when no scrolling is needed.
+ */
+function getScrollTarget(list, tabElements, index) {
+  const maxScroll = list.scrollWidth - list.clientWidth
+  if (maxScroll <= 0) return null
+
+  // A tab's start and end, measured along the whole scrollable row.
+  const listLeft = list.getBoundingClientRect().left
+  const span = (element) => {
+    const rect = element.getBoundingClientRect()
+    const start = rect.left - listLeft + list.scrollLeft
+    return { start, end: start + rect.width }
+  }
+
+  const active = span(tabElements[index])
+  const previous = tabElements[index - 1]
+  const next = tabElements[index + 1]
+  // No neighbour on a side means "all the way to that end of the row".
+  let regionStart = previous ? span(previous).start - edgePadding : 0
+  let regionEnd = next ? span(next).end + edgePadding : list.scrollWidth
+
+  // On narrow screens the neighbours may not fit: keep the chosen tab whole.
+  if (regionEnd - regionStart > list.clientWidth) {
+    regionStart = active.start - edgePadding
+    regionEnd = active.end + edgePadding
+  }
+
+  const viewStart = list.scrollLeft
+  const viewEnd = viewStart + list.clientWidth
+  let target = viewStart
+  if (regionStart < viewStart) target = regionStart
+  else if (regionEnd > viewEnd) target = regionEnd - list.clientWidth
+
+  target = Math.min(Math.max(target, 0), maxScroll)
+  return Math.abs(target - viewStart) < 1 ? null : target
+}
+
+/* Scrolls the row so the selected tab and its neighbours are visible. */
+function revealSelectedTab(list, { smooth }) {
+  // A row hidden behind the mobile dropdown has no width: nothing to do.
+  if (!list || list.clientWidth === 0) return
+  const tabElements = Array.from(list.querySelectorAll('[role="tab"]'))
+  const index = tabElements.findIndex((tab) => tab.getAttribute('aria-selected') === 'true')
+  if (index < 0) return
+  const target = getScrollTarget(list, tabElements, index)
+  if (target === null) return
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  list.scrollTo({ left: target, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' })
+}
 export default function Tabs({
   tabs,
   activeId,
@@ -33,6 +96,32 @@ export default function Tabs({
   tone = 'red',
   mobileSelect = false,
 }) {
+  const listRef = useRef(null)
+  const hasMountedRef = useRef(false)
+
+  // A new selection: glide to it (jump instead on the first render).
+  useEffect(() => {
+    revealSelectedTab(listRef.current, { smooth: hasMountedRef.current })
+    hasMountedRef.current = true
+  }, [activeId])
+
+  // The row changed size (window resized, language changed...): adjust instantly.
+  useEffect(() => {
+    const list = listRef.current
+    if (!list || typeof ResizeObserver === 'undefined') return undefined
+    let isFirstCall = true
+    const observer = new ResizeObserver(() => {
+      // The observer reports once straight away; the effect above handles that.
+      if (isFirstCall) {
+        isFirstCall = false
+        return
+      }
+      revealSelectedTab(list, { smooth: false })
+    })
+    observer.observe(list)
+    return () => observer.disconnect()
+  }, [])
+
   /* Left/Right arrow keys move between tabs, as keyboard users expect. */
   function handleKeyDown(event) {
     const currentIndex = tabs.findIndex((tab) => tab.id === activeId)
@@ -48,7 +137,8 @@ export default function Tabs({
     event.preventDefault()
     const nextTab = tabs[nextIndex]
     onChange(nextTab.id)
-    document.getElementById(`${idPrefix}-tab-${nextTab.id}`)?.focus()
+    // preventScroll: the row scrolls itself smoothly once the tab is selected.
+    document.getElementById(`${idPrefix}-tab-${nextTab.id}`)?.focus({ preventScroll: true })
   }
 
   return (
@@ -56,6 +146,7 @@ export default function Tabs({
       className={`tabs tabs--${tone} ${mobileSelect ? 'tabs--mobile-select' : ''}`}
     >
       <div
+        ref={listRef}
         className="tabs__list"
         role="tablist"
         aria-label={label}

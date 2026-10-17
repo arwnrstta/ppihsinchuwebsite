@@ -16,17 +16,14 @@ import './EventDetail.css'
  *
  * Props:
  *   event       - the event to show (from src/data/events.js)
- *   album       - the photo album linked to this event, if there is one
  *   onClose     - closes the window
- *   onShowAlbum - called with the album id for the "View photos" button
  *
  * Buttons:
  *   "Register"            upcoming events with a registrationUrl
  *   "View documentation"  past events; opens documentationUrl (Google Drive).
  *                         Greyed out until a link is added.
- *   "View photos"         events with a linked album in the on-site gallery
  */
-export default function EventDetail({ event, album, onClose, onShowAlbum }) {
+export default function EventDetail({ event, onClose }) {
   const { t, i18n } = useTranslation()
   const localizeText = useLocalize()
   const upcoming = isUpcoming(event)
@@ -118,16 +115,6 @@ export default function EventDetail({ event, album, onClose, onShowAlbum }) {
                   {t('events.documentationSoon')}
                 </button>
               ))}
-            {album && (
-              <button
-                type="button"
-                className="button button--outline"
-                onClick={() => onShowAlbum(album.id)}
-              >
-                <Icon name="image" size={18} />
-                {t('events.detail.viewPhotos')}
-              </button>
-            )}
           </div>
         </div>
       </div>
