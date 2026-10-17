@@ -1,5 +1,6 @@
 import { sponsoredListings } from '../data/localBusinesses.js'
 import { resourceCategories, resourceTypes } from '../data/resources.js'
+import { locationGroups, regions, universities } from '../data/universities.js'
 import { assetPath } from './assetPath.js'
 import { getTodayString } from './eventHelpers.js'
 import { localize } from './localize.js'
@@ -8,7 +9,7 @@ import { isWithinDates } from './partnerHelpers.js'
 /*
  * Helper functions for the Resources section.
  * They turn src/data/resources.js, the listing files it imports
- * (restaurants.js, groceryStores.js...) and the sponsored listings in
+ * (foodAndGroceries.js, localServices.js...) and the sponsored listings in
  * src/data/localBusinesses.js into ready-to-draw entries: links are
  * checked, phone numbers turned into "tel:" links, items sorted, and empty
  * sections and categories left out. The components only draw what is here,
@@ -112,7 +113,8 @@ function toCard(item, { key, categoryId, defaultType: fallbackType = defaultType
     return null
   }
 
-  const type = getTypeId(item.type, itemName, fallbackType)
+  const businessTypes = toBusinessTypes(item, itemName)
+  const type = getTypeId(item.type ?? businessTypes[0], itemName, fallbackType)
   const layout = layoutOf(type)
   const phone = parsePhone(item.phone, itemName)
 
@@ -135,12 +137,61 @@ function toCard(item, { key, categoryId, defaultType: fallbackType = defaultType
     imageSource: isImagePath(item.image) ? item.image : '',
     logo: isImagePath(item.logo) ? assetPath(item.logo) : '',
     gallery: toGallery(item.gallery),
-    area: item.area || shortLocation(item.address),
+    area: item.area || item.district || shortLocation(item.address),
+    businessTypes: businessTypes.length > 0 ? businessTypes : [type],
+    region: toRegion(item, itemName),
+    nearbyUniversities: toUniversityIds(item.nearbyUniversities, itemName),
+    latitude: toCoordinate(item.latitude, 90),
+    longitude: toCoordinate(item.longitude, 180),
     phone,
     googleMapsUrl: checkLink(item.googleMapsUrl, isGoogleMapsUrl, 'googleMapsUrl', itemName),
     websiteUrl: checkLink(item.websiteUrl, isWebUrl, 'websiteUrl', itemName),
     instagramUrl: checkLink(item.instagramUrl, isInstagramUrl, 'instagramUrl', itemName),
   }
+}
+
+/* The valid ids in "businessTypes" (e.g. ['restaurant', 'grocery']). */
+function toBusinessTypes(item, itemName) {
+  if (!Array.isArray(item.businessTypes)) return []
+  return item.businessTypes.filter((typeId) => {
+    if (resourceTypes[typeId]) return true
+    warn(`"${itemName}": unknown business type "${typeId}" is ignored.`)
+    return false
+  })
+}
+
+/*
+ * The region id of a place: its own "region", or the region whose
+ * addressMatches appear in its address (see src/data/universities.js).
+ */
+function toRegion(item, itemName) {
+  if (item.region) {
+    if (regions.some((region) => region.id === item.region)) return item.region
+    warn(`"${itemName}": unknown region "${item.region}".`)
+  }
+  const address = typeof item.address === 'string' ? item.address.toLowerCase() : ''
+  if (!address) return ''
+  const found = regions.find((region) =>
+    (region.addressMatches ?? []).some((word) => address.includes(word.toLowerCase())),
+  )
+  return found?.id ?? ''
+}
+
+/* The ids in "nearbyUniversities" that exist in src/data/universities.js. */
+function toUniversityIds(ids, itemName) {
+  if (!Array.isArray(ids)) return []
+  return ids.filter((id) => {
+    if (universities.some((university) => university.id === id)) return true
+    warn(`"${itemName}": unknown university "${id}" in nearbyUniversities is ignored.`)
+    return false
+  })
+}
+
+/* A latitude/longitude number within range, or null. */
+function toCoordinate(value, limit) {
+  return typeof value === 'number' && Number.isFinite(value) && Math.abs(value) <= limit
+    ? value
+    : null
 }
 
 /* A local picture path ('/images/...') or a full https:// link. */
@@ -245,7 +296,19 @@ function toSection(item, { key, categoryId, today }) {
             }
             sponsoredIds.add(listingId)
           }
-          const merged = { ...base, ...filledFields(fields), featured: false }
+          let merged = { ...base, ...filledFields(fields), featured: false }
+          if (listingId) {
+            // Where a business is, and which campuses it is near, always
+            // comes from the directory itself, never from the sponsorship.
+            const locationFields = ['region', 'nearbyUniversities', 'latitude', 'longitude']
+            if (locationFields.some((field) => field in fields)) {
+              warn(`Sponsored listing "${listingId}": location fields are taken from the directory, not the sponsorship.`)
+            }
+            merged = {
+              ...merged,
+              ...Object.fromEntries(locationFields.map((field) => [field, base[field]])),
+            }
+          }
           return toCard(merged, {
             key: `${sectionKey}-sponsored-${listing.id ?? listingId ?? index}`,
             categoryId,
@@ -290,6 +353,26 @@ function toSection(item, { key, categoryId, today }) {
     priority: item.priority,
     listings: sortCards(listings),
     sponsored: sortCards(sponsored),
+    filters: toFilters(item.filters, sectionName),
+  }
+}
+
+/*
+ * The filters a directory section shows (see the Indonesian Food &
+ * Groceries section in resources.js), or null for none.
+ */
+function toFilters(filters, sectionName) {
+  if (!filters || typeof filters !== 'object') return null
+  const businessTypes = (Array.isArray(filters.businessTypes) ? filters.businessTypes : []).filter(
+    (typeId) => {
+      if (resourceTypes[typeId]) return true
+      warn(`Section "${sectionName}": unknown business type "${typeId}" in filters.`)
+      return false
+    },
+  )
+  return {
+    businessTypes: businessTypes.length > 1 ? businessTypes : [],
+    location: filters.location === true,
   }
 }
 
@@ -322,7 +405,14 @@ function searchableText(entry, languageCode) {
     entry.name,
     ...entry.labels,
     resourceTypes[entry.type]?.label,
+    ...(entry.businessTypes ?? []).map((typeId) => resourceTypes[typeId]?.label),
+    regions.find((region) => region.id === entry.region)?.name,
+    ...(entry.nearbyUniversities ?? []).flatMap((id) => {
+      const university = universities.find((school) => school.id === id)
+      return university ? [university.shortName, university.tagName, university.name] : []
+    }),
     entry.description,
+    entry.area,
     entry.address,
     entry.serviceInfo,
     entry.notes,
@@ -363,6 +453,8 @@ export function filterEntriesByType(entries, typeId) {
       if (entry.kind !== 'section') {
         return entry.layout === 'emergency' || entry.type === typeId ? entry : null
       }
+      // Directories with their own filters are filtered there instead.
+      if (entry.filters) return entry
       const listings = entry.listings.filter((card) => card.type === typeId)
       const sponsored = entry.sponsored.filter((card) => card.type === typeId)
       return listings.length + sponsored.length > 0 ? { ...entry, listings, sponsored } : null
@@ -379,6 +471,8 @@ export function getFilterTypes(entries) {
   const used = new Set()
   for (const entry of entries) {
     if (entry.kind === 'section') {
+      // Directories with their own filters do not add to the category filter.
+      if (entry.filters) continue
       ;[...entry.listings, ...entry.sponsored].forEach((card) => used.add(card.type))
     } else if (entry.layout !== 'emergency') {
       used.add(entry.type)
@@ -401,4 +495,39 @@ export function countResults(entries) {
       total + (entry.kind === 'section' ? entry.listings.length + entry.sponsored.length : 1),
     0,
   )
+}
+
+/* ---------- Directory filters (Indonesian Food & Groceries) ---------- */
+
+/* The choices of the "Location" filter (locationGroups in universities.js). */
+export function getLocationGroups() {
+  return locationGroups
+}
+
+/*
+ * The Location filter choice a place falls under: its region's
+ * locationGroup, or 'other' when the region is unknown.
+ */
+export function locationGroupOf(place) {
+  return regions.find((region) => region.id === place.region)?.locationGroup ?? 'other'
+}
+
+/* True when a place fits the chosen type and location. 'all' means "any". */
+export function matchesDirectoryFilters(place, { typeId, locationId }) {
+  if (typeId !== 'all' && !place.businessTypes.includes(typeId)) return false
+  if (locationId !== 'all' && locationGroupOf(place) !== locationId) return false
+  return true
+}
+
+/*
+ * The campus tag of a place, e.g. "NTHU / NYCU", built from its checked
+ * nearbyUniversities and each school's tagName. '' when there is none.
+ */
+export function campusTagText(place, languageCode) {
+  return (place.nearbyUniversities ?? [])
+    .map((id) => universities.find((university) => university.id === id))
+    .filter(Boolean)
+    .map((university) => localize(university.tagName ?? university.shortName, languageCode))
+    .filter(Boolean)
+    .join(' / ')
 }

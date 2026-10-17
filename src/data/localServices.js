@@ -22,7 +22,7 @@ import { tags } from './resourceTags.js'
  *     phone: '03-000-0000',
  *   },
  *
- * Only "name" is required; the fields work exactly as in restaurants.js.
+ * Only "name" is required; the fields work exactly as in foodAndGroceries.js.
  * A shop or restaurant listed here can say so with type: 'shop' or
  * type: 'restaurant' so the type filter finds it.
  */

@@ -2,8 +2,8 @@
  * RESOURCE TAGS
  * -------------
  * The short labels on resource cards and listings, written once and reused
- * by src/data/resources.js and the listing files (restaurants.js,
- * groceryStores.js, localServices.js, healthcareFacilities.js).
+ * by src/data/resources.js and the listing files (foodAndGroceries.js,
+ * localServices.js, healthcareFacilities.js).
  *
  * Use one like this:  tags: [tags.food, tags.halal]
  * To add a label, add a line below with its text in each language.

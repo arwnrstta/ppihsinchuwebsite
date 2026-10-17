@@ -22,7 +22,7 @@ You should almost never need to open the `components` or `sections` folders.
 | Past cabinets | `src/data/leadership.js` |
 | Events | `src/data/events.js` |
 | Student resources and the guidebook tile | `src/data/resources.js` |
-| Restaurants, grocery stores, local services, healthcare facilities | `src/data/restaurants.js`, `groceryStores.js`, `localServices.js`, `healthcareFacilities.js` |
+| Restaurants, grocery stores, local services, healthcare facilities | `src/data/foodAndGroceries.js`, `localServices.js`, `healthcareFacilities.js` |
 | Sponsored local business listings | `src/data/localBusinesses.js` |
 | Photo albums | `src/data/gallery.js` |
 | Schools on the campus map | `src/data/universities.js` |
@@ -143,7 +143,8 @@ File: `src/data/events.js`
 File: `src/data/resources.js`
 
 - [ ] Immigration, insurance and scholarship information checked against official sources. These rules change often
-- [ ] Restaurants and shops that have closed removed; new ones added (`restaurants.js`, `groceryStores.js`, `localServices.js`, `healthcareFacilities.js` in `src/data/`)
+- [ ] Restaurants and shops that have closed removed; new ones added (`foodAndGroceries.js`, `localServices.js`, `healthcareFacilities.js` in `src/data/`)
+- [ ] Campus tags (`nearbyUniversities` on food businesses) still correct: checked by someone who knows the area, not guessed from the district
 - [ ] `needsVerification: true` removed only from items you have personally checked. Open the website with `?review` in the address (e.g. `/?review#resources`) to see which items are still unchecked
 - [ ] Emergency numbers (`type: 'emergency'`) still match the official sources
 - [ ] Map, website and Instagram links open the right place (run `npm run dev` and check the browser console for link warnings)

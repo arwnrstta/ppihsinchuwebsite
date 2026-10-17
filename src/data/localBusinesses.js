@@ -20,7 +20,7 @@
  *
  *   {
  *     id: 'example-bakery',             // short unique name, no spaces
- *     section: 'indonesian-restaurants',  // the id of a section in src/data/resources.js
+ *     section: 'indonesian-food-groceries',  // the id of a section in src/data/resources.js
  *     name: 'Example Bakery',           // never translated
  *     description: {
  *       en: 'One or two sentences about the business.',
@@ -48,19 +48,19 @@
  *     priority: 1,                      // optional: 1 is shown before 2
  *   },
  *
- * Every optional field works exactly as in src/data/restaurants.js: leave
+ * Every optional field works exactly as in src/data/foodAndGroceries.js: leave
  * out what the business does not have, and its button simply does not appear.
  *
- * SECTION IDS: 'indonesian-restaurants', 'halal-groceries', 'local-services'
+ * SECTION IDS: 'indonesian-food-groceries', 'local-services'
  *
  * WHEN THE BUSINESS IS ALREADY IN THE DIRECTORY
- * If the restaurant or shop is already listed (e.g. in restaurants.js), do
- * not copy its details. Point to it with "listingId" instead, and it is
- * shown once, at the top, with the "Sponsored" label:
+ * If the business is already listed (e.g. in foodAndGroceries.js), do not
+ * copy its details. Point to it with "listingId" instead, and it is shown
+ * once, at the top, with the "Sponsored" label:
  *
  *   {
- *     section: 'indonesian-restaurants',
- *     listingId: 'lj',                  // the id used in restaurants.js
+ *     section: 'indonesian-food-groceries',
+ *     listingId: 'lj',                  // the id used in foodAndGroceries.js
  *     startDate: '2026-09-01',
  *     endDate: '2027-02-28',
  *   },
@@ -68,6 +68,14 @@
  * Any other field written here (a longer description, logo, gallery,
  * promotion...) is added to the directory entry while the sponsorship
  * runs. After endDate the business goes back to an ordinary card.
+ *
+ * LOCATION AND UNIVERSITIES
+ * Sponsored businesses appear under the same type and location filters as
+ * everyone else. For a business that is already listed, its region and
+ * nearbyUniversities (campus tags) always come from foodAndGroceries.js and
+ * cannot be changed here. A new business added only here may have its own
+ * region and nearbyUniversities, but only after PPI has checked them
+ * itself; never copy a sponsor's own claim of being "near campus".
  *
  * HOW SPONSORED PLACES LOOK
  * In a restaurant or grocery directory, sponsored places appear in a

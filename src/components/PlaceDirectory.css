@@ -396,3 +396,131 @@
     flex: 1 1 auto;
   }
 }
+
+/* ---------- Filter bar: type tabs and one location dropdown ---------- */
+
+.directory-filters {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.directory-filters__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+}
+
+.directory-filters__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* The map pin sits inside the dropdown, on the left. */
+.directory-filters__field {
+  position: relative;
+  min-width: 0;
+}
+
+.directory-filters__icon {
+  position: absolute;
+  top: 50%;
+  left: 0.9rem;
+  display: grid;
+  color: var(--color-red);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.directory-filters__field .select {
+  min-width: 200px;
+  min-height: 42px;
+  padding-left: 2.4rem;
+}
+
+.directory-filters__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: var(--color-gray);
+}
+
+.directory-filters__clear {
+  font-size: 0.9rem;
+  color: var(--color-red);
+}
+
+/* ---------- Extra card labels ---------- */
+
+.place-card__labels .place-card__type {
+  border-color: transparent;
+  background: var(--color-cream-deep);
+}
+
+/* "Near NTHU / NYCU": the cabinet purple, so it reads as campus info. */
+.place-card__labels .place-card__campus {
+  border-color: transparent;
+  background: var(--cabinet-soft);
+  color: var(--cabinet-deep);
+  white-space: normal;
+}
+
+/* ---------- No results ---------- */
+
+.place-directory__empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+}
+
+.place-directory__empty > div {
+  flex: 1 1 220px;
+}
+
+.place-directory__empty-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  color: var(--color-gray);
+}
+
+.place-directory__empty-title {
+  font-weight: 700;
+}
+
+.place-directory__empty-text {
+  font-size: 0.92rem;
+  color: var(--color-gray);
+}
+
+.place-directory__empty-clear {
+  min-height: 44px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 720px) {
+  /* The dropdown takes the full width under the tabs for easy tapping. */
+  .directory-filters__field,
+  .directory-filters__field .select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.place-directory__suggest {
+  color: var(--color-red);
+}

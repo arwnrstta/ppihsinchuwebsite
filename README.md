@@ -55,7 +55,7 @@ ppi-hsinchu/
 │   │   ├── leadership.js   Past cabinets (Leadership Through the Years)
 │   │   ├── events.js       All events
 │   │   ├── resources.js    Student resources
-│   │   ├── restaurants.js  Restaurants (also groceryStores.js, localServices.js, healthcareFacilities.js)
+│   │   ├── foodAndGroceries.js  Indonesian restaurants and grocery stores (also localServices.js, healthcareFacilities.js)
 │   │   ├── localBusinesses.js  Sponsored local business listings
 │   │   ├── gallery.js      Photo albums
 │   │   ├── universities.js Schools shown on the campus map
@@ -296,20 +296,23 @@ The Resources section is built from data files only. Adding, editing or removing
 
 | What | File |
 |---|---|
-| Indonesian restaurants | [src/data/restaurants.js](src/data/restaurants.js) |
-| Indonesian and halal grocery stores | [src/data/groceryStores.js](src/data/groceryStores.js) |
+| Indonesian restaurants, warungs, grocery stores and halal shops | [src/data/foodAndGroceries.js](src/data/foodAndGroceries.js) |
+| Universities and areas used by the food directory filters | [src/data/universities.js](src/data/universities.js) |
 | Post offices, places of worship, other local services | [src/data/localServices.js](src/data/localServices.js) |
 | Hospitals, clinics and pharmacies | [src/data/healthcareFacilities.js](src/data/healthcareFacilities.js) |
 | Sponsored (paid) business listings | [src/data/localBusinesses.js](src/data/localBusinesses.js) |
 | Guides, official links, emergency numbers, categories | [src/data/resources.js](src/data/resources.js) |
 | Labels such as "Food" or "Halal" | [src/data/resourceTags.js](src/data/resourceTags.js) |
 
-**Add a restaurant:** add one object to the list in `restaurants.js`:
+**Add a restaurant or grocery store:** add one object to the list in `foodAndGroceries.js`:
 
 ```js
 {
   id: 'warung-example',
   name: 'Warung Example',
+  businessTypes: ['restaurant'],          // 'restaurant', 'grocery', or both
+  region: 'hsinchu-city',                 // see "regions" in universities.js
+  nearbyUniversities: ['nthu', 'nycu'],   // only after checking (see below)
   tags: [tags.food, tags.halal],
   description: { en: '...', id: '...', 'zh-TW': '...' },
   address: 'No. 1, Example Rd., East District, Hsinchu City',
@@ -320,11 +323,17 @@ The Resources section is built from data files only. Adding, editing or removing
 },
 ```
 
-Only `name` is required. Leave out what you do not have: no `googleMapsUrl` means no map button, no `phone` means no Call button, no `image` means no logo. Never guess a map link; copy it from Google Maps. Grocery stores, local services and healthcare facilities work the same way in their own files (facilities also take `type: 'hospital'`, `'clinic'` or `'pharmacy'`).
+Only `name` is required. Leave out what you do not have: no `googleMapsUrl` means no map button, no `phone` means no Call button, no `image` means a placeholder. Never guess a map link; copy it from Google Maps. A business that is both a restaurant and a shop is entered once with `businessTypes: ['restaurant', 'grocery']`. Local services and healthcare facilities work the same way in their own files (facilities also take `type: 'hospital'`, `'clinic'` or `'pharmacy'`).
 
-**How it looks.** Restaurants and grocery stores appear as an always-open directory: a grid of photo cards (photo or a neutral placeholder, name, short location, labels and buttons), with active sponsors in a "Featured Partners" strip above. Other lists (universities, hospitals, local services) appear as one expandable card that lists its places as compact rows. A section with no places is hidden completely. Sections are defined in `resources.js` as items with `listings: restaurants` (see the instructions at the top of that file), so a new kind of list can be added the same way.
+**Food directory filters.** The Indonesian Food & Groceries directory has two filters: business type (All / Restaurants & Warungs / Grocery Stores) and location (All Areas / Hsinchu City / Hsinchu County / Other Areas).
 
-**Photos.** Each restaurant can have one `image` (see the top of `restaurants.js`). Use only photos taken by us or shared by the owner; never copy them from Google Maps. Without a photo, the card shows a placeholder.
+- `region` is the business's exact area: `hsinchu-city`, `hsinchu-county`, `miaoli-county` or `new-taipei-city`. Without it, the area is read from the address (e.g. "..., Hsinchu City"). Miaoli, New Taipei and unknown areas appear under "Other Areas"; which region falls under which choice is set by `locationGroup` in the `regions` list of `universities.js`.
+- `nearbyUniversities` adds a campus tag such as "Near NTHU / NYCU", using the ids `nthu`, `nycu`, `ypu`, `chu`, `cute`, `ydu`, `hwu`. Add a school only after someone has checked that the place is genuinely convenient for its students; being in the same city or district is not enough. The short names in the tag come from `tagName` in `universities.js`.
+- `latitude` and `longitude` are optional and not shown yet; they are kept for future features such as a map.
+
+**How it looks.** Restaurants and grocery stores appear together as one always-open directory: two filters, then a grid of photo cards (photo or a neutral placeholder, name, business type, campus tag, short location, labels and buttons), with active sponsors in a "Featured Partners" strip above. Other lists (universities, hospitals, local services) appear as one expandable card that lists its places as compact rows. A section with no places is hidden completely. Sections are defined in `resources.js` as items with `listings: restaurants` (see the instructions at the top of that file), so a new kind of list can be added the same way.
+
+**Photos.** Each business can have one `image` (see the top of `foodAndGroceries.js`). Use only photos taken by us or shared by the owner; never copy them from Google Maps. Without a photo, the card shows a placeholder.
 
 - **Emergency contacts** (`type: 'emergency'` in `resources.js`) need a `phone` and always appear first in their category, never folded away. Items with `primary: true` (police, fire and ambulance) are large cards with a Call Now button; the others form a compact list, where `lineType: 'information'` or `'support'` marks lines that are not for emergencies. Only add numbers from an official source.
 - **Ordering.** `featured: true` puts a place first with a "Recommended" label; `priority: 1` comes before `priority: 2`; everything else keeps the order of the file.
@@ -338,7 +347,7 @@ Only `name` is required. Leave out what you do not have: no `googleMapsUrl` mean
 
 **File:** [src/data/localBusinesses.js](src/data/localBusinesses.js)
 
-Paid placements appear at the top of their section (`section: 'indonesian-restaurants'`), under a small "Featured Partners" heading and each with a "Sponsored" label. In the restaurant directory they are wider cards that can also show a `logo`, a photo `gallery` and a `promotion`. A listing is only shown between its `startDate` and `endDate`; expired listings and listings with a mistyped date hide themselves. If the business is already in the directory, write `listingId: '<its id>'` instead of copying its details: it is then shown once, as sponsored, and returns to its normal place when the sponsorship ends. Emergency contacts and healthcare facilities can never be sponsored. While no listing is active, no sponsored heading appears anywhere. Full instructions are at the top of the file.
+Paid placements appear at the top of their section (`section: 'indonesian-food-groceries'`), under a small "Featured Partners" heading and each with a "Sponsored" label. In the food directory they are wider cards that can also show a `logo`, a photo `gallery` and a `promotion`, and they follow the same type and location filters. Their `region` and `nearbyUniversities` always come from `foodAndGroceries.js`; sponsorship never adds a campus tag. A listing is only shown between its `startDate` and `endDate`; expired listings and listings with a mistyped date hide themselves. If the business is already in the directory, write `listingId: '<its id>'` instead of copying its details: it is then shown once, as sponsored, and returns to its normal place when the sponsorship ends. Emergency contacts and healthcare facilities can never be sponsored. While no listing is active, no sponsored heading appears anywhere. Full instructions are at the top of the file.
 
 ### Update the guidebook tile
 

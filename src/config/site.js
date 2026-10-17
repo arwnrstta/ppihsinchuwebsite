@@ -75,8 +75,8 @@ export const hero = {
  * under "video".
  */
 export const featuredVideo = {
-  youtubeVideoId: 'vOPxl3qz0qA',
-  coverImage: '/images/photos/community-gathering.jpg',
+  youtubeVideoId: 'S8Rp9_9hrB8',
+  coverImage: '/images/leadership/kabinet_karyaraya_2627.png',
 }
 
 /*

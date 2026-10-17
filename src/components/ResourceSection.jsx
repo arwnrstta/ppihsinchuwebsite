@@ -23,7 +23,7 @@ import './ResourceSection.css'
  * heading. That heading only exists while there is a sponsored place.
  *
  * The sections themselves come from items with "listings" in
- * src/data/resources.js; the places from files such as restaurants.js.
+ * src/data/resources.js; the places from files such as localServices.js.
  */
 
 /* The section icon: its "icon" field, or one that suits its listing type. */

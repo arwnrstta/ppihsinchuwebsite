@@ -1,8 +1,7 @@
-import { groceryStores } from './groceryStores.js'
+import { foodAndGroceries } from './foodAndGroceries.js'
 import { healthcareFacilities } from './healthcareFacilities.js'
 import { localServices } from './localServices.js'
 import { tags } from './resourceTags.js'
-import { restaurants } from './restaurants.js'
 
 /*
  * STUDENT RESOURCES
@@ -13,8 +12,9 @@ import { restaurants } from './restaurants.js'
  * work out by themselves which details and buttons to show.
  *
  * WHERE THINGS GO
- *   Restaurants               src/data/restaurants.js
- *   Grocery stores            src/data/groceryStores.js
+ *   Restaurants, warungs,
+ *   grocery stores            src/data/foodAndGroceries.js
+ *   Universities and regions  src/data/universities.js
  *   Local services            src/data/localServices.js
  *   Hospitals, clinics,
  *   pharmacies                src/data/healthcareFacilities.js
@@ -28,18 +28,23 @@ import { restaurants } from './restaurants.js'
  * title and description that opens to show every place in its list.
  *
  *   {
- *     id: 'indonesian-restaurants',     // sponsored listings use this id
- *     name: { en: 'Indonesian restaurants', ... },
+ *     id: 'local-services',             // sponsored listings use this id
+ *     name: { en: 'Essential local services', ... },
  *     description: { en: '...', ... },
- *     listings: restaurants,            // a list imported at the top
- *     listingType: 'restaurant',        // type of each place, unless the
+ *     listings: localServices,          // a list imported at the top
+ *     listingType: 'service',           // type of each place, unless the
  *                                       // place has its own "type"
- *     icon: 'restaurant',               // optional; see SECTION ICONS below
+ *     icon: 'service',                  // optional; see SECTION ICONS below
  *   },
+ *
+ * Sections of places people visit (listingType 'restaurant', 'grocery' or
+ * 'shop') are drawn as an open directory of photo cards. Such a section can
+ * add "filters" (business type and location); see the Indonesian Food &
+ * Groceries section below.
  *
  * A section whose list is empty (and has no active sponsored listing) is
  * hidden completely. To start a new kind of list, create a file like
- * restaurants.js, import it at the top of this file and add a section.
+ * localServices.js, import it at the top of this file and add a section.
  *
  * SECTION ICONS: 'restaurant', 'grocery', 'shop', 'service', 'medical',
  * 'university'.
@@ -205,6 +210,9 @@ export const guidebook = {
  * in the type filter, which appears above a category's cards when that
  * category contains more than one type.
  *
+ * "label" is the name in filters, "itemLabel" (optional) the label on one
+ * business card.
+ *
  * Layouts:
  *   place     - restaurants and shops: address and map first
  *   service   - services: website and contact first
@@ -218,11 +226,14 @@ export const guidebook = {
 export const resourceTypes = {
   restaurant: {
     layout: 'place',
-    label: { en: 'Restaurants', id: 'Restoran', 'zh-TW': '餐廳' },
+    label: { en: 'Restaurants & Warungs', id: 'Restoran & Warung', 'zh-TW': '餐廳與小吃店' },
+    // The label on one business card (optional; "label" is used otherwise).
+    itemLabel: { en: 'Restaurant / warung', id: 'Restoran / warung', 'zh-TW': '餐廳／小吃店' },
   },
   grocery: {
     layout: 'place',
-    label: { en: 'Groceries', id: 'Toko bahan makanan', 'zh-TW': '食品雜貨' },
+    label: { en: 'Grocery Stores', id: 'Toko Bahan Makanan', 'zh-TW': '食品雜貨店' },
+    itemLabel: { en: 'Grocery store', id: 'Toko bahan makanan', 'zh-TW': '食品雜貨店' },
   },
   shop: {
     layout: 'place',
@@ -285,36 +296,27 @@ export const resourceCategories = [
     },
     items: [
       {
-        id: 'indonesian-restaurants',
+        id: 'indonesian-food-groceries',
         name: {
-          en: 'Indonesian restaurants',
-          id: 'Restoran Indonesia',
-          'zh-TW': '印尼餐廳',
+          en: 'Indonesian Food & Groceries',
+          id: 'Kuliner & Bahan Makanan Indonesia',
+          'zh-TW': '印尼美食與雜貨',
         },
         description: {
-          en: 'Indonesian restaurants and warung around Hsinchu.',
-          id: 'Restoran dan warung Indonesia di sekitar Hsinchu.',
-          'zh-TW': '新竹一帶的印尼餐廳與小吃店。',
+          en: 'Indonesian restaurants, warungs, grocery stores, and halal shops for students at our universities.',
+          id: 'Restoran, warung, toko bahan makanan, dan toko halal Indonesia untuk mahasiswa di kampus-kampus kita.',
+          'zh-TW': '為各校學生整理的印尼餐廳、小吃店、雜貨店與清真商店。',
         },
-        // Add restaurants in src/data/restaurants.js
-        listings: restaurants,
+        // Add businesses in src/data/foodAndGroceries.js
+        listings: foodAndGroceries,
         listingType: 'restaurant',
-      },
-      {
-        id: 'halal-groceries',
-        name: {
-          en: 'Indonesian and halal grocery stores',
-          id: 'Toko bahan makanan Indonesia dan halal',
-          'zh-TW': '印尼與清真食品雜貨店',
+        // Filters shown above the directory: business type (the types
+        // listed here, as tabs) and location (see locationGroups in
+        // src/data/universities.js).
+        filters: {
+          businessTypes: ['restaurant', 'grocery'],
+          location: true,
         },
-        description: {
-          en: 'Where to find Indonesian ingredients, snacks, and halal products.',
-          id: 'Tempat mencari bahan masakan Indonesia, camilan, dan produk halal.',
-          'zh-TW': '哪裡可以買到印尼食材、零食與清真產品。',
-        },
-        // Add shops in src/data/groceryStores.js
-        listings: groceryStores,
-        listingType: 'grocery',
       },
       {
         id: 'getting-around',

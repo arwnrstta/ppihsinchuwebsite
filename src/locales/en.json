@@ -244,6 +244,19 @@
       "copied": "Copied",
       "copyFailed": "Could not copy",
       "officialInfo": "Official information"
+    },
+    "directory": {
+      "filtersLabel": "Filter places",
+      "businessType": "Business type",
+      "location": "Location",
+      "allAreas": "All Areas",
+      "clearFilters": "Clear filters",
+      "resultCount_one": "{{count}} of {{total}} places",
+      "resultCount_other": "{{count}} of {{total}} places",
+      "emptyTitle": "No places match these filters yet.",
+      "emptyText": "Try another type or area, or clear the filters to see everything.",
+      "suggestPlace": "Suggest a place",
+      "nearCampus": "Near {{campuses}}"
     }
   },
   "gallery": {

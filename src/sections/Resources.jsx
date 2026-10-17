@@ -25,8 +25,8 @@ import './Resources.css'
  * STUDENT RESOURCES
  * -----------------
  * An information hub built entirely from src/data/resources.js, the
- * listing files it imports (restaurants.js, groceryStores.js,
- * localServices.js, healthcareFacilities.js) and the sponsored listings in
+ * listing files it imports (foodAndGroceries.js, localServices.js,
+ * healthcareFacilities.js) and the sponsored listings in
  * src/data/localBusinesses.js. At the top sits one large tile that opens the
  * PPI Hsinchu guidebook. Adding an item to those files makes it appear here.
  *
@@ -34,9 +34,10 @@ import './Resources.css'
  *   Emergency contacts - phone-first cards, always shown first and never
  *                        folded away
  *   Cards              - single resources (guides, official links)
- *   Directories        - sections of places people visit (restaurants,
- *                        grocery stores), always open as a grid of photo
- *                        cards, with sponsored places in a "Featured
+ *   Directories        - sections of places people visit (Indonesian Food
+ *                        & Groceries), always open as a grid of photo
+ *                        cards with their own type / location / university
+ *                        filters, and sponsored places in a "Featured
  *                        Partners" strip above them (PlaceDirectory.jsx)
  *   Sections           - other groups (universities, hospitals, services)
  *                        as one expandable card (ResourceSection.jsx).

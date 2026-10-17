@@ -242,6 +242,19 @@
       "copied": "Tersalin",
       "copyFailed": "Gagal menyalin",
       "officialInfo": "Informasi resmi"
+    },
+    "directory": {
+      "filtersLabel": "Saring tempat",
+      "businessType": "Jenis usaha",
+      "location": "Lokasi",
+      "allAreas": "Semua Area",
+      "clearFilters": "Hapus filter",
+      "resultCount_one": "{{count}} dari {{total}} tempat",
+      "resultCount_other": "{{count}} dari {{total}} tempat",
+      "emptyTitle": "Belum ada tempat yang cocok dengan filter ini.",
+      "emptyText": "Coba jenis atau area lain, atau hapus filter untuk melihat semuanya.",
+      "suggestPlace": "Usulkan tempat",
+      "nearCampus": "Dekat {{campuses}}"
     }
   },
   "gallery": {

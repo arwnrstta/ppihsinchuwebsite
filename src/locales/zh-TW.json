@@ -242,6 +242,19 @@
       "copied": "已複製",
       "copyFailed": "無法複製",
       "officialInfo": "官方資訊"
+    },
+    "directory": {
+      "filtersLabel": "篩選地點",
+      "businessType": "商家類型",
+      "location": "地區",
+      "allAreas": "所有地區",
+      "clearFilters": "清除篩選",
+      "resultCount_one": "共 {{total}} 個地點中的 {{count}} 個",
+      "resultCount_other": "共 {{total}} 個地點中的 {{count}} 個",
+      "emptyTitle": "目前沒有符合篩選條件的地點。",
+      "emptyText": "試試其他類型或地區，或清除篩選以查看全部。",
+      "suggestPlace": "推薦地點",
+      "nearCampus": "鄰近{{campuses}}"
     }
   },
   "gallery": {
