@@ -1,0 +1,398 @@
+/*
+ * Place directory (restaurants, grocery stores, shops): an open section
+ * with an optional Featured Partners strip and a grid of photo cards.
+ * Spans the full width of the resources grid.
+ */
+.place-directory {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-cream);
+}
+
+.place-directory__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.75rem 1rem;
+}
+
+.place-directory__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgb(206 17 38 / 0.1);
+  color: var(--color-red);
+}
+
+.place-directory__heading {
+  display: grid;
+  gap: 0.2rem;
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.place-directory__title {
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+}
+
+.place-directory__description {
+  color: var(--color-gray);
+}
+
+.place-directory__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.place-directory__count {
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-gray);
+}
+
+/* Two or three cards per row on wide screens, one on phones. */
+.place-directory__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 1rem;
+}
+
+.place-directory__grid > li {
+  display: flex;
+}
+
+.place-directory__more {
+  justify-self: center;
+  color: var(--color-red);
+}
+
+.place-directory__more[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+
+/* ---------- Photo (or drawn placeholder) ---------- */
+
+.place-photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: var(--color-cream-deep);
+}
+
+.place-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.place-photo--button {
+  cursor: zoom-in;
+}
+
+.place-photo--button:hover img {
+  transform: scale(1.03);
+}
+
+/* No photo: the same calm pattern and icon for every place. */
+.place-photo--empty {
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 14px,
+      rgb(36 37 34 / 0.035) 14px 15px
+    ),
+    var(--gradient-cream);
+}
+
+.place-photo__icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-red);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- Free listing card ---------- */
+
+.place-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  transition:
+    box-shadow var(--duration-medium) var(--ease-smooth),
+    border-color var(--duration-medium) var(--ease-smooth);
+}
+
+.place-card:hover {
+  border-color: #c4c1b6;
+  box-shadow: var(--shadow-soft);
+}
+
+.place-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.place-card__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.place-card__labels .chip {
+  border: 1px solid var(--color-line);
+  background: var(--color-cream);
+}
+
+.place-card__labels .chip--red {
+  border-color: var(--color-red);
+  background: var(--color-red);
+}
+
+/* Paid placement: noticeable, but quieter than the content. */
+.place-card__labels .place-card__sponsored {
+  border-color: var(--cabinet-accent);
+  background: #fbf3e2;
+  color: #6b4a0e;
+}
+
+.place-card__name {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.place-card__location {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--color-gray);
+}
+
+.place-card__location svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--color-red);
+}
+
+/* Full addresses (when there is no short area) stay at two lines. */
+.place-card__location span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
+}
+
+.place-card__description {
+  font-size: 0.92rem;
+  color: var(--color-gray);
+}
+
+/* Buttons sit at the bottom so a row of cards lines up. */
+.place-card .resource-actions,
+.featured-place .resource-actions {
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+.place-card .resource-action {
+  padding-inline: 0.85rem;
+}
+
+/* ---------- Featured Partners (sponsored) ---------- */
+
+.place-directory__featured {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.place-directory__featured-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+}
+
+.place-directory__featured-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b4a0e;
+}
+
+.place-directory__featured-note {
+  font-size: 0.82rem;
+  color: var(--color-gray);
+}
+
+.place-directory__featured-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.featured-place {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  overflow: hidden;
+  border: 1px solid #e6d3a8;
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+}
+
+.featured-place__media {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  background: var(--color-cream-deep);
+}
+
+.featured-place__media .place-photo {
+  aspect-ratio: 4 / 3;
+}
+
+.featured-place__thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+  padding: 0 0.35rem 0.35rem;
+}
+
+.featured-place__thumbs button {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  cursor: zoom-in;
+}
+
+.featured-place__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-place__more {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(36 37 34 / 0.55);
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.featured-place__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+}
+
+.featured-place__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.featured-place__logo {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  padding: 0.35rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: var(--color-white);
+  object-fit: contain;
+}
+
+.featured-place__title {
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.featured-place__title .place-card__name {
+  font-size: 1.3rem;
+}
+
+.featured-place__description {
+  color: var(--color-gray);
+}
+
+.featured-place__promotion {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-small);
+  background: #fbf3e2;
+  color: #6b4a0e;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.featured-place__promotion svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 720px) {
+  .place-directory {
+    padding: 1.1rem;
+    border-radius: var(--radius-medium);
+  }
+
+  .featured-place {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  /* Several small buttons side by side rather than a tall stack. */
+  .place-card .resource-action,
+  .featured-place .resource-action {
+    flex: 1 1 auto;
+  }
+}

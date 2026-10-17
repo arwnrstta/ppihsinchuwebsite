@@ -60,6 +60,33 @@
 
 export const events = [
   {
+    id: 'hsinchu-open-2026',
+    title: {
+      en: 'Hsinchu Open 2026',
+      id: 'Hsinchu Open 2026',
+      'zh-TW': 'Hsinchu Open 2026',
+    },
+    date: '',
+    time: '',
+    venue: '',
+    fee: {
+      en: '',
+      id: '',
+      'zh-TW': '',
+    },
+    organizer: 'PPI Hsinchu',
+    cabinet: 'Kabinet Karya Raya',
+    summary: {
+      en: 'PPI Hsinchu\'s most anticipated annual sporting event, bringing together Indonesian students from across Taiwan to compete and build friendships.',
+      id: 'Acara olahraga tahunan PPI Hsinchu yang paling dinantikan, mempertemukan mahasiswa Indonesia dari seluruh Taiwan untuk berkompetisi dan menjalin persahabatan.',
+      'zh-TW': '新竹印尼學生會（PPI Hsinchu）最受期待的年度體育盛事，匯聚來自全臺各地的印尼學生，共同參與競賽並建立友誼。',
+    },
+    poster: '',
+    registrationUrl: '',
+    documentationUrl: '',
+    isSample: false,
+  },
+  {
     id: 'orientasi-maba-fall-2026',
     title: {
       en: 'Fall 2026 Freshmen Orientation',
@@ -162,6 +189,6 @@ export const events = [
     },
     poster: 'images/events/kabinet_harmoni_2526/heat_2026.png',
     registrationUrl: '',
-    documentationUrl: 'https://drive.google.com/drive/folders/1qlhkJBvvnpxhulBZGC8pfd7-Ft3VxkgG?usp=sharing',
+    documentationUrl: 'https://drive.google.com/drive/folders/1n2z_LMhitenl0bV1m0gNXTQmMyHEcnYk?usp=sharing',
   },
 ]

@@ -4,8 +4,11 @@ import { languages } from '../i18n.js'
  * Small helper functions for working with the events in src/data/events.js.
  */
 
-/* Today's date as 'YYYY-MM-DD' in the visitor's own time zone. */
-function getTodayString() {
+/*
+ * Today's date as 'YYYY-MM-DD' in the visitor's own time zone.
+ * Also used for partnership dates (src/utils/partnerHelpers.js).
+ */
+export function getTodayString() {
   const now = new Date()
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')

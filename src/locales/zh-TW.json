@@ -205,7 +205,44 @@
     "results_other": "「{{query}}」共有 {{count}} 筆結果",
     "clearSearch": "清除搜尋",
     "needsVerification": "待確認",
-    "visitWebsite": "前往網站"
+    "address": "地址",
+    "phone": "電話",
+    "serviceInfo": "服務項目",
+    "sponsored": "贊助",
+    "recommended": "推薦",
+    "emergencyTitle": "緊急聯絡資訊",
+    "sponsoredTitle": "精選合作商家",
+    "sponsoredNote": "在地商家的付費刊登。出現在此並不代表評價或推薦。",
+    "typeFilterLabel": "依類型篩選",
+    "listingCount_one": "{{count}} 個地點",
+    "listingCount_other": "{{count}} 個地點",
+    "allTypes": "全部",
+    "otherHotlines": "其他實用專線",
+    "emergencyUnverified": "我們仍在向官方來源確認這些號碼，請透過官方連結再次確認。",
+    "lineTypes": {
+      "information": "諮詢專線，非緊急求助",
+      "support": "支持專線"
+    },
+    "showAllPlaces_one": "顯示全部 {{count}} 個地點",
+    "showAllPlaces_other": "顯示全部 {{count}} 個地點",
+    "showFewer": "顯示較少",
+    "photoOf": "{{name}} 的照片",
+    "photoNumber": "{{name}}，第 {{number}} 張照片",
+    "openPhotos": "查看 {{name}} 的照片",
+    "logoOf": "{{name}} 標誌",
+    "promotion": "優惠",
+    "actions": {
+      "openInMaps": "在 Google 地圖中開啟",
+      "directions": "路線導航",
+      "visitWebsite": "前往網站",
+      "instagram": "Instagram",
+      "call": "撥打電話",
+      "callNow": "立即撥打",
+      "copyNumber": "複製電話號碼",
+      "copied": "已複製",
+      "copyFailed": "無法複製",
+      "officialInfo": "官方資訊"
+    }
   },
   "gallery": {
     "label": "相簿",
@@ -251,6 +288,17 @@
         "email": "請輸入有效的電子郵件地址。"
       }
     }
+  },
+  "partners": {
+    "eyebrow": "合作夥伴",
+    "navLink": "我們的合作夥伴",
+    "title": "我們的合作夥伴",
+    "featuredTitle": "官方合作夥伴",
+    "viewAll": "查看所有合作夥伴",
+    "description": "支持 PPI Hsinchu 與新竹印尼學生社群的組織、企業與機構。",
+    "visitWebsite": "前往網站",
+    "visitInstagram": "在 Instagram 上查看",
+    "logoAlt": "{{name}} 標誌"
   },
   "footer": {
     "message": "來自新竹，心繫家鄉。",

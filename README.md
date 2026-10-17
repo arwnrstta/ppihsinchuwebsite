@@ -55,8 +55,11 @@ ppi-hsinchu/
 │   │   ├── leadership.js   Past cabinets (Leadership Through the Years)
 │   │   ├── events.js       All events
 │   │   ├── resources.js    Student resources
+│   │   ├── restaurants.js  Restaurants (also groceryStores.js, localServices.js, healthcareFacilities.js)
+│   │   ├── localBusinesses.js  Sponsored local business listings
 │   │   ├── gallery.js      Photo albums
 │   │   ├── universities.js Schools shown on the campus map
+│   │   ├── partners.js     Official partners (Our Partners page, homepage logos)
 │   │   └── contactForms.js Contact form fields
 │   ├── locales/            ★ Interface text in each language
 │   │   ├── en.json         English
@@ -289,26 +292,53 @@ In Google Drive, right-click the folder, choose **Share**, set access to **Anyon
 
 ### Update student resources
 
-**File:** [src/data/resources.js](src/data/resources.js)
+The Resources section is built from data files only. Adding, editing or removing something never requires touching a component: each card or row shows only the fields that exist.
 
-Each category is a tab. Each item is an expandable card:
+| What | File |
+|---|---|
+| Indonesian restaurants | [src/data/restaurants.js](src/data/restaurants.js) |
+| Indonesian and halal grocery stores | [src/data/groceryStores.js](src/data/groceryStores.js) |
+| Post offices, places of worship, other local services | [src/data/localServices.js](src/data/localServices.js) |
+| Hospitals, clinics and pharmacies | [src/data/healthcareFacilities.js](src/data/healthcareFacilities.js) |
+| Sponsored (paid) business listings | [src/data/localBusinesses.js](src/data/localBusinesses.js) |
+| Guides, official links, emergency numbers, categories | [src/data/resources.js](src/data/resources.js) |
+| Labels such as "Food" or "Halal" | [src/data/resourceTags.js](src/data/resourceTags.js) |
+
+**Add a restaurant:** add one object to the list in `restaurants.js`:
 
 ```js
 {
-  name: 'Name of the resource',
-  tag: 'Food',
-  description: 'One or two sentences.',
-  location: 'Address or area',
-  steps: ['First step.', 'Second step.'],
-  notes: 'Extra advice.',
-  url: 'https://...',
-  urlLabel: 'Visit website',
+  id: 'warung-example',
+  name: 'Warung Example',
+  tags: [tags.food, tags.halal],
+  description: { en: '...', id: '...', 'zh-TW': '...' },
+  address: 'No. 1, Example Rd., East District, Hsinchu City',
+  googleMapsUrl: 'https://maps.app.goo.gl/...',   // Google Maps > Share > Copy link
+  websiteUrl: 'https://...',
+  instagramUrl: 'https://www.instagram.com/...',
+  phone: '03-000-0000',
 },
 ```
 
-Only `name`, `tag` and `description` are required. Leave out the lines you do not need.
+Only `name` is required. Leave out what you do not have: no `googleMapsUrl` means no map button, no `phone` means no Call button, no `image` means no logo. Never guess a map link; copy it from Google Maps. Grocery stores, local services and healthcare facilities work the same way in their own files (facilities also take `type: 'hospital'`, `'clinic'` or `'pharmacy'`).
 
-**Important:** every current item has `needsVerification: true`, which shows a "Needs verification" label. Remove that line only after someone has checked the information against an official source.
+**How it looks.** Restaurants and grocery stores appear as an always-open directory: a grid of photo cards (photo or a neutral placeholder, name, short location, labels and buttons), with active sponsors in a "Featured Partners" strip above. Other lists (universities, hospitals, local services) appear as one expandable card that lists its places as compact rows. A section with no places is hidden completely. Sections are defined in `resources.js` as items with `listings: restaurants` (see the instructions at the top of that file), so a new kind of list can be added the same way.
+
+**Photos.** Each restaurant can have one `image` (see the top of `restaurants.js`). Use only photos taken by us or shared by the owner; never copy them from Google Maps. Without a photo, the card shows a placeholder.
+
+- **Emergency contacts** (`type: 'emergency'` in `resources.js`) need a `phone` and always appear first in their category, never folded away. Items with `primary: true` (police, fire and ambulance) are large cards with a Call Now button; the others form a compact list, where `lineType: 'information'` or `'support'` marks lines that are not for emergencies. Only add numbers from an official source.
+- **Ordering.** `featured: true` puts a place first with a "Recommended" label; `priority: 1` comes before `priority: 2`; everything else keeps the order of the file.
+- **Search** finds places inside sections: the section opens and shows only the matching places. **Type filters** (e.g. Restaurants / Groceries) appear when a category contains more than one type and narrow sections down to that type.
+- **Links are checked.** A link without `https://`, a map link not from Google Maps, or an Instagram link not on instagram.com is hidden, and `npm run dev` prints a warning in the browser console.
+- **Empty categories disappear**, including their tab and navbar entry.
+
+**Verification.** Items with `needsVerification: true` are still unchecked. Visitors see a general "confirm with the official source" notice (and, while any emergency number is unchecked, a caution line above the emergency numbers) rather than a label on every card. To see the label on each unchecked item, open the website with `?review` in the address, for example `https://<website>/?review#resources`. Remove `needsVerification` only after someone has checked the information against an official source.
+
+### Sponsored local business listings
+
+**File:** [src/data/localBusinesses.js](src/data/localBusinesses.js)
+
+Paid placements appear at the top of their section (`section: 'indonesian-restaurants'`), under a small "Featured Partners" heading and each with a "Sponsored" label. In the restaurant directory they are wider cards that can also show a `logo`, a photo `gallery` and a `promotion`. A listing is only shown between its `startDate` and `endDate`; expired listings and listings with a mistyped date hide themselves. If the business is already in the directory, write `listingId: '<its id>'` instead of copying its details: it is then shown once, as sponsored, and returns to its normal place when the sponsorship ends. Emergency contacts and healthcare facilities can never be sponsored. While no listing is active, no sponsored heading appears anywhere. Full instructions are at the top of the file.
 
 ### Update the guidebook tile
 
@@ -569,7 +599,7 @@ In [src/data/resources.js](src/data/resources.js), each text of an item can be w
 },
 ```
 
-The short labels on the cards (`tags.guide`, `tags.food`...) are translated once in the `tags` list at the top of the file. Reuse them, or add a new one there. The search box searches in the language the visitor is using.
+The short labels on the cards (`tags.guide`, `tags.food`...) are translated once in [src/data/resourceTags.js](src/data/resourceTags.js). Reuse them, or add a new one there. The search box searches in the language the visitor is using.
 
 ### Update cabinet information in all languages
 

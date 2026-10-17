@@ -1,0 +1,38 @@
+/* Extra room at the top because the navbar sits over the start of the page. */
+.partners-page {
+  min-height: 70vh;
+  padding-top: calc(var(--navbar-height) + clamp(3rem, 7vw, 5.5rem));
+  background: var(--gradient-cream);
+}
+
+.partners-page__title {
+  font-size: clamp(2.6rem, 6vw, 4.75rem);
+  font-weight: 800;
+}
+
+.partners-page__group + .partners-page__group {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+
+/* Tier heading followed by a thin line that fills the rest of the row. */
+.partners-page__tier {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+}
+
+.partners-page__tier::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.partners-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+}

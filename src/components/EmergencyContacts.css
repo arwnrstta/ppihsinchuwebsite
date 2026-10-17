@@ -1,0 +1,288 @@
+/*
+ * Emergency contacts: two prominent cards for the primary numbers, then a
+ * compact list. Red is used only for the icons, numbers and Call buttons.
+ * No hover motion, on purpose.
+ */
+.emergency {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2.25rem;
+}
+
+.emergency__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.emergency__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--color-crimson);
+}
+
+.emergency__caution {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  color: var(--color-gray);
+}
+
+.emergency__caution svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: var(--color-crimson);
+}
+
+/* ---------- Primary numbers ---------- */
+
+.emergency__primary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+}
+
+.emergency-primary {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--color-line);
+  border-top: 3px solid var(--color-red);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+}
+
+.emergency-primary__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgb(206 17 38 / 0.1);
+  color: var(--color-red);
+}
+
+.emergency-primary__body {
+  display: grid;
+  justify-items: start;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.emergency-primary__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.emergency-primary__number {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-crimson);
+}
+
+.emergency-primary__description {
+  font-size: 0.92rem;
+  color: var(--color-gray);
+}
+
+.emergency-primary__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.6rem;
+}
+
+.emergency-primary__call {
+  min-height: 46px;
+  padding: 0.55rem 1.35rem;
+}
+
+/* ---------- Other hotlines ---------- */
+
+.emergency__others {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.emergency__others-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.hotline-list {
+  display: grid;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-cream);
+}
+
+.hotline {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1.1rem;
+}
+
+.hotline + .hotline {
+  border-top: 1px solid var(--color-line);
+}
+
+.hotline__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-crimson);
+}
+
+.hotline__info {
+  display: grid;
+  justify-items: start;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.hotline__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.5rem;
+}
+
+.hotline__name {
+  font-size: 1rem;
+}
+
+/* "Information line" / "Support line": neutral, clearly not an emergency. */
+.hotline__type {
+  border: 1px solid var(--color-line);
+  background: var(--color-white);
+  color: var(--color-gray);
+}
+
+.hotline__description {
+  font-size: 0.88rem;
+  color: var(--color-gray);
+}
+
+.hotline__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hotline__number {
+  min-width: 3.5ch;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-align: right;
+  color: var(--color-charcoal);
+}
+
+.hotline__call {
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  border-color: var(--color-line);
+  background: var(--color-white);
+  font-size: 0.88rem;
+}
+
+.hotline__call:hover {
+  border-color: var(--color-charcoal);
+}
+
+/* ---------- Shared small parts ---------- */
+
+.emergency-copy {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.emergency-copy:hover {
+  border-color: var(--color-charcoal);
+}
+
+.emergency-copy.is-copied {
+  border-color: #2f7d4f;
+  color: #2f7d4f;
+}
+
+.emergency-copy.is-failed {
+  border-color: var(--color-crimson);
+  color: var(--color-crimson);
+}
+
+.emergency-official {
+  font-size: 0.85rem;
+  color: var(--color-red);
+}
+
+/* Speed matters more than flourish here: no sliding icons or lifts. */
+.emergency .button:hover,
+.emergency .button:hover svg {
+  transform: none;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 640px) {
+  .emergency-primary {
+    padding: 1.1rem;
+  }
+
+  .emergency-primary__icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .emergency-primary__actions {
+    width: 100%;
+  }
+
+  .emergency-primary__call {
+    flex: 1 1 auto;
+  }
+
+  /* Icon and text on top, number and buttons on their own row below. */
+  .hotline {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .hotline__actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .hotline__number {
+    margin-right: auto;
+    text-align: left;
+  }
+}

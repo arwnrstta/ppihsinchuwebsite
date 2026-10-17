@@ -1,36 +1,152 @@
+import { groceryStores } from './groceryStores.js'
+import { healthcareFacilities } from './healthcareFacilities.js'
+import { localServices } from './localServices.js'
+import { tags } from './resourceTags.js'
+import { restaurants } from './restaurants.js'
+
 /*
  * STUDENT RESOURCES
  * -----------------
- * Each category below becomes one tab in the Resources section.
- * Each item inside "items" becomes one expandable card.
- * The search box looks through every category at once, in the language the
- * visitor is using.
+ * Everything in the Resources section comes from this file. Each category
+ * below becomes one tab; each item inside "items" becomes one card. Adding,
+ * editing or removing a resource only means editing data files. The cards
+ * work out by themselves which details and buttons to show.
+ *
+ * WHERE THINGS GO
+ *   Restaurants               src/data/restaurants.js
+ *   Grocery stores            src/data/groceryStores.js
+ *   Local services            src/data/localServices.js
+ *   Hospitals, clinics,
+ *   pharmacies                src/data/healthcareFacilities.js
+ *   Sponsored (paid) listings src/data/localBusinesses.js
+ *   Labels (tags)             src/data/resourceTags.js
+ *   Guides, official links,
+ *   emergency numbers         this file
+ *
+ * SECTIONS (one card holding many places)
+ * An item with "listings" becomes an expandable section: one card with a
+ * title and description that opens to show every place in its list.
+ *
+ *   {
+ *     id: 'indonesian-restaurants',     // sponsored listings use this id
+ *     name: { en: 'Indonesian restaurants', ... },
+ *     description: { en: '...', ... },
+ *     listings: restaurants,            // a list imported at the top
+ *     listingType: 'restaurant',        // type of each place, unless the
+ *                                       // place has its own "type"
+ *     icon: 'restaurant',               // optional; see SECTION ICONS below
+ *   },
+ *
+ * A section whose list is empty (and has no active sponsored listing) is
+ * hidden completely. To start a new kind of list, create a file like
+ * restaurants.js, import it at the top of this file and add a section.
+ *
+ * SECTION ICONS: 'restaurant', 'grocery', 'shop', 'service', 'medical',
+ * 'university'.
+ * Without "icon", the icon follows listingType.
  *
  * LANGUAGES
  * Every text can be written once per language:
  *
  *     name: { en: 'ARC renewal', id: 'Perpanjangan ARC', 'zh-TW': '居留證延期' },
  *
- * or as plain text when it is the same everywhere (for example the official
- * name of a university). A language that is missing or '' falls back to
- * English, so a new item can be published in English first.
+ * or as plain text when it is the same everywhere (for example the name of
+ * a restaurant). A language that is missing or '' falls back to English, so
+ * a new item can be published in English first.
  *
- * ITEM FIELDS (only "name", "tag" and "description" are required)
+ * ITEM FIELDS (for cards here and for places in the listing files)
+ * Only "name" is required. Leave out every line you do not need: a missing
+ * field simply shows nothing (no empty button, no empty space).
+ *
+ *   id                - short unique name, no spaces, e.g. 'warung-sederhana'
+ *   type              - what kind of resource it is. Decides the card layout
+ *                       and the type filter. One of the ids in resourceTypes
+ *                       below. Leave out for guides and general information.
  *   name              - title of the resource
- *   tag               - a short label. Reuse one from "tags" below, or add one.
+ *   tag               - one short label from src/data/resourceTags.js
+ *   tags              - several labels, e.g. [tags.food, tags.halal]
  *   description       - one or two sentences
- *   location          - address or area (leave out if not relevant)
+ *   address           - street address or area
+ *   googleMapsUrl     - the link from Google Maps > Share > Copy link.
+ *                       Never guess or type one by hand: an address without
+ *                       this link simply has no map button.
+ *   websiteUrl        - official website, starting with https://
+ *   websiteLabel      - text for the website button (default "Visit website")
+ *   instagramUrl      - e.g. 'https://www.instagram.com/ppihsinchu/'
+ *   phone             - as people should read it, e.g. '03-571-5131'.
+ *                       Adds a "Call" button.
+ *   image             - photo or logo in public/images/resources/,
+ *                       e.g. '/images/resources/warung-sederhana.jpg'
+ *   imageAlt          - describes the picture for screen readers
+ *   serviceInfo       - medical only: verified service details, e.g.
+ *                       'English-speaking staff on weekdays'. Never write
+ *                       "open 24 hours" unless the facility confirms it.
+ *   icon              - emergency only: 'police', 'fire', 'medical',
+ *                       'heart', 'info', 'shield' or 'phone' (default)
  *   steps             - a list of steps; shown as a numbered guide.
  *                       Each step is one { en, id, 'zh-TW' } block.
  *   notes             - extra advice shown under the steps
- *   url               - full external link starting with https://
- *   urlLabel          - text for the link button
+ *   featured          - true shows a "Recommended" label and puts the card first
+ *   priority          - a number for ordering: 1 comes before 2, and items
+ *                       with a priority come before items without one.
+ *                       Items without either keep the order of this file.
  *   needsVerification - true shows a "Needs verification" label on the card.
  *                       Remove the line once a committee member has checked
  *                       the information against an official source.
  *
+ * EXAMPLE: A RESTAURANT OR SHOP
+ *   {
+ *     id: 'warung-example',
+ *     type: 'restaurant',
+ *     name: 'Warung Example',
+ *     tags: [tags.food, tags.halal],
+ *     description: { en: 'Home-style Indonesian food.', id: '...', 'zh-TW': '...' },
+ *     address: 'No. 1, Example Rd., East District, Hsinchu City',
+ *     googleMapsUrl: 'https://maps.app.goo.gl/...',
+ *     instagramUrl: 'https://www.instagram.com/warungexample/',
+ *     phone: '03-000-0000',
+ *   },
+ *
+ * EXAMPLE: A PHARMACY, CLINIC OR HOSPITAL
+ *   {
+ *     id: 'example-hospital',
+ *     type: 'hospital',            // or 'clinic' or 'pharmacy'
+ *     name: { en: 'Example Hospital', 'zh-TW': '範例醫院' },
+ *     tag: tags.medical,
+ *     address: '...',
+ *     googleMapsUrl: 'https://maps.app.goo.gl/...',
+ *     websiteUrl: 'https://...',
+ *     phone: '03-000-0000',
+ *     serviceInfo: { en: 'International medical service centre.', ... },
+ *   },
+ *
+ * EXAMPLE: AN EMERGENCY HOTLINE
+ * Emergency contacts get their own "Emergency contacts" block at the top of
+ * their category. Only add numbers taken from an official source.
+ *   {
+ *     id: 'police',
+ *     type: 'emergency',
+ *     icon: 'police',
+ *     primary: true,                 // large card with a Call Now button
+ *     name: { en: 'Police', id: 'Polisi', 'zh-TW': '警察' },
+ *     phone: '110',
+ *     description: { en: 'Crime, accidents, and threats to your safety.', ... },
+ *     websiteUrl: 'https://www.npa.gov.tw/',   // optional official page
+ *   },
+ *
+ *   primary  - true for the few numbers people must find instantly (police,
+ *              fire/ambulance). They are shown as two large cards. Every
+ *              other hotline is shown in a compact list underneath.
+ *   lineType - 'information' for advice lines that are NOT for emergencies
+ *              (shown with an "Information line" label), 'support' for
+ *              listening/support lines. Leave out for real emergency numbers.
+ *
+ * Links that are not valid (for example missing "https://", or a map link
+ * that is not from Google Maps) are not shown, and a warning appears in the
+ * browser console while running "npm run dev".
+ *
  * IMPORTANT
- * Almost everything below is a PLACEHOLDER written to show the layout.
+ * Much of the content below is a PLACEHOLDER written to show the layout.
  * Immigration, insurance and scholarship rules change often. Before
  * publishing, check every item against the official source and add the
  * correct details, addresses and links.
@@ -82,22 +198,60 @@ export const guidebook = {
   },
 }
 
-/* The short labels on the cards, written once and reused by many items. */
-const tags = {
-  food: { en: 'Food', id: 'Kuliner', 'zh-TW': '美食' },
-  groceries: { en: 'Groceries', id: 'Belanja', 'zh-TW': '採買' },
-  transport: { en: 'Transport', id: 'Transportasi', 'zh-TW': '交通' },
-  housing: { en: 'Housing', id: 'Tempat tinggal', 'zh-TW': '住宿' },
-  essentials: { en: 'Essentials', id: 'Kebutuhan dasar', 'zh-TW': '生活必需' },
-  guide: { en: 'Guide', id: 'Panduan', 'zh-TW': '指南' },
-  official: { en: 'Official', id: 'Resmi', 'zh-TW': '官方' },
-  scholarships: { en: 'Scholarships', id: 'Beasiswa', 'zh-TW': '獎學金' },
-  university: { en: 'University', id: 'Universitas', 'zh-TW': '大學' },
-  academics: { en: 'Academics', id: 'Akademik', 'zh-TW': '學術' },
-  careers: { en: 'Careers', id: 'Karier', 'zh-TW': '職涯' },
-  emergency: { en: 'Emergency', id: 'Darurat', 'zh-TW': '緊急' },
-  insurance: { en: 'Insurance', id: 'Asuransi', 'zh-TW': '保險' },
-  medical: { en: 'Medical', id: 'Medis', 'zh-TW': '醫療' },
+
+/*
+ * RESOURCE TYPES
+ * The "type" of an item decides how its card looks ("layout") and its name
+ * in the type filter, which appears above a category's cards when that
+ * category contains more than one type.
+ *
+ * Layouts:
+ *   place     - restaurants and shops: address and map first
+ *   service   - services: website and contact first
+ *   medical   - hospitals, clinics, pharmacies: directions, call, website
+ *   emergency - hotlines: compact, phone-first cards in their own block
+ *   info      - guides and general information: text and an official link
+ *
+ * A new type can be added here with any of these layouts.
+ * An item without a "type" (or with an unknown one) counts as 'information'.
+ */
+export const resourceTypes = {
+  restaurant: {
+    layout: 'place',
+    label: { en: 'Restaurants', id: 'Restoran', 'zh-TW': '餐廳' },
+  },
+  grocery: {
+    layout: 'place',
+    label: { en: 'Groceries', id: 'Toko bahan makanan', 'zh-TW': '食品雜貨' },
+  },
+  shop: {
+    layout: 'place',
+    label: { en: 'Shops', id: 'Toko', 'zh-TW': '商店' },
+  },
+  service: {
+    layout: 'service',
+    label: { en: 'Services', id: 'Layanan', 'zh-TW': '服務' },
+  },
+  hospital: {
+    layout: 'medical',
+    label: { en: 'Hospitals', id: 'Rumah sakit', 'zh-TW': '醫院' },
+  },
+  clinic: {
+    layout: 'medical',
+    label: { en: 'Clinics', id: 'Klinik', 'zh-TW': '診所' },
+  },
+  pharmacy: {
+    layout: 'medical',
+    label: { en: 'Pharmacies', id: 'Apotek', 'zh-TW': '藥局' },
+  },
+  emergency: {
+    layout: 'emergency',
+    label: { en: 'Emergency contacts', id: 'Kontak darurat', 'zh-TW': '緊急聯絡資訊' },
+  },
+  information: {
+    layout: 'info',
+    label: { en: 'Guides & information', id: 'Panduan & informasi', 'zh-TW': '指南與資訊' },
+  },
 }
 
 const officialUniversityWebsite = {
@@ -106,6 +260,16 @@ const officialUniversityWebsite = {
   'zh-TW': '學校官方網站。',
 }
 
+/*
+ * CATEGORIES
+ *   id     - short unique name
+ *   title  - the tab name (also used in the navbar dropdown)
+ *   intro  - one sentence shown above the cards
+ *   notice - optional short notice under the intro
+ *   items  - the resources
+ * A category with no items (and no active sponsored listing) is hidden
+ * everywhere, including its tab and the navbar dropdown.
+ */
 export const resourceCategories = [
   {
     id: 'living',
@@ -121,44 +285,39 @@ export const resourceCategories = [
     },
     items: [
       {
+        id: 'indonesian-restaurants',
         name: {
           en: 'Indonesian restaurants',
           id: 'Restoran Indonesia',
           'zh-TW': '印尼餐廳',
         },
-        tag: tags.food,
         description: {
-          en: 'A list of Indonesian restaurants and warung around Hsinchu will be added here.',
-          id: 'Daftar restoran dan warung Indonesia di sekitar Hsinchu akan ditambahkan di sini.',
-          'zh-TW': '新竹一帶的印尼餐廳與小吃店清單將在此補上。',
+          en: 'Indonesian restaurants and warung around Hsinchu.',
+          id: 'Restoran dan warung Indonesia di sekitar Hsinchu.',
+          'zh-TW': '新竹一帶的印尼餐廳與小吃店。',
         },
-        notes: {
-          en: 'Placeholder. Add one card per restaurant with its name, address, and a map link.',
-          id: 'Sementara. Tambahkan satu kartu per restoran beserta nama, alamat, dan tautan peta.',
-          'zh-TW': '暫定內容。請為每間餐廳新增一張卡片，包含店名、地址與地圖連結。',
-        },
-        needsVerification: true,
+        // Add restaurants in src/data/restaurants.js
+        listings: restaurants,
+        listingType: 'restaurant',
       },
       {
+        id: 'halal-groceries',
         name: {
           en: 'Indonesian and halal grocery stores',
           id: 'Toko bahan makanan Indonesia dan halal',
           'zh-TW': '印尼與清真食品雜貨店',
         },
-        tag: tags.groceries,
         description: {
           en: 'Where to find Indonesian ingredients, snacks, and halal products.',
           id: 'Tempat mencari bahan masakan Indonesia, camilan, dan produk halal.',
           'zh-TW': '哪裡可以買到印尼食材、零食與清真產品。',
         },
-        notes: {
-          en: 'Placeholder. Add one card per shop with its name, address, and opening hours.',
-          id: 'Sementara. Tambahkan satu kartu per toko beserta nama, alamat, dan jam buka.',
-          'zh-TW': '暫定內容。請為每間店新增一張卡片，包含店名、地址與營業時間。',
-        },
-        needsVerification: true,
+        // Add shops in src/data/groceryStores.js
+        listings: groceryStores,
+        listingType: 'grocery',
       },
       {
+        id: 'getting-around',
         name: {
           en: 'Getting around Hsinchu',
           id: 'Bepergian di Hsinchu',
@@ -195,6 +354,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'housing',
         name: {
           en: 'Housing and accommodation',
           id: 'Tempat tinggal dan akomodasi',
@@ -226,6 +386,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'banking-mobile',
         name: {
           en: 'Banking and mobile services',
           id: 'Perbankan dan layanan seluler',
@@ -245,23 +406,20 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'local-services',
         name: {
           en: 'Essential local services',
           id: 'Layanan lokal penting',
           'zh-TW': '在地生活服務',
         },
-        tag: tags.essentials,
         description: {
           en: 'Post offices, places of worship, and other useful services near campus.',
           id: 'Kantor pos, tempat ibadah, dan layanan berguna lainnya di dekat kampus.',
           'zh-TW': '校園附近的郵局、宗教場所與其他實用服務。',
         },
-        notes: {
-          en: 'Placeholder. Add one card per service with its address.',
-          id: 'Sementara. Tambahkan satu kartu per layanan beserta alamatnya.',
-          'zh-TW': '暫定內容。請為每項服務新增一張卡片並附上地址。',
-        },
-        needsVerification: true,
+        // Add services in src/data/localServices.js
+        listings: localServices,
+        listingType: 'service',
       },
     ],
   },
@@ -279,6 +437,7 @@ export const resourceCategories = [
     },
     items: [
       {
+        id: 'arc-renewal',
         name: {
           en: 'ARC renewal',
           id: 'Perpanjangan ARC',
@@ -317,8 +476,8 @@ export const resourceCategories = [
           id: 'Hanya kerangka sementara. Dokumen, biaya, dan jangka waktu yang tepat harus ditambahkan dari sumber resmi.',
           'zh-TW': '僅為草稿大綱。確切的文件、費用與時程須依官方來源補上。',
         },
-        url: 'https://www.immigration.gov.tw/',
-        urlLabel: {
+        websiteUrl: 'https://www.immigration.gov.tw/',
+        websiteLabel: {
           en: 'National Immigration Agency',
           id: 'National Immigration Agency',
           'zh-TW': '內政部移民署',
@@ -326,6 +485,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'visa-information',
         name: {
           en: 'Visa information',
           id: 'Informasi visa',
@@ -345,6 +505,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'change-of-address',
         name: {
           en: 'Changing your address',
           id: 'Perubahan alamat',
@@ -364,6 +525,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'immigration-procedures',
         name: {
           en: 'General immigration procedures',
           id: 'Prosedur imigrasi umum',
@@ -383,6 +545,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'indonesian-office-taipei',
         name: {
           en: 'Indonesian representative office in Taipei',
           id: 'Kantor perwakilan Indonesia di Taipei',
@@ -417,6 +580,7 @@ export const resourceCategories = [
     },
     items: [
       {
+        id: 'scholarships',
         name: {
           en: 'Scholarship information',
           id: 'Informasi beasiswa',
@@ -436,38 +600,57 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
-        // Official institution names stay in English, with the established
-        // Chinese name shown for Chinese readers.
+        id: 'universities',
         name: {
-          en: 'National Tsing Hua University (NTHU)',
-          'zh-TW': '國立清華大學 (NTHU)',
+          en: 'Universities in Hsinchu',
+          id: 'Universitas di Hsinchu',
+          'zh-TW': '新竹的大學',
         },
         tag: tags.university,
-        description: officialUniversityWebsite,
-        url: 'https://www.nthu.edu.tw/',
-        urlLabel: {
-          en: 'Visit NTHU website',
-          id: 'Kunjungi situs NTHU',
-          'zh-TW': '前往清華大學網站',
+        description: {
+          en: 'Official websites of the universities where our members study.',
+          id: 'Situs resmi universitas tempat anggota kami berkuliah.',
+          'zh-TW': '我們成員就讀大學的官方網站。',
         },
-        needsVerification: true,
+        // Each university below is one row. Add another the same way.
+        listings: [
+          {
+            id: 'nthu',
+            // Official institution names stay in English, with the established
+            // Chinese name shown for Chinese readers.
+            name: {
+              en: 'National Tsing Hua University (NTHU)',
+              'zh-TW': '國立清華大學 (NTHU)',
+            },
+            description: officialUniversityWebsite,
+            websiteUrl: 'https://www.nthu.edu.tw/',
+            websiteLabel: {
+              en: 'Visit NTHU website',
+              id: 'Kunjungi situs NTHU',
+              'zh-TW': '前往清華大學網站',
+            },
+            needsVerification: true,
+          },
+          {
+            id: 'nycu',
+            name: {
+              en: 'National Yang Ming Chiao Tung University (NYCU)',
+              'zh-TW': '國立陽明交通大學 (NYCU)',
+            },
+            description: officialUniversityWebsite,
+            websiteUrl: 'https://www.nycu.edu.tw/',
+            websiteLabel: {
+              en: 'Visit NYCU website',
+              id: 'Kunjungi situs NYCU',
+              'zh-TW': '前往陽明交通大學網站',
+            },
+            needsVerification: true,
+          },
+        ],
+        icon: 'university',
       },
       {
-        name: {
-          en: 'National Yang Ming Chiao Tung University (NYCU)',
-          'zh-TW': '國立陽明交通大學 (NYCU)',
-        },
-        tag: tags.university,
-        description: officialUniversityWebsite,
-        url: 'https://www.nycu.edu.tw/',
-        urlLabel: {
-          en: 'Visit NYCU website',
-          id: 'Kunjungi situs NYCU',
-          'zh-TW': '前往陽明交通大學網站',
-        },
-        needsVerification: true,
-      },
-      {
+        id: 'academic-opportunities',
         name: {
           en: 'Academic opportunities',
           id: 'Kesempatan akademik',
@@ -487,6 +670,7 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'internships-careers',
         name: {
           en: 'Internships and careers',
           id: 'Magang dan karier',
@@ -519,39 +703,132 @@ export const resourceCategories = [
       id: 'Menjaga kesehatan, memahami asuransi, dan tahu siapa yang harus dihubungi.',
       'zh-TW': '維持健康、了解保險，並知道該聯絡誰。',
     },
+    // An optional short notice shown under the intro of this category.
+    notice: {
+      en: 'General information only, not medical advice. In an emergency, call 119.',
+      id: 'Hanya informasi umum, bukan nasihat medis. Dalam keadaan darurat, hubungi 119.',
+      'zh-TW': '僅供一般參考，並非醫療建議。遇緊急狀況請撥打 119。',
+    },
     items: [
+      /*
+       * EMERGENCY CONTACTS
+       * Shown at the top of this category: "primary: true" numbers as two
+       * large cards, the rest as a compact list. Only add numbers taken
+       * from an official source.
+       * TODO: add each university's campus security number and the
+       *       PPI Hsinchu emergency contact once confirmed.
+       */
       {
-        name: {
-          en: 'Emergency numbers',
-          id: 'Nomor darurat',
-          'zh-TW': '緊急電話',
-        },
-        tag: tags.emergency,
+        id: 'police',
+        type: 'emergency',
+        icon: 'police',
+        primary: true,
+        name: { en: 'Police', id: 'Polisi', 'zh-TW': '警察' },
+        phone: '110',
         description: {
-          en: 'The main emergency numbers in Taiwan.',
-          id: 'Nomor darurat utama di Taiwan.',
-          'zh-TW': '台灣主要的緊急電話號碼。',
+          en: 'Crimes, traffic accidents, and any threat to your safety.',
+          id: 'Tindak kejahatan, kecelakaan lalu lintas, dan ancaman terhadap keselamatanmu.',
+          'zh-TW': '犯罪、交通事故及任何危及人身安全的情況。',
         },
-        steps: [
-          {
-            en: '110 for the police.',
-            id: '110 untuk polisi.',
-            'zh-TW': '110：警察。',
-          },
-          {
-            en: '119 for fire and ambulance.',
-            id: '119 untuk pemadam kebakaran dan ambulans.',
-            'zh-TW': '119：消防與救護車。',
-          },
-        ],
-        notes: {
-          en: 'Add your university’s campus security number and the PPI Hsinchu emergency contact here.',
-          id: 'Tambahkan nomor keamanan kampus universitasmu dan kontak darurat PPI Hsinchu di sini.',
-          'zh-TW': '請在此補上學校校安中心電話與 PPI Hsinchu 的緊急聯絡方式。',
+        websiteUrl: 'https://www.npa.gov.tw/',
+        needsVerification: true,
+      },
+      {
+        id: 'fire-ambulance',
+        type: 'emergency',
+        icon: 'fire',
+        primary: true,
+        name: {
+          en: 'Fire and ambulance',
+          id: 'Pemadam kebakaran dan ambulans',
+          'zh-TW': '消防與救護車',
+        },
+        phone: '119',
+        description: {
+          en: 'Fires, serious injuries, and medical emergencies.',
+          id: 'Kebakaran, cedera serius, dan keadaan darurat medis.',
+          'zh-TW': '火災、重大傷害與緊急醫療狀況。',
+        },
+        websiteUrl: 'https://www.nfa.gov.tw/',
+        needsVerification: true,
+      },
+      {
+        id: 'mobile-emergency',
+        type: 'emergency',
+        icon: 'phone',
+        name: {
+          en: 'Mobile emergency number',
+          id: 'Nomor darurat ponsel',
+          'zh-TW': '手機緊急求救',
+        },
+        phone: '112',
+        description: {
+          en: 'From a mobile phone, connects to emergency services even without a local SIM card.',
+          id: 'Dari ponsel, terhubung ke layanan darurat bahkan tanpa kartu SIM lokal.',
+          'zh-TW': '以手機撥打，即使沒有本地 SIM 卡也能連線至緊急救援單位。',
         },
         needsVerification: true,
       },
       {
+        id: 'foreigner-hotline',
+        type: 'emergency',
+        icon: 'info',
+        lineType: 'information',
+        name: {
+          en: 'Hotline for foreigners in Taiwan',
+          id: 'Layanan informasi untuk warga asing di Taiwan',
+          'zh-TW': '外來人士在臺生活諮詢服務熱線',
+        },
+        // Replaced the old number 0800-024-111 in 2022.
+        phone: '1990',
+        description: {
+          en: 'Questions about visas, residence, health insurance, and daily life, from the National Immigration Agency. Not for emergencies.',
+          id: 'Pertanyaan seputar visa, izin tinggal, asuransi kesehatan, dan kehidupan sehari-hari, dari National Immigration Agency. Bukan untuk keadaan darurat.',
+          'zh-TW': '內政部移民署提供的簽證、居留、健保與生活諮詢。非緊急求助專線。',
+        },
+        websiteUrl: 'https://www.immigration.gov.tw/',
+        needsVerification: true,
+      },
+      {
+        id: 'mental-health-hotline',
+        type: 'emergency',
+        icon: 'heart',
+        lineType: 'support',
+        name: {
+          en: 'Mental health support line',
+          id: 'Layanan dukungan kesehatan mental',
+          'zh-TW': '安心專線',
+        },
+        phone: '1925',
+        description: {
+          en: 'Someone to talk to when you are struggling or thinking about suicide, from the Ministry of Health and Welfare.',
+          id: 'Tempat bercerita saat kamu merasa berat atau berpikir untuk bunuh diri, dari Ministry of Health and Welfare.',
+          'zh-TW': '衛生福利部提供，當你感到難以承受或有輕生念頭時，有人可以傾聽。',
+        },
+        websiteUrl: 'https://www.mohw.gov.tw/',
+        needsVerification: true,
+      },
+      {
+        id: 'anti-fraud-hotline',
+        type: 'emergency',
+        icon: 'shield',
+        lineType: 'information',
+        name: {
+          en: 'Anti-fraud hotline',
+          id: 'Layanan pengaduan penipuan',
+          'zh-TW': '反詐騙諮詢專線',
+        },
+        phone: '165',
+        description: {
+          en: 'Check a suspicious call or message, or report a scam.',
+          id: 'Cek telepon atau pesan yang mencurigakan, atau laporkan penipuan.',
+          'zh-TW': '查證可疑的電話或訊息，或檢舉詐騙。',
+        },
+        websiteUrl: 'https://165.npa.gov.tw/',
+        needsVerification: true,
+      },
+      {
+        id: 'nhi',
         name: {
           en: 'National Health Insurance (NHI)',
           id: 'Asuransi Kesehatan Nasional (NHI)',
@@ -568,8 +845,8 @@ export const resourceCategories = [
           id: 'Sementara. Pastikan aturan kelayakan dan proses pendaftaran terbaru ke universitasmu atau NHI Administration.',
           'zh-TW': '暫定內容。請向學校或衛生福利部中央健康保險署確認最新的加保資格與流程。',
         },
-        url: 'https://www.nhi.gov.tw/',
-        urlLabel: {
+        websiteUrl: 'https://www.nhi.gov.tw/',
+        websiteLabel: {
           en: 'NHI Administration',
           id: 'NHI Administration',
           'zh-TW': '中央健康保險署',
@@ -577,25 +854,24 @@ export const resourceCategories = [
         needsVerification: true,
       },
       {
+        id: 'clinics-hospitals',
         name: {
-          en: 'Clinics and hospitals',
-          id: 'Klinik dan rumah sakit',
-          'zh-TW': '診所與醫院',
+          en: 'Hospitals, clinics and pharmacies',
+          id: 'Rumah sakit, klinik, dan apotek',
+          'zh-TW': '醫院、診所與藥局',
         },
-        tag: tags.medical,
         description: {
-          en: 'Campus health centres, nearby clinics, and hospitals with English-speaking staff.',
-          id: 'Pusat kesehatan kampus, klinik terdekat, dan rumah sakit dengan staf berbahasa Inggris.',
-          'zh-TW': '校內衛生保健組、附近診所，以及有英語服務人員的醫院。',
+          en: 'Campus health centres, nearby clinics, pharmacies, and hospitals.',
+          id: 'Pusat kesehatan kampus, klinik terdekat, apotek, dan rumah sakit.',
+          'zh-TW': '校內衛生保健組、附近診所、藥局與醫院。',
         },
-        notes: {
-          en: 'Placeholder. Add one card per clinic or hospital with its address.',
-          id: 'Sementara. Tambahkan satu kartu per klinik atau rumah sakit beserta alamatnya.',
-          'zh-TW': '暫定內容。請為每間診所或醫院新增一張卡片並附上地址。',
-        },
-        needsVerification: true,
+        // Add facilities in src/data/healthcareFacilities.js
+        listings: healthcareFacilities,
+        listingType: 'hospital',
+        icon: 'medical',
       },
       {
+        id: 'healthcare-guidance',
         name: {
           en: 'General healthcare guidance',
           id: 'Panduan umum layanan kesehatan',

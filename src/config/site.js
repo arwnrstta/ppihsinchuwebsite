@@ -121,6 +121,6 @@ export const contact = {
  * While pdfPath is empty, the button shows a disabled "Coming soon" state.
  */
 export const adArt = {
-  pdfPath: 'public/documents/Amandemen II AD_ART PPI Hsinchu 2025.pdf',
+  pdfPath: 'documents/Amandemen II AD_ART PPI Hsinchu 2025.pdf',
   lastUpdated: '2025',
 }

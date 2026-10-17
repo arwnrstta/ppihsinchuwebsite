@@ -22,6 +22,8 @@ You should almost never need to open the `components` or `sections` folders.
 | Past cabinets | `src/data/leadership.js` |
 | Events | `src/data/events.js` |
 | Student resources and the guidebook tile | `src/data/resources.js` |
+| Restaurants, grocery stores, local services, healthcare facilities | `src/data/restaurants.js`, `groceryStores.js`, `localServices.js`, `healthcareFacilities.js` |
+| Sponsored local business listings | `src/data/localBusinesses.js` |
 | Photo albums | `src/data/gallery.js` |
 | Schools on the campus map | `src/data/universities.js` |
 | "Who We Are" text | `src/data/about.js` |
@@ -141,12 +143,17 @@ File: `src/data/events.js`
 File: `src/data/resources.js`
 
 - [ ] Immigration, insurance and scholarship information checked against official sources. These rules change often
-- [ ] Restaurants and shops that have closed removed; new ones added
-- [ ] `needsVerification: true` removed only from items you have personally checked
+- [ ] Restaurants and shops that have closed removed; new ones added (`restaurants.js`, `groceryStores.js`, `localServices.js`, `healthcareFacilities.js` in `src/data/`)
+- [ ] `needsVerification: true` removed only from items you have personally checked. Open the website with `?review` in the address (e.g. `/?review#resources`) to see which items are still unchecked
+- [ ] Emergency numbers (`type: 'emergency'`) still match the official sources
+- [ ] Map, website and Instagram links open the right place (run `npm run dev` and check the browser console for link warnings)
+- [ ] Sponsored listings (`src/data/localBusinesses.js`) have the right `section`, `startDate` and `endDate`
 
 - [ ] The schools on the campus map (`src/data/universities.js`) still match where members study, and each website link works
 
 - [ ] The guidebook tile (`guidebook` in `src/data/resources.js`) points to the latest volume, with its cover as the thumbnail
+
+- [ ] Official partners (`src/data/partners.js`) have the right `startDate` and `endDate`, and `featured: true` only on those that should appear on the homepage. Instructions are at the top of that file. Partners whose dates have passed disappear by themselves; while none are active, the website shows nothing about partners at all
 
 ### 8. Verify contact information
 

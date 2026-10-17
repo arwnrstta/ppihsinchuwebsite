@@ -4,7 +4,7 @@ import { cabinet } from '../config/cabinet.js'
 import { navigation, site } from '../config/site.js'
 import { aboutTabs } from '../data/about.js'
 import { albums } from '../data/gallery.js'
-import { resourceCategories } from '../data/resources.js'
+import { getVisibleCategories } from '../utils/resourceHelpers.js'
 import { useActiveSection } from '../hooks/useActiveSection.js'
 import { assetPath } from '../utils/assetPath.js'
 import { useLocalize } from '../utils/localize.js'
@@ -23,7 +23,8 @@ import './Navbar.css'
  *   with the Tab key) opens a dropdown listing the parts of that section.
  * - On small screens the links move into a panel opened by the menu button.
  *   Dropdowns are hidden there to keep the panel short.
- * - The link for the section currently on screen is highlighted.
+ * - The link for the section currently on screen is highlighted (on the
+ *   homepage only; other pages such as /partners highlight nothing).
  * - The language switcher sits on the right (inside the panel on mobile).
  */
 
@@ -63,7 +64,8 @@ const dropdowns = {
     { labelKey: 'nav.dropdown.upcomingEvent', kind: 'scroll', target: 'events' },
     { labelKey: 'nav.dropdown.eventArchive', kind: 'scroll', target: 'events-archive' },
   ],
-  resources: resourceCategories.map((category) => ({
+  // Only categories with something to show (see src/utils/resourceHelpers.js).
+  resources: getVisibleCategories().map((category) => ({
     label: category.title,
     kind: 'resourceCategory',
     target: category.id,
@@ -78,12 +80,13 @@ const dropdowns = {
   ],
 }
 
-export default function Navbar({ onDropdownSelect }) {
+export default function Navbar({ isHomePage = true, onDropdownSelect }) {
   const { t } = useTranslation()
   const localizeText = useLocalize()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
-  const activeSectionId = useActiveSection(sectionIds)
+  const sectionOnScreen = useActiveSection(sectionIds)
+  const activeSectionId = isHomePage ? sectionOnScreen : null
 
   // Adds a background to the navbar once the visitor scrolls down a little.
   useEffect(() => {

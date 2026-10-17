@@ -1,0 +1,57 @@
+.partner-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    box-shadow var(--duration-medium) var(--ease-smooth);
+}
+
+.partner-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-raised);
+}
+
+/* A fixed-height box; the logo is fitted inside it at its own proportions. */
+.partner-card__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 132px;
+  margin-bottom: 0.35rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-small);
+  background: var(--color-cream);
+}
+
+.partner-card__logo img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.partner-card__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.partner-card__description {
+  font-size: 0.95rem;
+  color: var(--color-gray);
+}
+
+/* Sits at the bottom so links line up across a row of cards. */
+.partner-card__link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 0.25rem;
+  color: var(--color-red);
+}

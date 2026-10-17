@@ -67,6 +67,54 @@
   gap: 1rem;
 }
 
+/* A short notice under a category intro, e.g. "not medical advice". */
+.resources__category-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 70ch;
+  margin: -0.75rem 0 1.5rem;
+  font-size: 0.92rem;
+  color: var(--color-gray);
+}
+
+.resources__category-notice svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* Type filter: small pill buttons, only shown when a category mixes types. */
+.resources__types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.resources__type {
+  min-height: 40px;
+  padding: 0.4rem 1rem;
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition:
+    border-color var(--duration-fast) var(--ease-smooth),
+    background-color var(--duration-fast) var(--ease-smooth),
+    color var(--duration-fast) var(--ease-smooth);
+}
+
+.resources__type:hover {
+  border-color: var(--color-charcoal);
+}
+
+.resources__type.is-active {
+  border-color: var(--color-red);
+  background: var(--color-red);
+  color: var(--color-white);
+}
+
 @media (max-width: 720px) {
   .resources__grid {
     grid-template-columns: 1fr;

@@ -205,7 +205,44 @@
     "results_other": "{{count}} hasil untuk “{{query}}”",
     "clearSearch": "Hapus pencarian",
     "needsVerification": "Perlu diverifikasi",
-    "visitWebsite": "Kunjungi situs"
+    "address": "Alamat",
+    "phone": "Telepon",
+    "serviceInfo": "Layanan",
+    "sponsored": "Bersponsor",
+    "recommended": "Rekomendasi",
+    "emergencyTitle": "Kontak Darurat",
+    "sponsoredTitle": "Mitra Pilihan",
+    "sponsoredNote": "Penempatan berbayar dari usaha lokal. Tampil di sini bukan berarti peringkat atau rekomendasi.",
+    "typeFilterLabel": "Saring berdasarkan jenis",
+    "listingCount_one": "{{count}} tempat",
+    "listingCount_other": "{{count}} tempat",
+    "allTypes": "Semua",
+    "otherHotlines": "Layanan telepon lain yang berguna",
+    "emergencyUnverified": "Kami masih memastikan nomor-nomor ini ke sumber resmi. Gunakan tautan resmi untuk mengeceknya.",
+    "lineTypes": {
+      "information": "Layanan informasi, bukan untuk darurat",
+      "support": "Layanan dukungan"
+    },
+    "showAllPlaces_one": "Tampilkan semua {{count}} tempat",
+    "showAllPlaces_other": "Tampilkan semua {{count}} tempat",
+    "showFewer": "Tampilkan lebih sedikit",
+    "photoOf": "Foto {{name}}",
+    "photoNumber": "{{name}}, foto {{number}}",
+    "openPhotos": "Lihat foto {{name}}",
+    "logoOf": "Logo {{name}}",
+    "promotion": "Promo",
+    "actions": {
+      "openInMaps": "Buka di Google Maps",
+      "directions": "Petunjuk Arah",
+      "visitWebsite": "Kunjungi Situs",
+      "instagram": "Instagram",
+      "call": "Telepon",
+      "callNow": "Telepon Sekarang",
+      "copyNumber": "Salin Nomor",
+      "copied": "Tersalin",
+      "copyFailed": "Gagal menyalin",
+      "officialInfo": "Informasi resmi"
+    }
   },
   "gallery": {
     "label": "Galeri foto",
@@ -251,6 +288,17 @@
         "email": "Mohon masukkan alamat email yang valid."
       }
     }
+  },
+  "partners": {
+    "eyebrow": "Kemitraan",
+    "navLink": "Mitra Kami",
+    "title": "Mitra Kami",
+    "featuredTitle": "Mitra Resmi Kami",
+    "viewAll": "Lihat Semua Mitra",
+    "description": "Organisasi, perusahaan, dan institusi yang mendukung PPI Hsinchu dan komunitas pelajar Indonesia di Hsinchu.",
+    "visitWebsite": "Kunjungi situs",
+    "visitInstagram": "Lihat di Instagram",
+    "logoAlt": "Logo {{name}}"
   },
   "footer": {
     "message": "Dari Hsinchu, dengan rumah di hati.",

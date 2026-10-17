@@ -41,11 +41,11 @@ import './Events.css'
  */
 
 // The three status filters. Their text is in src/locales/, under "events" -> "filters".
-const statusFilterIds = ['past', 'upcoming', 'all']
+const statusFilterIds = ['all', 'upcoming', 'past' ]
 
 export default function Events({ openEventId, onOpenEvent, onCloseEvent, onShowAlbum }) {
   const { t } = useTranslation()
-  const [statusFilter, setStatusFilter] = useState('past')
+  const [statusFilter, setStatusFilter] = useState('all')
   const [yearFilter, setYearFilter] = useState('all')
 
   const upcomingEvents = getUpcomingEvents(events)

@@ -207,7 +207,44 @@
     "results_other": "{{count}} results for “{{query}}”",
     "clearSearch": "Clear search",
     "needsVerification": "Needs verification",
-    "visitWebsite": "Visit website"
+    "address": "Address",
+    "phone": "Phone",
+    "serviceInfo": "Services",
+    "sponsored": "Sponsored",
+    "recommended": "Recommended",
+    "emergencyTitle": "Emergency Contacts",
+    "sponsoredTitle": "Featured Partners",
+    "sponsoredNote": "Paid placements by local businesses. Being featured is not a rating or a recommendation.",
+    "typeFilterLabel": "Filter by type",
+    "listingCount_one": "{{count}} place",
+    "listingCount_other": "{{count}} places",
+    "allTypes": "All",
+    "otherHotlines": "Other useful hotlines",
+    "emergencyUnverified": "We are still confirming these numbers with official sources. Use the official links to double-check.",
+    "lineTypes": {
+      "information": "Information line, not for emergencies",
+      "support": "Support line"
+    },
+    "showAllPlaces_one": "Show all {{count}} places",
+    "showAllPlaces_other": "Show all {{count}} places",
+    "showFewer": "Show fewer",
+    "photoOf": "Photo of {{name}}",
+    "photoNumber": "{{name}}, photo {{number}}",
+    "openPhotos": "View photos of {{name}}",
+    "logoOf": "{{name}} logo",
+    "promotion": "Promotion",
+    "actions": {
+      "openInMaps": "Open in Google Maps",
+      "directions": "Directions",
+      "visitWebsite": "Visit Website",
+      "instagram": "Instagram",
+      "call": "Call",
+      "callNow": "Call Now",
+      "copyNumber": "Copy Number",
+      "copied": "Copied",
+      "copyFailed": "Could not copy",
+      "officialInfo": "Official information"
+    }
   },
   "gallery": {
     "label": "Photo gallery",
@@ -253,6 +290,17 @@
         "email": "Please enter a valid email address."
       }
     }
+  },
+  "partners": {
+    "eyebrow": "Partnerships",
+    "navLink": "Our Partners",
+    "title": "Our Partners",
+    "featuredTitle": "Our Official Partners",
+    "viewAll": "View All Partners",
+    "description": "The organisations, companies and institutions that support PPI Hsinchu and the Indonesian student community in Hsinchu.",
+    "visitWebsite": "Visit website",
+    "visitInstagram": "View on Instagram",
+    "logoAlt": "{{name}} logo"
   },
   "footer": {
     "message": "From Hsinchu, with home in our hearts.",

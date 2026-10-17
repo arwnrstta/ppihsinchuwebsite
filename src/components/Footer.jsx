@@ -2,6 +2,8 @@ import { useTranslation } from 'react-i18next'
 import { cabinet } from '../config/cabinet.js'
 import { navigation, site } from '../config/site.js'
 import { assetPath } from '../utils/assetPath.js'
+import { hasActivePartners } from '../utils/partnerHelpers.js'
+import PageLink from './PageLink.jsx'
 import SocialLinks from './SocialLinks.jsx'
 import './Footer.css'
 
@@ -12,8 +14,14 @@ import './Footer.css'
  * Names come from src/config/site.js and src/config/cabinet.js (never
  * translated). The other wording is in src/locales/, under "footer".
  * The copyright year updates by itself.
+ *
+ * "Our Partners" (the /partners page) is added under the links only while
+ * at least one official partner is active (see src/data/partners.js).
+ *
+ * Props:
+ *   backToTopId - the element "Back to top" jumps to ('home' by default)
  */
-export default function Footer() {
+export default function Footer({ backToTopId = 'home' }) {
   const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
 
@@ -46,6 +54,11 @@ export default function Footer() {
                   <a href={`#${item.id}`}>{t(`nav.${item.id}`)}</a>
                 </li>
               ))}
+              {hasActivePartners() && (
+                <li>
+                  <PageLink to="partners">{t('partners.navLink')}</PageLink>
+                </li>
+              )}
             </ul>
           </nav>
 
@@ -61,7 +74,7 @@ export default function Footer() {
           <p>
             © {currentYear} {site.name} · {cabinet.name}
           </p>
-          <a href="#home">{t('footer.backToTop')} ↑</a>
+          <a href={`#${backToTopId}`}>{t('footer.backToTop')} ↑</a>
         </div>
       </div>
     </footer>

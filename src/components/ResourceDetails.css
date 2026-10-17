@@ -1,0 +1,66 @@
+/* Address, phone and service details, each with its icon. */
+.resource-facts {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+}
+
+.resource-facts li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  /* Long addresses wrap instead of pushing the card wider. */
+  overflow-wrap: anywhere;
+}
+
+.resource-facts svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--color-red);
+}
+
+.resource-facts--place li:first-child {
+  font-weight: 600;
+}
+
+/* Action buttons: always last, above the stretched click area. */
+.resource-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.resource-action {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font-size: 0.88rem;
+  border-color: var(--color-line);
+  background: var(--color-white);
+}
+
+.resource-action:hover {
+  border-color: var(--color-charcoal);
+}
+
+/* The arrow nudge of .button does not suit these icons. */
+.resource-action:hover svg {
+  transform: none;
+}
+
+@media (max-width: 520px) {
+  /* Full-width buttons are easier to tap on small screens. */
+  .resource-action {
+    flex: 1 1 100%;
+  }
+}
+
+/* "Needs verification" label, only visible in review mode (VerificationBadge.jsx). */
+.chip.verification-badge {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: var(--color-crimson);
+  white-space: normal;
+}

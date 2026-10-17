@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Footer from './components/Footer.jsx'
 import Navbar from './components/Navbar.jsx'
@@ -7,14 +7,23 @@ import Contact from './sections/Contact.jsx'
 import Events from './sections/Events.jsx'
 import Gallery from './sections/Gallery.jsx'
 import Home from './sections/Home.jsx'
+import FeaturedPartners from './sections/home/FeaturedPartners.jsx'
+import Partners from './sections/Partners.jsx'
 import Resources from './sections/Resources.jsx'
-import { resourceCategories } from './data/resources.js'
+import { getVisibleCategories } from './utils/resourceHelpers.js'
+import { navigateTo, useCurrentPage } from './hooks/useCurrentPage.js'
+import { hasActivePartners } from './utils/partnerHelpers.js'
 
 /*
  * APP
  * ---
  * The whole website is one page made of sections stacked in this order:
- * Home, About, Events, Resources, Gallery, Connect With Us.
+ * Home, About, Events, Resources, Gallery, Connect With Us, and (only when
+ * there are featured partners) Our Official Partners.
+ *
+ * There is one extra page, Our Partners (/partners), shown only while at
+ * least one official partner is active (see src/data/partners.js). With no
+ * active partners, visiting /partners redirects to the homepage.
  *
  * Most sections look after themselves. App only keeps the pieces of
  * information that connect DIFFERENT parts of the page to each other:
@@ -39,19 +48,54 @@ function scrollToSection(sectionId) {
 export default function App() {
   const { t } = useTranslation()
   const [aboutTab, setAboutTab] = useState('who-we-are')
-  const [resourceCategoryId, setResourceCategoryId] = useState(resourceCategories[0].id)
+  const [resourceCategoryId, setResourceCategoryId] = useState(
+    () => getVisibleCategories()[0]?.id ?? '',
+  )
   const [openEventId, setOpenEventId] = useState(null)
   const [selectedAlbumId, setSelectedAlbumId] = useState('all')
+  const currentPage = useCurrentPage()
+  const partnersAvailable = hasActivePartners()
+  const isPartnersPage = currentPage === 'partners' && partnersAvailable
+
+  // /partners without any active partner: go to the homepage instead.
+  useEffect(() => {
+    if (currentPage === 'partners' && !partnersAvailable) {
+      navigateTo('home', { replace: true })
+    }
+  }, [currentPage, partnersAvailable])
+
+  // After moving between pages, start at the top, or at the section named
+  // in the address (e.g. "#about" when coming back from /partners).
+  // Nothing happens on the first load, so the browser keeps its own scroll
+  // position when the page is refreshed.
+  const shownPageRef = useRef(isPartnersPage)
+  useEffect(() => {
+    if (shownPageRef.current === isPartnersPage) return
+    shownPageRef.current = isPartnersPage
+    const sectionId = decodeURIComponent(window.location.hash.slice(1))
+    const section = sectionId && document.getElementById(sectionId)
+    if (section) {
+      section.scrollIntoView()
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [isPartnersPage])
+
+  /* Scrolls to a homepage section, leaving the Partners page first if needed. */
+  function goToSection(sectionId) {
+    if (isPartnersPage) navigateTo('home')
+    scrollToSection(sectionId)
+  }
 
   function showAboutTab(tabId) {
     setAboutTab(tabId)
-    scrollToSection('about')
+    goToSection('about')
   }
 
   function showAlbum(albumId) {
     setOpenEventId(null)
     setSelectedAlbumId(albumId)
-    scrollToSection('gallery')
+    goToSection('gallery')
   }
 
   /*
@@ -65,11 +109,11 @@ export default function App() {
       showAboutTab(dropdownItem.target)
     } else if (dropdownItem.kind === 'resourceCategory') {
       setResourceCategoryId(dropdownItem.target)
-      scrollToSection('resources')
+      goToSection('resources')
     } else if (dropdownItem.kind === 'album') {
       showAlbum(dropdownItem.target)
     } else {
-      scrollToSection(dropdownItem.target)
+      goToSection(dropdownItem.target)
     }
   }
 
@@ -78,28 +122,40 @@ export default function App() {
       <a href="#main-content" className="skip-link">
         {t('common.skipToContent')}
       </a>
-      <Navbar onDropdownSelect={handleDropdownSelect} />
-      <main id="main-content">
-        <Home onShowAboutTab={showAboutTab} />
-        <About activeTab={aboutTab} onTabChange={setAboutTab} />
-        <Events
-          openEventId={openEventId}
-          onOpenEvent={setOpenEventId}
-          onCloseEvent={() => setOpenEventId(null)}
-          onShowAlbum={showAlbum}
-        />
-        <Resources
-          activeCategoryId={resourceCategoryId}
-          onCategoryChange={setResourceCategoryId}
-        />
-        <Gallery
-          selectedAlbumId={selectedAlbumId}
-          onSelectAlbum={setSelectedAlbumId}
-          onOpenEvent={setOpenEventId}
-        />
-        <Contact />
-      </main>
-      <Footer />
+      {/* A new navbar for each page, so it watches the sections of that page. */}
+      <Navbar
+        key={isPartnersPage ? 'partners' : 'home'}
+        isHomePage={!isPartnersPage}
+        onDropdownSelect={handleDropdownSelect}
+      />
+      {isPartnersPage ? (
+        <main id="main-content">
+          <Partners />
+        </main>
+      ) : (
+        <main id="main-content">
+          <Home onShowAboutTab={showAboutTab} />
+          <About activeTab={aboutTab} onTabChange={setAboutTab} />
+          <Events
+            openEventId={openEventId}
+            onOpenEvent={setOpenEventId}
+            onCloseEvent={() => setOpenEventId(null)}
+            onShowAlbum={showAlbum}
+          />
+          <Resources
+            activeCategoryId={resourceCategoryId}
+            onCategoryChange={setResourceCategoryId}
+          />
+          <Gallery
+            selectedAlbumId={selectedAlbumId}
+            onSelectAlbum={setSelectedAlbumId}
+            onOpenEvent={setOpenEventId}
+          />
+          <Contact />
+          <FeaturedPartners />
+        </main>
+      )}
+      <Footer backToTopId={isPartnersPage ? 'partners' : 'home'} />
     </>
   )
 }
