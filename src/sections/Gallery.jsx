@@ -15,16 +15,29 @@ import './Gallery.css'
  * A wall of photos built from the years in src/data/gallery.js.
  *
  *   - The buttons at the top filter the wall to one year (newest first).
+ *   - Photos appear in a random order (shuffled once per visit). Only the
+ *     first 10 are shown; "See more" reveals 10 more at a time.
  *   - Clicking a photo opens the full-screen Lightbox viewer.
  *
  * Which year is selected is stored in App.jsx, so the navbar dropdown can
  * open a year.
  */
+// How many photos are shown at first, and added by each "See more".
+const pageSize = 10
+
+/* Every photo path in the gallery, used to give each one a random position. */
+const allGalleryPhotos = () =>
+  getGalleryYears().flatMap(({ photos }) => photos.map((photo) => photo.src))
+
 export default function Gallery({ selectedYear, onSelectYear }) {
   const { t } = useTranslation()
   const localizeText = useLocalize()
   // Position of the photo open in the lightbox, or null when it is closed.
   const [lightboxIndex, setLightboxIndex] = useState(null)
+  // How many photos are shown, remembered per year tab.
+  const [shown, setShown] = useState({ count: pageSize, yearId: selectedYear })
+  // A random number per photo, picked once per visit, to shuffle the order.
+  const [randomOrder] = useState(() => new Map(allGalleryPhotos().map((src) => [src, Math.random()])))
 
   const years = getGalleryYears()
   const yearTabs = [
@@ -39,21 +52,27 @@ export default function Gallery({ selectedYear, onSelectYear }) {
    * One flat list of photos. Each photo's texts are put into the visitor's
    * language here, so GalleryGrid and Lightbox can simply display them.
    */
-  const visiblePhotos = visibleYears.flatMap(({ year, photos }) =>
-    photos.map((photo) => ({
-      src: photo.src,
-      alt: localizeText(photo.alt),
-      caption: localizeText(photo.title),
-      albumTitle: String(year),
-    })),
-  )
+  const allPhotos = visibleYears
+    .flatMap(({ year, photos }) =>
+      photos.map((photo) => ({
+        src: photo.src,
+        alt: localizeText(photo.alt),
+        caption: localizeText(photo.title),
+        albumTitle: String(year),
+      })),
+    )
+    .sort((a, b) => (randomOrder.get(a.src) ?? 0) - (randomOrder.get(b.src) ?? 0))
+
+  const activeId = selected ? String(selected.year) : 'all'
+  // Choosing another year starts again from the first 10.
+  const shownCount = shown.yearId === selectedYear ? shown.count : pageSize
+  const visiblePhotos = allPhotos.slice(0, shownCount)
+  const hiddenCount = allPhotos.length - visiblePhotos.length
 
   function selectYear(yearId) {
     setLightboxIndex(null)
     onSelectYear(yearId)
   }
-
-  const activeId = selected ? String(selected.year) : 'all'
 
   return (
     <section
@@ -93,6 +112,18 @@ export default function Gallery({ selectedYear, onSelectYear }) {
             <GalleryGrid photos={visiblePhotos} onOpenPhoto={setLightboxIndex} />
           ) : (
             <p className="gallery__empty">{t('gallery.empty')}</p>
+          )}
+
+          {hiddenCount > 0 && (
+            <div className="gallery__more">
+              <button
+                type="button"
+                className="button button--outline"
+                onClick={() => setShown({ count: shownCount + pageSize, yearId: selectedYear })}
+              >
+                {t('gallery.seeMore')}
+              </button>
+            </div>
           )}
         </div>
       </div>

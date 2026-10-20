@@ -187,6 +187,16 @@
       "venue": "Lokasi",
       "fee": "Biaya",
       "organizer": "Penyelenggara",
+      "registrationFees": "Biaya Pendaftaran",
+      "competition": "Kompetisi",
+      "earlyBird": "Early Bird",
+      "regular": "Reguler",
+      "feeUnits": {
+        "team": "per tim",
+        "person": "per orang",
+        "pax": "per orang",
+        "pair": "per pasang"
+      },
       "registrationSoon": "Informasi pendaftaran segera hadir."
     }
   },
@@ -266,6 +276,7 @@
     "filterLabel": "Saring foto berdasarkan tahun",
     "empty": "Foto akan segera ditambahkan di sini.",
     "openPhoto": "Buka foto: {{description}}",
+    "seeMore": "Lihat lebih banyak",
     "lightbox": {
       "label": "Penampil foto",
       "previous": "Foto sebelumnya",

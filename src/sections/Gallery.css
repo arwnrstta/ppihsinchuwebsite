@@ -18,6 +18,12 @@
   margin-bottom: 2rem;
 }
 
+.gallery__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
 .gallery__empty {
   padding: 3rem 1rem;
   border: 1.5px dashed rgb(255 255 255 / 0.2);

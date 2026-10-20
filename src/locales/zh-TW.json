@@ -187,6 +187,16 @@
       "venue": "地點",
       "fee": "費用",
       "organizer": "主辦單位",
+      "registrationFees": "報名費用",
+      "competition": "比賽項目",
+      "earlyBird": "早鳥價",
+      "regular": "一般價",
+      "feeUnits": {
+        "team": "每隊",
+        "person": "每人",
+        "pax": "每人",
+        "pair": "每組"
+      },
       "registrationSoon": "報名資訊即將公布。"
     }
   },
@@ -266,6 +276,7 @@
     "filterLabel": "依年份篩選照片",
     "empty": "照片即將新增。",
     "openPhoto": "開啟照片：{{description}}",
+    "seeMore": "查看更多",
     "lightbox": {
       "label": "照片檢視器",
       "previous": "上一張照片",

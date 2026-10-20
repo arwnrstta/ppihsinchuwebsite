@@ -65,21 +65,43 @@
   text-transform: uppercase;
 }
 
+/* Date and venue, each on its own line with its icon. */
 .featured-event__facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 2rem;
+  display: grid;
+  gap: 0.55rem;
+  width: 100%;
+  max-width: 46ch;
   font-weight: 600;
 }
 
 .featured-event__facts li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
+  min-width: 0;
 }
 
+.featured-event__facts svg {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* A long venue or fee stops after two lines instead of crowding the card. */
+.featured-event__fact-text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
+}
+
+/* The summary stops after three lines; the full text is in "View details". */
 .featured-event__summary {
+  display: -webkit-box;
   max-width: 46ch;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   font-size: 1.08rem;
   color: rgb(255 255 255 / 0.8);
 }
@@ -155,6 +177,21 @@
 
   .featured-event__poster {
     max-width: 280px;
+  }
+
+  .featured-event__body {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Full-width buttons, one per row, on small phones. */
+  .featured-event__actions {
+    width: 100%;
+  }
+
+  .featured-event__actions > * {
+    flex: 1 1 100%;
   }
 }
 

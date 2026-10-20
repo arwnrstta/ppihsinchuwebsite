@@ -48,7 +48,152 @@
 }
 
 .event-detail__facts dd {
+  min-width: 0;
   font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Multi-location events: one row per activity, with its location below. */
+.event-detail__venues {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.event-detail__venues li {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.event-detail__venues li + li {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.event-detail__venue-activity {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+/* "Registration Fees": a compact price table, or a short list. */
+.event-detail__fees {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.event-detail__fee-deadline {
+  margin-top: -0.2rem;
+  font-size: 0.85rem;
+  color: var(--color-gray);
+}
+
+/* Early Bird / Regular side by side, one row per competition. */
+.event-detail__fee-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.event-detail__fee-table th,
+.event-detail__fee-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.event-detail__fee-table thead th {
+  padding-top: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gray);
+}
+
+.event-detail__fee-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.event-detail__fee-table tbody th {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Price columns: right-aligned so amounts line up. */
+.event-detail__fee-table th:not(:first-child),
+.event-detail__fee-table td {
+  width: 6.5rem;
+  text-align: right;
+}
+
+.event-detail__fee-table td {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.event-detail__fee-table td .event-detail__fee-notes {
+  display: block;
+  font-weight: 400;
+  white-space: normal;
+}
+
+.event-detail__fee-table :is(th, td):first-child {
+  padding-left: 0;
+}
+
+.event-detail__fee-table :is(th, td):last-child {
+  padding-right: 0;
+}
+
+.event-detail__fee-unit {
+  font-weight: 400;
+  color: var(--color-gray);
+}
+
+.event-detail__fees-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-gray);
+}
+
+/* Other tickets: one compact line each, price on the right. */
+.event-detail__fee-list {
+  display: grid;
+  font-size: 0.92rem;
+}
+
+.event-detail__fee-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 1rem;
+  padding: 0.45rem 0;
+}
+
+.event-detail__fee-list li + li {
+  border-top: 1px solid var(--color-line);
+}
+
+.event-detail__fee-category {
+  overflow-wrap: anywhere;
+}
+
+.event-detail__fee-price {
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.event-detail__fee-notes {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  color: var(--color-gray);
 }
 
 .event-detail__description {
@@ -80,5 +225,24 @@
 
   .event-detail__body {
     padding-right: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Label above value on small phones, so long venues get the full width. */
+  .event-detail__facts > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  /* Narrower price columns so all three fit without scrolling sideways. */
+  .event-detail__fee-table {
+    font-size: 0.85rem;
+  }
+
+  .event-detail__fee-table th:not(:first-child),
+  .event-detail__fee-table td {
+    width: 5.25rem;
+    padding-inline: 0.35rem;
   }
 }

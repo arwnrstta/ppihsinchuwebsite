@@ -11,7 +11,8 @@ import Tabs from '../components/Tabs.jsx'
 import { events } from '../data/events.js'
 import {
   formatEventDate,
-  getEventYear,
+  getEventVenues,
+  getEventYears,
   getPastEvents,
   getUpcomingEvents,
 } from '../utils/eventHelpers.js'
@@ -51,10 +52,11 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent }) {
   const pastEvents = getPastEvents(events)
   const featuredEvent = upcomingEvents[0]
 
-  // Every year that has at least one dated event, newest first.
-  const availableYears = [
-    ...new Set(events.map(getEventYear).filter((year) => year !== null)),
-  ].sort((first, second) => second - first)
+  // Every year that has at least one dated event, newest first. An event
+  // on dates in two different years counts for both.
+  const availableYears = [...new Set(events.flatMap(getEventYears))].sort(
+    (first, second) => second - first,
+  )
 
   const eventsByStatus = {
     past: pastEvents,
@@ -62,7 +64,7 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent }) {
     all: [...upcomingEvents, ...pastEvents],
   }
   const visibleEvents = eventsByStatus[statusFilter].filter(
-    (event) => yearFilter === 'all' || getEventYear(event) === Number(yearFilter),
+    (event) => yearFilter === 'all' || getEventYears(event).includes(Number(yearFilter)),
   )
 
   const openEvent = events.find((event) => event.id === openEventId)
@@ -163,6 +165,16 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent }) {
 function FeaturedEvent({ event, onOpen }) {
   const { t, i18n } = useTranslation()
   const localizeText = useLocalize()
+  // The short venue ("venueShort"), or the full venue, or the venues list.
+  const fullVenue =
+    localizeText(event.venue) ||
+    getEventVenues(event)
+      .map((venue) => localizeText(venue.location))
+      .join(' · ')
+  const shortVenue = localizeText(event.venueShort) || fullVenue
+  // The short fee ("feeShort"), or the full fee. Hidden when both are empty.
+  const fullFee = localizeText(event.fee)
+  const shortFee = localizeText(event.feeShort) || fullFee
 
   return (
     <Reveal as="article" className="featured-event on-dark">
@@ -179,20 +191,24 @@ function FeaturedEvent({ event, onOpen }) {
 
         <h3 className="featured-event__title">{localizeText(event.title)}</h3>
 
+        {/*
+          Only the essentials, one per line: date, short venue and short fee.
+          The full venue, time and ticket prices are in the details window
+          ("View details").
+        */}
         <ul className="featured-event__facts">
           <li>
             <Icon name="calendar" size={18} />
-            {formatEventDate(event, i18n.language) || t('events.dateTba')}
+            <span>{formatEventDate(event, i18n.language) || t('events.dateTba')}</span>
           </li>
-          <li>
+          <li title={fullVenue && fullVenue !== shortVenue ? fullVenue : undefined}>
             <Icon name="mapPin" size={18} />
-            {localizeText(event.venue) || t('events.venueTba')}
+            <span className="featured-event__fact-text">{shortVenue || t('events.venueTba')}</span>
           </li>
-          {/* The fee is shown only when one has been filled in. */}
-          {localizeText(event.fee) && (
-            <li>
+          {shortFee && (
+            <li title={fullFee && fullFee !== shortFee ? fullFee : undefined}>
               <Icon name="ticket" size={18} />
-              {localizeText(event.fee)}
+              <span className="featured-event__fact-text">{shortFee}</span>
             </li>
           )}
         </ul>

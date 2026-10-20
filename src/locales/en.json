@@ -188,6 +188,16 @@
       "venue": "Venue",
       "fee": "Fee",
       "organizer": "Organizer",
+      "registrationFees": "Registration Fees",
+      "competition": "Competition",
+      "earlyBird": "Early Bird",
+      "regular": "Regular",
+      "feeUnits": {
+        "team": "per team",
+        "person": "per person",
+        "pax": "per person",
+        "pair": "per pair"
+      },
       "registrationSoon": "Registration details coming soon."
     }
   },
@@ -268,6 +278,7 @@
     "filterLabel": "Filter photos by year",
     "empty": "Photos will be added here soon.",
     "openPhoto": "Open photo: {{description}}",
+    "seeMore": "See more",
     "lightbox": {
       "label": "Photo viewer",
       "previous": "Previous photo",

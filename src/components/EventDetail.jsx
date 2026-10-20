@@ -1,5 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { formatEventDate, isUpcoming } from '../utils/eventHelpers.js'
+import {
+  buildFeeTable,
+  formatEventDate,
+  getEventFees,
+  getEventVenues,
+  isUpcoming,
+} from '../utils/eventHelpers.js'
 import { useLocalize } from '../utils/localize.js'
 import CabinetLabel from './CabinetLabel.jsx'
 import { EventPoster } from './EventCard.jsx'
@@ -29,6 +35,32 @@ export default function EventDetail({ event, onClose }) {
   const upcoming = isUpcoming(event)
   const title = localizeText(event.title)
 
+  // Events in several places list each activity and its location ("venues");
+  // other events show their full "venue" text.
+  const venues = getEventVenues(event)
+  const venueValue =
+    venues.length > 0 ? (
+      <ul className="event-detail__venues">
+        {venues.map((venue, index) => (
+          <li key={index}>
+            {localizeText(venue.activity) && (
+              <span className="event-detail__venue-activity">{localizeText(venue.activity)}</span>
+            )}
+            <span>{localizeText(venue.location)}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      localizeText(event.venue)
+    )
+
+  // Several ticket categories ("fees") get their own "Registration Fees"
+  // block below; otherwise the full "fee" text is one of the rows. Fees with
+  // Early Bird and Regular prices become a compact comparison table.
+  const fees = getEventFees(event)
+  const feeTable = buildFeeTable(event, i18n.language)
+  const unitLabel = (unit) => (unit ? t(`events.detail.feeUnits.${unit}`) : '')
+
   // Each row is shown only if the event has that information.
   const facts = [
     {
@@ -37,8 +69,12 @@ export default function EventDetail({ event, onClose }) {
       value: formatEventDate(event, i18n.language) || t('events.dateTba'),
     },
     { icon: 'clock', label: t('events.detail.time'), value: localizeText(event.time) },
-    { icon: 'mapPin', label: t('events.detail.venue'), value: localizeText(event.venue) },
-    { icon: 'ticket', label: t('events.detail.fee'), value: localizeText(event.fee) },
+    { icon: 'mapPin', label: t('events.detail.venue'), value: venueValue },
+    {
+      icon: 'ticket',
+      label: t('events.detail.fee'),
+      value: fees.length > 0 ? '' : localizeText(event.fee),
+    },
     {
       icon: 'users',
       label: t('events.detail.organizer'),
@@ -76,6 +112,69 @@ export default function EventDetail({ event, onClose }) {
               </div>
             ))}
           </dl>
+
+          {fees.length > 0 && (
+            <section className="event-detail__fees" aria-labelledby={`${event.id}-fees`}>
+              <h4 id={`${event.id}-fees`} className="event-detail__fees-title">
+                <Icon name="ticket" size={18} />
+                {t('events.detail.registrationFees')}
+              </h4>
+              {feeTable ? (
+                <>
+                  {/* The Early Bird deadline, once, when all prices share it. */}
+                  {feeTable.sharedEarlyBirdNote && (
+                    <p className="event-detail__fee-deadline">
+                      {t('events.detail.earlyBird')}: {feeTable.sharedEarlyBirdNote}
+                    </p>
+                  )}
+                  <table className="event-detail__fee-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">{t('events.detail.competition')}</th>
+                        <th scope="col">{t('events.detail.earlyBird')}</th>
+                        <th scope="col">{t('events.detail.regular')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {feeTable.rows.map((row) => (
+                        <tr key={row.key}>
+                          <th scope="row">
+                            {row.label}
+                            {row.unit && (
+                              <span className="event-detail__fee-unit"> ({unitLabel(row.unit)})</span>
+                            )}
+                          </th>
+                          {['earlyBird', 'regular'].map((tier) => (
+                            <td key={tier}>
+                              {row[tier] ? row[tier].price : '–'}
+                              {row[tier]?.note && (
+                                <span className="event-detail__fee-notes">{row[tier].note}</span>
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </>
+              ) : (
+                // Other kinds of tickets: a compact list, one line each.
+                <ul className="event-detail__fee-list">
+                  {fees.map((fee, index) => (
+                    <li key={index}>
+                      <span className="event-detail__fee-category">
+                        {localizeText(fee.category)}
+                      </span>
+                      <span className="event-detail__fee-price">{localizeText(fee.price)}</span>
+                      {localizeText(fee.notes) && (
+                        <span className="event-detail__fee-notes">{localizeText(fee.notes)}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )}
 
           <p className="event-detail__description">
             {localizeText(event.description) || localizeText(event.summary)}
