@@ -47,12 +47,25 @@
 
 /* ----- Card backgrounds ----- */
 
+/*
+ * The two coloured cards are a little deeper than the brand gradients, to
+ * balance the brighter photo cards beside them.
+ */
 .preview-card--red {
-  background: var(--gradient-red);
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--color-red) 80%, black) 0%,
+    color-mix(in srgb, var(--color-crimson) 72%, black) 100%
+  );
 }
 
 .preview-card--cabinet {
-  background: var(--gradient-cabinet);
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--color-crimson) 82%, black) 0%,
+    color-mix(in srgb, var(--color-crimson) 45%, var(--cabinet-deep)) 50%,
+    color-mix(in srgb, var(--cabinet-deep) 78%, black) 100%
+  );
 }
 
 .preview-card--photo img {
@@ -68,19 +81,66 @@
   transform: scale(1.04);
 }
 
-/* Dark gradient over photos so the white text stays readable. */
+/* Slideshow photos crossfade in and out above the default photo. */
+.preview-card--photo .preview-card__slide {
+  opacity: 0;
+  transition:
+    opacity 900ms var(--ease-smooth),
+    transform var(--duration-slow) var(--ease-smooth);
+}
+
+.preview-card--photo .preview-card__slide.is-active {
+  opacity: 1;
+}
+
+/*
+ * Dark gradient over photos so the white text stays readable, whichever
+ * slideshow photo is showing.
+ */
 .preview-card--photo::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgb(36 37 34 / 0.05) 20%,
-    rgb(36 37 34 / 0.88) 100%
+    rgb(36 37 34 / 0.05) 15%,
+    rgb(36 37 34 / 0.35) 55%,
+    rgb(36 37 34 / 0.9) 100%
   );
 }
 
-/* A large faint ring decorating the two coloured cards. */
+/* Dark red over the trailer video, deepest behind the text. */
+.preview-card--video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(24 4 9 / 0.3) 0%,
+      rgb(24 4 9 / 0.45) 45%,
+      rgb(18 3 7 / 0.92) 100%
+    ),
+    linear-gradient(135deg, rgb(139 20 35 / 0.45), rgb(40 6 12 / 0.3));
+}
+
+/* On the community card, the same overlay with the cabinet's purple tint. */
+.preview-card--cabinet.preview-card--video::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgb(24 4 9 / 0.3) 0%,
+      rgb(24 4 9 / 0.45) 45%,
+      rgb(18 3 7 / 0.92) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgb(139 20 35 / 0.4),
+      color-mix(in srgb, var(--cabinet-deep) 45%, transparent)
+    );
+}
+
+/* A large, very faint ring decorating the two coloured cards. */
 .preview-card--red::before,
 .preview-card--cabinet::before {
   content: '';
@@ -89,9 +149,14 @@
   right: -20%;
   width: 75%;
   aspect-ratio: 1;
-  border: 1px solid rgb(255 255 255 / 0.25);
+  border: 1px solid rgb(255 255 255 / 0.14);
   border-radius: 50%;
-  box-shadow: 0 0 0 48px rgb(255 255 255 / 0.05);
+  box-shadow: 0 0 0 48px rgb(255 255 255 / 0.025);
+}
+
+/* The trailer replaces the ring. */
+.preview-card--video::before {
+  display: none;
 }
 
 /* ----- Card text ----- */

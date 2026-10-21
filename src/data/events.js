@@ -134,6 +134,17 @@
  *                     documentation" button on the event. Leave '' and the
  *                     button shows "Documentation coming soon" instead.
  *                     Remember to set the folder to "Anyone with the link".
+ *   trailerYoutubeUrl - optional: a YouTube link to a short trailer, pasted
+ *                     exactly as copied, e.g. 'https://youtu.be/abc123XYZ00'
+ *                     or 'https://www.youtube.com/watch?v=abc123XYZ00'.
+ *                     While this is the next upcoming event, the trailer
+ *                     plays silently and on repeat behind the "Upcoming
+ *                     Events" card on the homepage. Leave '' to keep the
+ *                     plain red card.
+ *   trailerPoster   - optional: a still image (landscape) shown on that card
+ *                     before the trailer starts, or instead of it when the
+ *                     browser blocks autoplay. Without it, YouTube's own
+ *                     thumbnail of the trailer is used.
  *   isSample        - true marks placeholder content with a "Sample" label.
  *                     Remove this line for real events.
  *
@@ -286,6 +297,8 @@ export const events = [
     poster: 'images/events/kabinet_karyaraya_2627/hsinchu_open_2026.png',
     registrationUrl: 'https://forms.gle/9SnnTBPyH7jkdcSk6',
     documentationUrl: '',
+    // TODO: Paste the Hsinchu Open 2026 trailer link here.
+    trailerYoutubeUrl: 'https://youtu.be/0sWlnrB-1Ls?si=IsKS2q9Y5XuMM_gA',
     isSample: false,
   },
   {

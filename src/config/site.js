@@ -59,8 +59,57 @@ export const hero = {
   image: '/images/home/hero-temple.png',
   imageLarge: '/images/home/hero-temple-large.png',
   // Photos on the homepage cards that lead to About and Gallery.
-  aboutCardImage: '/images/photos/students-together.jpg',
-  galleryCardImage: '/images/photos/night-market-walk.jpg',
+  aboutCardImage: '/images/gallery/2025/2025_1123_09200800.jpg',
+  galleryCardImage: '/images/gallery/2026/img_1580.jpg',
+
+  /*
+   * HOVER SLIDESHOWS ON THOSE TWO CARDS
+   * While a visitor hovers over the card, its photo slowly crossfades
+   * through these photos in a random order (each one once before any
+   * repeats). The card's default photo above is always shown first.
+   * To add a photo, put it in the "public" folder (resized to about 1600 px,
+   * JPG, under ~400 KB) and add its path here. Leave a list empty ([]) to
+   * turn that card's slideshow off.
+   *
+   * About Us: PPI Hsinchu itself - members, the committee, group photos.
+   */
+  aboutCardSlideshow: [
+    '/images/gallery/2025/2025_1123_09200800.jpg',
+    '/images/gallery/2025/dscf0022.jpg',
+    '/images/gallery/2025/s__21266465_0.jpg',
+    '/images/gallery/2025/img_8049.jpg',
+    '/images/gallery/2026/img_8103.jpg',
+    '/images/gallery/2026/img_1492.jpg',
+  ],
+  // Moments in Between: candid moments - activities, friends, celebrations.
+  galleryCardSlideshow: [
+    '/images/gallery/2026/img_1580.jpg',
+    '/images/gallery/2026/img_1581.jpg',
+    '/images/gallery/2026/img_1423.jpg',
+    '/images/gallery/2026/img_8154.jpg',
+    '/images/gallery/2025/dsc00177.jpg',
+    '/images/gallery/2025/dscf0773.jpg',
+    '/images/gallery/2025/img_7800.jpg',
+    '/images/gallery/2025/img_7651.jpg',
+    '/images/gallery/2025/dscf3640.jpg',
+    '/images/gallery/2025/dscf3631.jpg',
+    '/images/gallery/2025/dscf5959.jpg',
+    '/images/gallery/2024/dsc_4235.jpg',
+  ],
+
+  /*
+   * VIDEO ON THE "OUR COMMUNITY" CARD
+   * A YouTube link, pasted exactly as copied (for example
+   * 'https://youtu.be/abc123XYZ00'). It plays silently and on repeat behind
+   * the card, like the next event's trailer on the "Upcoming Events" card,
+   * but the two videos are set separately. Leave '' to keep the plain
+   * gradient card.
+   * communityCardVideoPoster is an optional still image (landscape) shown
+   * before the video starts, or instead of it when the browser blocks
+   * autoplay. Without it, YouTube's own thumbnail of the video is used.
+   */
+  communityCardVideoUrl: 'https://youtu.be/mz6CbDiAyOI',
+  communityCardVideoPoster: '',
 }
 
 /*

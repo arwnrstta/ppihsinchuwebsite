@@ -44,11 +44,27 @@ export const whoWeAre = {
         '搬到一座新城市是一場大冒險。我們協助學生分享故事、慶祝傳統、彼此扶持，讓新竹有家的感覺，同時也支持周遭的印尼社群。',
     },
   ],
-  photo: '/images/photos/students-together.jpg',
+  /*
+   * Photos of the people behind PPI Hsinchu: cabinet group photos, the
+   * committee at work, official portraits. They crossfade by themselves in
+   * a random order while the section is on screen. The FIRST photo is shown
+   * first, and is the only one shown to visitors who turn on "reduce
+   * motion" on their device, so keep the current cabinet's photo first.
+   * Landscape photos fit the frame best; the edges of very wide photos are
+   * cropped. To add a photo, save it in the "public" folder (about 1600 px
+   * on the longest side, JPG, under ~400 KB) and add its path here.
+   */
+  photos: [
+    '/images/leadership/kabinet_karyaraya_2627.png',
+    '/images/leadership/kabinet_harmoni_2526.png',
+    '/images/leadership/kabinet_2425.png',
+    '/images/gallery/2025/img_8049.jpg',
+  ],
+  // Describes the slideshow as a whole for screen readers.
   photoAlt: {
-    en: 'A group of students standing together outdoors',
-    id: 'Sekelompok mahasiswa berdiri bersama di luar ruangan',
-    'zh-TW': '一群學生站在戶外',
+    en: 'Photos of the PPI Hsinchu committee and cabinets',
+    id: 'Foto-foto pengurus dan kabinet PPI Hsinchu',
+    'zh-TW': 'PPI Hsinchu 幹部與歷屆內閣合照',
   },
   // Three short values shown under the introduction.
   values: [

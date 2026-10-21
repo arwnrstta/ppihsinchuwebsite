@@ -46,6 +46,9 @@ Tip: in VS Code, press **Ctrl + Shift + F** and search for `TODO` to find every 
 - [ ] YouTube video ID for the highlight reel (`featuredVideo.youtubeVideoId`)
 - [ ] Real cover photo for the video (currently a stock photo)
 - [ ] Real photos for the About and Gallery cards (`hero.aboutCardImage`, `hero.galleryCardImage`)
+- [ ] Hover slideshow photos for those cards (`hero.aboutCardSlideshow`, `hero.galleryCardSlideshow` in `src/config/site.js`)
+- [ ] Trailer for the next event's homepage card (`trailerYoutubeUrl` in `src/data/events.js`)
+- [ ] Video for the "Our Community" homepage card (`hero.communityCardVideoUrl` in `src/config/site.js`)
 
 ## Events — `src/data/events.js`
 

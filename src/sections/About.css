@@ -131,6 +131,19 @@
   border-radius: var(--radius-large);
 }
 
+/* Slideshow photos crossfade in and out exactly over the first photo. */
+.who-we-are__photo .who-we-are__slide {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-smooth);
+}
+
+.who-we-are__photo .who-we-are__slide.is-active {
+  opacity: 1;
+}
+
 /* ---------- Vision, Mission & Philosophy ---------- */
 
 .vision {
