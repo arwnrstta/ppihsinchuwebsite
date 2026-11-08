@@ -141,6 +141,7 @@
     "Wakil Koordinator": "Wakil Koordinator",
     "Sekretaris": "Sekretaris",
     "Bendahara": "Bendahara",
+    "Sekretariat Jenderal": "Sekretariat Jenderal",
     "Wakil Koordinator 1": "Wakil Koordinator 1",
     "Wakil Koordinator 2": "Wakil Koordinator 2",
     "Sekretaris 1": "Sekretaris 1",
@@ -149,7 +150,14 @@
     "Bendahara 2": "Bendahara 2",
     "Ketua Divisi": "Ketua Divisi",
     "Anggota": "Anggota",
-    "Penasihat": "Penasihat"
+    "Penasihat": "Penasihat",
+    "Asisten Sekretaris": "Asisten Sekretaris",
+    "Anggota Divisi Akademik dan Karir": "Anggota Divisi Akademik dan Karir",
+    "Anggota Divisi Kemahasiswaan": "Anggota Divisi Kemahasiswaan",
+    "Anggota Divisi Minat dan Bakat": "Anggota Divisi Minat dan Bakat",
+    "Anggota Divisi Publikasi dan Dokumentasi": "Anggota Divisi Publikasi dan Dokumentasi",
+    "Anggota Divisi Sosial dan Budaya": "Anggota Divisi Sosial dan Budaya",
+    "Anggota Divisi Sponsorship dan Partnership": "Anggota Divisi Sponsorship dan Partnership"
   },
   "events": {
     "label": "Kegiatan kami",
@@ -197,7 +205,9 @@
         "pax": "per orang",
         "pair": "per pasang"
       },
-      "registrationSoon": "Informasi pendaftaran segera hadir."
+      "registrationSoon": "Informasi pendaftaran segera hadir.",
+      "sponsors": "Sponsor",
+      "mediaPartners": "Media Partner"
     }
   },
   "resources": {

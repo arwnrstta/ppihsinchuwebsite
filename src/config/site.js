@@ -25,7 +25,7 @@ export const site = {
    * temporary content so visitors are not misled.
    * Set it to false once the official content has been added.
    */
-  showPlaceholderLabels: true,
+  showPlaceholderLabels: false,
 }
 
 /*

@@ -142,6 +142,7 @@
     "Wakil Koordinator": "Vice Coordinator",
     "Sekretaris": "Secretary",
     "Bendahara": "Treasurer",
+    "Sekretariat Jenderal": "Secretary General",
     "Wakil Koordinator 1": "First Vice Coordinator",
     "Wakil Koordinator 2": "Second Vice Coordinator",
     "Sekretaris 1": "First Secretary",
@@ -150,7 +151,16 @@
     "Bendahara 2": "Second Treasurer",
     "Ketua Divisi": "Head of Division",
     "Anggota": "Member",
-    "Penasihat": "Adviser"
+    "Penasihat": "Adviser",
+    "Asisten Sekretaris": "Assistant Secretary",
+    "Anggota Divisi Akademik dan Karir": "Member, Academic and Career Division",
+    "Anggota Divisi Kemahasiswaan": "Member, Student Affairs Division",
+    "Anggota Divisi Minat dan Bakat": "Member, Interests and Talents Division",
+    "Anggota Divisi Publikasi dan Dokumentasi": "Member, Publication and Documentation Division",
+    "Anggota Divisi Sosial dan Budaya": "Member, Social and Cultural Affairs Division",
+    "Anggota Divisi Sponsorship dan Partnership": "Member, Sponsorship and Partnership Division",
+    "Anggota Divisi Internal": "Member, Internal Affairs Division",
+    "Anggota Media, Publikasi, & IT": "Member, Media, Publications & IT Division"
   },
   "events": {
     "label": "What’s happening",
@@ -198,7 +208,9 @@
         "pax": "per person",
         "pair": "per pair"
       },
-      "registrationSoon": "Registration details coming soon."
+      "registrationSoon": "Registration details coming soon.",
+      "sponsors": "Sponsors",
+      "mediaPartners": "Media Partners"
     }
   },
   "resources": {

@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { assetPath } from '../utils/assetPath.js'
 import {
   buildFeeTable,
   formatEventDate,
@@ -180,6 +182,18 @@ export default function EventDetail({ event, onClose }) {
             {localizeText(event.description) || localizeText(event.summary)}
           </p>
 
+          {/* Sponsors and media partners, as two separate groups of logos. */}
+          <EventLogos
+            id={`${event.id}-sponsors`}
+            title={t('events.detail.sponsors')}
+            logos={event.sponsors}
+          />
+          <EventLogos
+            id={`${event.id}-media-partners`}
+            title={t('events.detail.mediaPartners')}
+            logos={event.mediaPartners}
+          />
+
           <div className="event-detail__actions">
             {upcoming && event.registrationUrl && (
               <a
@@ -218,5 +232,55 @@ export default function EventDetail({ event, onClose }) {
         </div>
       </div>
     </Modal>
+  )
+}
+
+/*
+ * A titled row of logos ("sponsors" or "mediaPartners" in src/data/events.js).
+ * Each logo sits on its own white tile so logos with and without a
+ * background look alike. Wide logos (long wordmarks) get a double-width
+ * tile so they stay readable. Nothing is shown when the list is empty.
+ */
+function EventLogos({ id, title, logos = [] }) {
+  if (logos.length === 0) return null
+
+  return (
+    <section className="event-detail__logos" aria-labelledby={id}>
+      <h4 id={id} className="event-detail__logos-title">
+        {title}
+      </h4>
+      <ul className="event-detail__logo-list">
+        {logos.map((logo) => (
+          <LogoTile key={logo.name} logo={logo} />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+// Logos more than this many times wider than tall span two tiles, or the
+// whole row for very long wordmarks.
+const WIDE_LOGO_RATIO = 2.5
+const FULL_ROW_LOGO_RATIO = 5
+
+function LogoTile({ logo }) {
+  const [shape, setShape] = useState('')
+
+  const handleLoad = (e) => {
+    const ratio = e.target.naturalWidth / e.target.naturalHeight
+    if (ratio > FULL_ROW_LOGO_RATIO) setShape('event-detail__logo--full')
+    else if (ratio > WIDE_LOGO_RATIO) setShape('event-detail__logo--wide')
+  }
+
+  return (
+    <li className={`event-detail__logo ${shape}`} title={logo.name}>
+      <img
+        src={assetPath(logo.logo)}
+        alt={logo.name}
+        loading="lazy"
+        decoding="async"
+        onLoad={handleLoad}
+      />
+    </li>
   )
 }

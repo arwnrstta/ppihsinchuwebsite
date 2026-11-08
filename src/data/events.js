@@ -145,6 +145,16 @@
  *                     before the trailer starts, or instead of it when the
  *                     browser blocks autoplay. Without it, YouTube's own
  *                     thumbnail of the trailer is used.
+ *   sponsors        - optional: the event's sponsors, shown as logos in the
+ *                     event details window under "Sponsors". One entry each,
+ *                     with the logo saved next to the poster:
+ *                       sponsors: [
+ *                         { name: 'PT. Example', logo: 'images/events/.../sponsor/example.png' },
+ *                       ],
+ *                     "name" is never translated and is read out by screen
+ *                     readers. Leave it out (or []) and nothing is shown.
+ *   mediaPartners   - optional: the same, for media partners. Shown as a
+ *                     separate group under "Media Partners".
  *   isSample        - true marks placeholder content with a "Sample" label.
  *                     Remove this line for real events.
  *
@@ -299,6 +309,20 @@ export const events = [
     documentationUrl: '',
     // TODO: Paste the Hsinchu Open 2026 trailer link here.
     trailerYoutubeUrl: 'https://youtu.be/0sWlnrB-1Ls?si=IsKS2q9Y5XuMM_gA',
+    sponsors: [
+      { name: 'NTHU Office of Global Affairs', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/NTHU OGA - Logo.png' },
+      { name: 'PT. Mitra Mulia Bangun Putera', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo MMBP.jpg' },
+      { name: 'PT. Bravo Eterna Sentosa', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo BRAVO.jpg' },
+      { name: 'Trijaya Abadi Bangunan', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo TAB.jpg' },
+      { name: 'ALLIN Billiard', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/ALLIN Billiard - Logo.png' },
+    ],
+    mediaPartners: [
+      { name: 'Radio Taiwan International', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/RTI - 3.影片用_Rti品牌logo_白底紅字.png' },
+      { name: 'Nihao', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/Nihao - Logo final ROUND.png' },
+      { name: 'FSA NTHU', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/FSA_logo.png' },
+      { name: 'NCUE ISA', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/NCUE - Background .JPG' },
+      { name: 'DYU-ISA', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/DYU_logo.jpg' },
+    ],
     isSample: false,
   },
   {

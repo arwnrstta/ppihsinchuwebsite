@@ -228,12 +228,14 @@ function CabinetMembers({ cabinetName, year, slogan, divisions, onClose }) {
                 {division.members.map((member, memberIndex) => (
                   <li key={memberIndex}>
                     <span className="cabinet-members__name">{member.name}</span>
-                    <span className="cabinet-members__position">
-                      {/* Known positions are translated; others are shown as written. */}
-                      {t(`positions.${member.position}`, {
-                        defaultValue: member.position,
-                      })}
-                    </span>
+                    {/* Known positions are translated; others are shown as written. */}
+                    {member.position && (
+                      <span className="cabinet-members__position">
+                        {t(`positions.${member.position}`, {
+                          defaultValue: member.position,
+                        })}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>

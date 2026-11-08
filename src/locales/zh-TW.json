@@ -141,6 +141,7 @@
     "Wakil Koordinator": "副總召",
     "Sekretaris": "秘書",
     "Bendahara": "財務",
+    "Sekretariat Jenderal": "秘書長",
     "Wakil Koordinator 1": "第一副總召",
     "Wakil Koordinator 2": "第二副總召",
     "Sekretaris 1": "第一秘書",
@@ -149,7 +150,16 @@
     "Bendahara 2": "第二財務",
     "Ketua Divisi": "組長",
     "Anggota": "組員",
-    "Penasihat": "顧問"
+    "Penasihat": "顧問",
+    "Asisten Sekretaris": "秘書助理",
+    "Anggota Divisi Akademik dan Karir": "學術與職涯組組員",
+    "Anggota Divisi Kemahasiswaan": "學生事務組組員",
+    "Anggota Divisi Minat dan Bakat": "興趣與才藝組組員",
+    "Anggota Divisi Publikasi dan Dokumentasi": "文宣紀錄組組員",
+    "Anggota Divisi Sosial dan Budaya": "社會文化組組員",
+    "Anggota Divisi Sponsorship dan Partnership": "合作與贊助組組員",
+    "Anggota Divisi Internal" : "內務部組員",
+    "Anggota Divisi Media, Publikasi, dan IT" : "媒體、宣傳與資訊科技部組員"
   },
   "events": {
     "label": "近期動態",
@@ -197,7 +207,9 @@
         "pax": "每人",
         "pair": "每組"
       },
-      "registrationSoon": "報名資訊即將公布。"
+      "registrationSoon": "報名資訊即將公布。",
+      "sponsors": "贊助單位",
+      "mediaPartners": "合作媒體"
     }
   },
   "resources": {

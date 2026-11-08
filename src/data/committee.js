@@ -59,9 +59,9 @@ export const divisions = [
   },
   {
     id: 'sosial-budaya',
-    shortName: 'Sosial & Budaya',
+    shortName: 'Sosial dan Budaya',
     name: 'Divisi Sosial dan Budaya',
-    translatedName: { en: 'Social & Cultural Affairs', 'zh-TW': '社會文化組' },
+    translatedName: { en: 'Social and Cultural Affairs', 'zh-TW': '社會文化組' },
     description: {
       en: 'Brings the community together through social gatherings and cultural celebrations.',
       id: 'Mempererat komunitas melalui kegiatan sosial dan perayaan budaya.',
@@ -94,9 +94,9 @@ export const divisions = [
   },
   {
     id: 'publikasi-dokumentasi',
-    shortName: 'Publikasi & Dokumentasi',
+    shortName: 'Publikasi dan Dokumentasi',
     name: 'Divisi Publikasi dan Dokumentasi',
-    translatedName: { en: 'Publication & Documentation', 'zh-TW': '文宣紀錄組' },
+    translatedName: { en: 'Publication and Documentation', 'zh-TW': '文宣紀錄組' },
     description: {
       en: 'Tells our story through design, photography, social media, and this website.',
       id: 'Menceritakan kisah kita melalui desain, fotografi, media sosial, dan situs web ini.',
@@ -111,9 +111,9 @@ export const divisions = [
   },
   {
     id: 'akademik-karir',
-    shortName: 'Akademik & Karir',
+    shortName: 'Akademik dan Karir',
     name: 'Divisi Akademik dan Karir',
-    translatedName: { en: 'Academic & Career', 'zh-TW': '學術與職涯組' },
+    translatedName: { en: 'Academic and Career', 'zh-TW': '學術與職涯組' },
     description: {
       en: 'Supports academic growth and career preparation through talks, sharing sessions, and resources.',
       id: 'Mendukung pengembangan akademik dan persiapan karier melalui seminar, sesi berbagi, dan berbagai sumber informasi.',
