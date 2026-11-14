@@ -1,0 +1,127 @@
+/* A light card under the dark featured event: video left, text right. */
+.youtube-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-white);
+}
+
+.youtube-spotlight__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-medium);
+  background: #000;
+}
+
+.youtube-spotlight__frame img,
+.youtube-spotlight__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+.youtube-spotlight__frame img {
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.youtube-spotlight__frame:hover img {
+  transform: scale(1.03);
+}
+
+/* The play button covers the whole thumbnail. */
+.youtube-spotlight__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(180deg, rgb(36 37 34 / 0.1), rgb(36 37 34 / 0.45));
+}
+
+.youtube-spotlight__play:focus-visible {
+  outline-offset: -6px;
+}
+
+.youtube-spotlight__play-icon {
+  display: grid;
+  place-items: center;
+  width: clamp(56px, 7vw, 76px);
+  aspect-ratio: 1;
+  /* Nudges the triangle so it looks centred inside the circle. */
+  padding-left: 4px;
+  border-radius: 50%;
+  background: var(--color-red);
+  color: var(--color-white);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.3);
+  transition: transform var(--duration-medium) var(--ease-smooth);
+}
+
+.youtube-spotlight__play:hover .youtube-spotlight__play-icon {
+  transform: scale(1.08);
+}
+
+.youtube-spotlight__body {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.youtube-spotlight__title {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+}
+
+.youtube-spotlight__description {
+  color: var(--color-gray);
+}
+
+.youtube-spotlight__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* "Live now": a small pulsing white dot inside the red label. */
+.youtube-spotlight__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  animation: youtube-spotlight-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes youtube-spotlight-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .youtube-spotlight__dot {
+    animation: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .youtube-spotlight {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Full-width buttons, one per row, on small phones. */
+  .youtube-spotlight__actions,
+  .youtube-spotlight__actions > * {
+    width: 100%;
+  }
+}

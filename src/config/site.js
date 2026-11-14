@@ -129,6 +129,43 @@ export const featuredVideo = {
 }
 
 /*
+ * YOUTUBE SPOTLIGHT (Events section)
+ * A video or live stream from our YouTube channel, shown under the next
+ * event in the Events section, with a link to the channel.
+ *
+ *   videoUrl    - the YouTube link, pasted exactly as copied. For a live
+ *                 stream, use the stream's own link (YouTube Studio ->
+ *                 "Share"), e.g. 'https://www.youtube.com/live/abc123XYZ00'
+ *                 or 'https://youtu.be/abc123XYZ00'. A scheduled stream can
+ *                 be added before it starts: YouTube shows its countdown.
+ *                 Leave '' to hide the whole block.
+ *   status      - what the label above the title says:
+ *                   'live'     -> red "Live now" label (use while streaming)
+ *                   'upcoming' -> "Live stream coming soon"
+ *                   'video'    -> "Featured video" (a normal video, or the
+ *                                 recording once the stream has ended)
+ *   title       - heading next to the video, per language
+ *   description - one or two sentences under the heading, per language
+ *
+ * The "Visit our channel" button uses the YouTube link in socialLinks below.
+ */
+export const youtubeSpotlight = {
+  // TODO: Replace with the Hsinchu Open 2026 live stream link, and set status to 'live'.
+  videoUrl: 'https://youtu.be/0sWlnrB-1Ls',
+  status: 'upcoming',
+  title: {
+    en: 'Watch Hsinchu Open 2026 live',
+    id: 'Saksikan Hsinchu Open 2026 secara langsung',
+    'zh-TW': '線上直播 Hsinchu Open 2026',
+  },
+  description: {
+    en: 'Follow Hsinchu Open 2026 live on our YouTube channel and cheer on your friends from wherever you are. Subscribe so you don’t miss a match.',
+    id: 'Ikuti Hsinchu Open 2026 secara langsung di kanal YouTube kami dan dukung teman-temanmu dari mana saja. Subscribe supaya tidak ketinggalan pertandingannya.',
+    'zh-TW': '在我們的 YouTube 頻道收看 Hsinchu Open 2026 直播，無論身在何處都能為朋友加油！記得訂閱，精彩賽事不錯過。',
+  },
+}
+
+/*
  * SOCIAL MEDIA LINKS
  * TODO: Add the official URLs.
  * Leave "url" empty ('') for accounts that do not exist yet. The website

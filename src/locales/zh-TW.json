@@ -177,6 +177,16 @@
     "viewDocumentation": "查看活動紀錄",
     "documentationSoon": "活動紀錄即將上傳",
     "noUpcoming": "目前沒有即將舉行的活動，新的日期將在這裡公布。",
+    "youtube": {
+      "live": "直播中",
+      "upcoming": "直播即將開始",
+      "video": "精選影片",
+      "fallbackTitle": "PPI Hsinchu YouTube 頻道",
+      "play": "播放影片",
+      "watchLive": "觀看直播",
+      "watchOnYoutube": "在 YouTube 觀看",
+      "visitChannel": "前往我們的頻道"
+    },
     "archiveTitle": "活動紀錄",
     "filterStatusLabel": "依狀態篩選活動",
     "filterYearLabel": "依年份篩選活動",

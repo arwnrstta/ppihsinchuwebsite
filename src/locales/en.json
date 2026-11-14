@@ -178,6 +178,16 @@
     "viewDocumentation": "View documentation",
     "documentationSoon": "Documentation coming soon",
     "noUpcoming": "No upcoming events right now. New dates will be announced here.",
+    "youtube": {
+      "live": "Live now",
+      "upcoming": "Live stream coming soon",
+      "video": "Featured video",
+      "fallbackTitle": "PPI Hsinchu on YouTube",
+      "play": "Play video",
+      "watchLive": "Watch live",
+      "watchOnYoutube": "Watch on YouTube",
+      "visitChannel": "Visit our channel"
+    },
     "archiveTitle": "Event archive",
     "filterStatusLabel": "Filter events by status",
     "filterYearLabel": "Filter events by year",

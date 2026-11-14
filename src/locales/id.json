@@ -175,6 +175,16 @@
     "viewDocumentation": "Lihat dokumentasi",
     "documentationSoon": "Dokumentasi segera hadir",
     "noUpcoming": "Belum ada kegiatan mendatang. Jadwal baru akan diumumkan di sini.",
+    "youtube": {
+      "live": "Sedang live",
+      "upcoming": "Siaran langsung segera hadir",
+      "video": "Video pilihan",
+      "fallbackTitle": "PPI Hsinchu di YouTube",
+      "play": "Putar video",
+      "watchLive": "Tonton live",
+      "watchOnYoutube": "Tonton di YouTube",
+      "visitChannel": "Kunjungi kanal kami"
+    },
     "archiveTitle": "Arsip kegiatan",
     "filterStatusLabel": "Saring kegiatan berdasarkan status",
     "filterYearLabel": "Saring kegiatan berdasarkan tahun",

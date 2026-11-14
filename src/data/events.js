@@ -311,10 +311,12 @@ export const events = [
     trailerYoutubeUrl: 'https://youtu.be/0sWlnrB-1Ls?si=IsKS2q9Y5XuMM_gA',
     sponsors: [
       { name: 'NTHU Office of Global Affairs', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/NTHU OGA - Logo.png' },
+      { name: 'Toko Indonesia LJ', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/LJ.png'},
       { name: 'PT. Mitra Mulia Bangun Putera', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo MMBP.jpg' },
       { name: 'PT. Bravo Eterna Sentosa', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo BRAVO.jpg' },
       { name: 'Trijaya Abadi Bangunan', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo TAB.jpg' },
       { name: 'ALLIN Billiard', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/ALLIN Billiard - Logo.png' },
+      { name: 'Dapur Miyu', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/dapur_miyu.PNG'},
     ],
     mediaPartners: [
       { name: 'Radio Taiwan International', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/RTI - 3.影片用_Rti品牌logo_白底紅字.png' },
@@ -322,6 +324,7 @@ export const events = [
       { name: 'FSA NTHU', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/FSA_logo.png' },
       { name: 'NCUE ISA', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/NCUE - Background .JPG' },
       { name: 'DYU-ISA', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/DYU_logo.jpg' },
+      { name: 'PERPITA', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/PERPITA.png' },
     ],
     isSample: false,
   },

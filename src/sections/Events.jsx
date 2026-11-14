@@ -8,6 +8,7 @@ import PlaceholderBadge from '../components/PlaceholderBadge.jsx'
 import Reveal from '../components/Reveal.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import Tabs from '../components/Tabs.jsx'
+import YoutubeSpotlight from '../components/YoutubeSpotlight.jsx'
 import { events } from '../data/events.js'
 import {
   formatEventDate,
@@ -23,8 +24,10 @@ import './Events.css'
  * EVENTS
  * ------
  * 1. A large featured card for the nearest upcoming event.
- * 2. A grid of event cards with two filters: status and year.
- * 3. A detail window that opens when an event is clicked.
+ * 2. A video or live stream from our YouTube channel (YoutubeSpotlight),
+ *    hidden while no video is set in src/config/site.js.
+ * 3. A grid of event cards with two filters: status and year.
+ * 4. A detail window that opens when an event is clicked.
  *
  * All events come from src/data/events.js. Whether an event is upcoming or
  * past is worked out from its date (see src/utils/eventHelpers.js), so past
@@ -97,6 +100,9 @@ export default function Events({ openEventId, onOpenEvent, onCloseEvent }) {
             <p>{t('events.noUpcoming')}</p>
           </Reveal>
         )}
+
+        {/* Our YouTube video or live stream ("youtubeSpotlight" in src/config/site.js). */}
+        <YoutubeSpotlight />
 
         <div id="events-archive" className="events__archive">
           <Reveal className="events__toolbar">
