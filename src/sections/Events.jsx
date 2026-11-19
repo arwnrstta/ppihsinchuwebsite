@@ -16,6 +16,7 @@ import {
   getEventYears,
   getPastEvents,
   getUpcomingEvents,
+  hasStarted,
 } from '../utils/eventHelpers.js'
 import { useLocalize } from '../utils/localize.js'
 import './Events.css'
@@ -228,8 +229,29 @@ function FeaturedEvent({ event, onOpen }) {
             in a new tab. The link is the event's "registrationUrl" in
             src/data/events.js. Until a link is added, the button is shown
             greyed out so visitors can see that registration is coming.
+
+            From the event's first day on, registration is closed: the
+            button opens the documentation folder ("documentationUrl")
+            instead, or shows "Documentation coming soon" until it is added.
           */}
-          {event.registrationUrl ? (
+          {hasStarted(event) ? (
+            event.documentationUrl ? (
+              <a
+                href={event.documentationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button button--primary"
+              >
+                {t('events.viewDocumentation')}
+                <Icon name="externalLink" size={18} />
+                <span className="visually-hidden">{t('common.opensNewTab')}</span>
+              </a>
+            ) : (
+              <button type="button" className="button" disabled>
+                {t('events.documentationSoon')}
+              </button>
+            )
+          ) : event.registrationUrl ? (
             <a
               href={event.registrationUrl}
               target="_blank"

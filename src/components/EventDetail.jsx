@@ -6,6 +6,7 @@ import {
   formatEventDate,
   getEventFees,
   getEventVenues,
+  hasStarted,
   isUpcoming,
 } from '../utils/eventHelpers.js'
 import { useLocalize } from '../utils/localize.js'
@@ -27,14 +28,16 @@ import './EventDetail.css'
  *   onClose     - closes the window
  *
  * Buttons:
- *   "Register"            upcoming events with a registrationUrl
- *   "View documentation"  past events; opens documentationUrl (Google Drive).
+ *   "Register"            events that have not started yet, with a registrationUrl
+ *   "View documentation"  ongoing and past events (from the first day on);
+ *                         opens documentationUrl (Google Drive).
  *                         Greyed out until a link is added.
  */
 export default function EventDetail({ event, onClose }) {
   const { t, i18n } = useTranslation()
   const localizeText = useLocalize()
   const upcoming = isUpcoming(event)
+  const started = hasStarted(event)
   const title = localizeText(event.title)
 
   // Events in several places list each activity and its location ("venues");
@@ -195,7 +198,8 @@ export default function EventDetail({ event, onClose }) {
           />
 
           <div className="event-detail__actions">
-            {upcoming && event.registrationUrl && (
+            {/* Registration closes on the event's first day. */}
+            {!started && event.registrationUrl && (
               <a
                 href={event.registrationUrl}
                 target="_blank"
@@ -207,11 +211,11 @@ export default function EventDetail({ event, onClose }) {
                 <span className="visually-hidden">{t('common.opensNewTab')}</span>
               </a>
             )}
-            {upcoming && !event.registrationUrl && (
+            {!started && !event.registrationUrl && (
               <p className="event-detail__note">{t('events.detail.registrationSoon')}</p>
             )}
-            {/* Past events: link to the documentation folder (e.g. Google Drive). */}
-            {!upcoming &&
+            {/* Ongoing and past events: link to the documentation folder (e.g. Google Drive). */}
+            {started &&
               (event.documentationUrl ? (
                 <a
                   href={event.documentationUrl}

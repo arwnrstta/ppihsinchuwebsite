@@ -306,6 +306,9 @@ export const events = [
     },
     poster: 'images/events/kabinet_karyaraya_2627/hsinchu_open_2026.png',
     registrationUrl: 'https://forms.gle/9SnnTBPyH7jkdcSk6',
+    // TODO: Paste the Hsinchu Open 2026 Google Drive folder link here, e.g.
+    // 'https://drive.google.com/drive/folders/...' (set to "Anyone with the link").
+    // Until then the button shows "Documentation coming soon".
     documentationUrl: '',
     // TODO: Paste the Hsinchu Open 2026 trailer link here.
     trailerYoutubeUrl: 'https://youtu.be/0sWlnrB-1Ls?si=IsKS2q9Y5XuMM_gA',
@@ -317,6 +320,7 @@ export const events = [
       { name: 'Trijaya Abadi Bangunan', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/logo TAB.jpg' },
       { name: 'ALLIN Billiard', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/ALLIN Billiard - Logo.png' },
       { name: 'Dapur Miyu', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/dapur_miyu.PNG'},
+      { name: 'Warung Indonesia Ramayana', logo: 'images/events/kabinet_karyaraya_2627/open_2026/sponsor/Logo WI Ramayana.png' },
     ],
     mediaPartners: [
       { name: 'Radio Taiwan International', logo: 'images/events/kabinet_karyaraya_2627/open_2026/medpar/RTI - 3.影片用_Rti品牌logo_白底紅字.png' },

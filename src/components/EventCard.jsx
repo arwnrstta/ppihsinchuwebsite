@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { assetPath } from '../utils/assetPath.js'
-import { formatEventDate, isUpcoming } from '../utils/eventHelpers.js'
+import { formatEventDate, hasStarted, isUpcoming } from '../utils/eventHelpers.js'
 import { useLocalize } from '../utils/localize.js'
 import CabinetLabel from './CabinetLabel.jsx'
 import Icon from './Icon.jsx'
@@ -91,12 +91,12 @@ export default function EventCard({ event, onOpen }) {
         <p className="event-card__summary">{localizeText(event.summary)}</p>
 
         {/*
-          DOCUMENTATION BUTTON (past events only)
+          DOCUMENTATION BUTTON (ongoing and past events)
           Opens the event's photo and video folder (for example Google Drive)
           in a new tab. The link is "documentationUrl" in src/data/events.js.
           Until a link is added, a greyed-out note is shown instead.
         */}
-        {!isUpcoming(event) &&
+        {hasStarted(event) &&
           (event.documentationUrl ? (
             <a
               href={event.documentationUrl}

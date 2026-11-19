@@ -51,6 +51,16 @@ export function isUpcoming(event, today = getTodayString()) {
   return dates[dates.length - 1] >= today
 }
 
+/*
+ * True from the event's FIRST date onwards, so also while a multi-day event
+ * is still going on. Registration closes then, and the event shows its
+ * documentation button instead. Events without a date have not started.
+ */
+export function hasStarted(event, today = getTodayString()) {
+  const dates = getEventDates(event)
+  return dates.length > 0 && dates[0] <= today
+}
+
 /* The event's next date that is today or later, or '' if there is none. */
 function getNextDate(event, today) {
   return getEventDates(event).find((date) => date >= today) ?? ''
