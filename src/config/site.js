@@ -150,9 +150,8 @@ export const featuredVideo = {
  * The "Visit our channel" button uses the YouTube link in socialLinks below.
  */
 export const youtubeSpotlight = {
-  // TODO: Replace with the Hsinchu Open 2026 live stream link, and set status to 'live'.
-  videoUrl: 'https://youtu.be/0sWlnrB-1Ls',
-  status: 'upcoming',
+  videoUrl: 'https://www.youtube.com/live/QCoR22vzlTo',
+  status: 'live',
   title: {
     en: 'Watch Hsinchu Open 2026 live',
     id: 'Saksikan Hsinchu Open 2026 secara langsung',
